@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 
-class HomeScreenCardView extends StatefulWidget {
-  final double boxHeight;
-  final double insideHeight;
-  final double insideWidth;
+class CommonCardViewScreen extends StatefulWidget {
   final int itemCountOfCard;
-  final bool itemCard;
+  final bool bookmark;
 
-  const HomeScreenCardView(
-      {Key key,
-      this.boxHeight,
-      this.insideHeight,
-      this.insideWidth,
-      this.itemCard = false,
-      this.itemCountOfCard})
+  const CommonCardViewScreen(
+      {Key key, this.itemCountOfCard, this.bookmark = false})
       : super(key: key);
-
   @override
-  _HomeScreenCardViewState createState() => _HomeScreenCardViewState();
+  _CommonCardViewScreenState createState() => _CommonCardViewScreenState();
 }
 
-class _HomeScreenCardViewState extends State<HomeScreenCardView> {
+class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
   List<Color> colorList = [
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
@@ -29,16 +20,19 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
   ];
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       // width: size.width,
-      height: widget.boxHeight,
+      height: size.height,
+      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+      // margin: EdgeInsets.only(top: 10.0, left: 10.0),
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.vertical,
         physics: physicsForApp,
         itemCount: widget.itemCountOfCard,
         itemBuilder: (context, index) {
           return Container(
-            margin: EdgeInsets.only(right: 15.0, left: index == 0 ? 15.0 : 0.0),
+            margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,8 +41,8 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                   alignment: Alignment.topRight,
                   children: [
                     Container(
-                      height: widget.insideHeight,
-                      width: widget.insideWidth,
+                      height: 180.0,
+                      width: 375.0,
                       decoration: BoxDecoration(
                         color: Colors.deepOrange,
                         borderRadius: BorderRadius.circular(25.0),
@@ -60,13 +54,9 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                           ),
                         ],
                         image: DecorationImage(
-                          image: widget.itemCard
-                              ? AssetImage(
-                                  'assets/images/cardImage.jpg',
-                                )
-                              : AssetImage(
-                                  'assets/images/smallCardImage.jpg',
-                                ),
+                          image: AssetImage(
+                            'assets/images/cardImage.jpg',
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -74,6 +64,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
                             decoration: BoxDecoration(
@@ -100,7 +91,14 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                             ),
                             child: IconButton(
                               // focusColor: Colors.white.withOpacity(0.8),
-                              icon: Icon(Icons.bookmark_border),
+                              icon: Icon(
+                                widget.bookmark
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border,
+                                color: widget.bookmark
+                                    ? primaryColour
+                                    : Colors.black,
+                              ),
                               onPressed: () {
                                 print(
                                   "Widget Index" + index.toString(),
@@ -119,14 +117,14 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                 Text(
                   "Little red riding hood",
                   style: TextStyle(
-                    fontSize: 12.0,
+                    fontSize: 14.0,
                     color: Colors.black,
                   ),
                 ),
                 Text(
                   "By tellmeastorymom",
                   style: TextStyle(
-                    fontSize: 9.0,
+                    fontSize: 11.0,
                     color: Colors.black.withOpacity(0.5),
                   ),
                 ),
@@ -141,6 +139,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     (int i) {
                       return Container(
                         height: 25.0,
+                        width: 70.0,
                         padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25.0),

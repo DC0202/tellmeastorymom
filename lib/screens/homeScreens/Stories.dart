@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
+import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 
@@ -24,6 +25,11 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Popular Stories",
             onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Popular Stories",
+                        itemCount: 4,
+                      )));
               print("Pressed Popular Stories View All");
             },
           ),
@@ -37,6 +43,11 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Ongoing Stories",
             onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Ongoing Stories",
+                        itemCount: 2,
+                      )));
               print("Pressed Ongoing Stories View All");
             },
           ),
@@ -49,6 +60,11 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Recommended Stories",
             onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Recommended Stories",
+                        itemCount: 10,
+                      )));
               print("Pressed Recommended Stories View All");
             },
           ),
@@ -61,6 +77,11 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Latest Stories",
             onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Latest Stories",
+                        itemCount: 6,
+                      )));
               print("Pressed Latest Stories View All");
             },
           ),
@@ -73,6 +94,11 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Submitted Stories",
             onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Submitted Stories",
+                        itemCount: 20,
+                      )));
               print("Pressed Submitted Stories View All");
             },
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
+import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -28,6 +30,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 CircleAvatar(
                   backgroundColor: Colors.amber,
                   radius: 50.0,
+                  child: Image.asset(
+                    'assets/images/profileImage.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 SizedBox(
                   height: 15.0,
@@ -47,19 +53,21 @@ class _HomeDrawerState extends State<HomeDrawer> {
             height: 30.0,
           ),
           ListTile(
-            onTap: () {},
-            title: Text("Stories"),
-          ),
-          ListTile(
-            onTap: () {},
-            title: Text("Categories"),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LikedStories()));
+            },
+            title: Text("Liked Stories"),
           ),
           ListTile(
             onTap: () {},
             title: Text("Rate App"),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ShareWithFriends()));
+            },
             title: Text("Share with friends"),
           ),
           ListTile(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screens/homeScreens/Bookmarks.dart';
+import 'package:tellmeastorymom/screens/homeScreens/Categories.dart';
 import 'package:tellmeastorymom/screens/homeScreens/HomeDrawer.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Stories.dart';
 
@@ -25,7 +27,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         title: Text(
           "Tellmeastorymom",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontSize: 22.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -67,16 +70,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         controller: tabController,
         children: [
           Stories(),
-          Container(
-            child: Center(
-              child: Text("Categories Screen"),
-            ),
-          ),
-          Container(
-            child: Center(
-              child: Text("Bookmarks Screen"),
-            ),
-          ),
+          Categories(),
+          BookMarkScreen(),
         ],
       ),
     );
