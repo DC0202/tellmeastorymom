@@ -47,13 +47,11 @@ Now before the first charioteer says anything, the first king came down from his
               height: 60.0,
               color: Colors.grey,
             ),
-            new SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Text(
-                  story,
-                  style: TextStyle(fontSize: 15),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                story,
+                style: TextStyle(fontSize: 15),
               ),
             ),
             Padding(

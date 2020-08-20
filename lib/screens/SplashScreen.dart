@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
+import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,8 +13,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => OnBoardingScreen()));
     });
   }
 
