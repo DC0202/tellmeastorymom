@@ -2,20 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class Readings extends StatefulWidget {
-  @override
-  _ReadingsState createState() => _ReadingsState();
-}
-
-class _ReadingsState extends State<Readings> {
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-  ];
-  final String story =
-      """A long time ago, there lived two kings in two different states. Both the kings were very strong and their kingdom was big, but they were not in talking terms, they did not like each other.
+final String story =
+    """A long time ago, there lived two kings in two different states. Both the kings were very strong and their kingdom was big, but they were not in talking terms, they did not like each other.
 
 Because both the kings considered themselves superior to the other.
 
@@ -34,6 +24,19 @@ At last, the first charioteer said: “our king punishes the bad people, hate th
 Our king “helps the bad people to become better person, make lazy people work harder and uses the money for the betterment of poor and needy person” the second charioteer replied.
 
 Now before the first charioteer says anything, the first king came down from his chariot and said ” You are a better human being and made way for the second king”.""";
+
+class Readings extends StatefulWidget {
+  @override
+  _ReadingsState createState() => _ReadingsState();
+}
+
+class _ReadingsState extends State<Readings> {
+  List<Color> colorList = [
+    Color(0xFF5A8FD8),
+    Color(0xFFFF5954),
+    Color(0xFFFF9870),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +114,7 @@ Now before the first charioteer says anything, the first king came down from his
 }
 
 class StoryHeader extends StatelessWidget {
+  final FlutterTts flutterTts = FlutterTts();
   List<Color> colorList = [
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
@@ -118,6 +122,15 @@ class StoryHeader extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    speak() async {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setPitch(1.3);
+      await flutterTts.setSpeechRate(0.9);
+
+      await flutterTts
+          .speak("Little red riding hood.               " + "       " + story);
+    }
+
     return Container(
 //      margin: EdgeInsets.only(right: 0.0, left: 0.0),
       child: Column(
@@ -178,14 +191,17 @@ class StoryHeader extends StatelessWidget {
                         color: Colors.white.withOpacity(0.8),
                         shape: BoxShape.circle,
                       ),
-                      child: IconButton(
-                        // focusColor: Colors.white.withOpacity(0.8),
-                        icon: Icon(Icons.volume_up),
-                        onPressed: () {
-                          // print(
-                          //   "Widget Index" + index.toString(),
-                          // );
-                        },
+                      child: GestureDetector(
+                        child: IconButton(
+                          // focusColor: Colors.white.withOpacity(0.8),
+                          icon: Icon(Icons.volume_up),
+                          onPressed: () {
+                            speak();
+                            // print(
+                            //   "Widget Index" + index.toString(),
+                            // );
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(
