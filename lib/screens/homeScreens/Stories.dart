@@ -4,6 +4,8 @@ import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 
+import 'Readings.dart';
+
 class Stories extends StatefulWidget {
   @override
   _StoriesState createState() => _StoriesState();
@@ -13,6 +15,8 @@ class _StoriesState extends State<Stories> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print(size.height);
+    print(size.width);
     return Container(
       width: size.width,
       child: ListView(
@@ -94,12 +98,15 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Submitted Stories",
             onpressed: () {
+//              Navigator.of(context).push(MaterialPageRoute(
+//                  builder: (context) => StoriesScreen(
+//                        heading: "Submitted Stories",
+//                        itemCount: 20,
+//                      )));
+//              print("Pressed Submitted Stories View All");
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StoriesScreen(
-                        heading: "Submitted Stories",
-                        itemCount: 20,
-                      )));
-              print("Pressed Submitted Stories View All");
+                builder: (context) => Readings(),
+              ));
             },
           ),
           HomeScreenCardView(
