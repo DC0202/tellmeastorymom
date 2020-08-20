@@ -127,8 +127,7 @@ class StoryHeader extends StatelessWidget {
       await flutterTts.setPitch(1.3);
       await flutterTts.setSpeechRate(0.9);
 
-      await flutterTts
-          .speak("Little red riding hood.               " + "       " + story);
+      await flutterTts.speak("Little red riding hood.         " + story);
     }
 
     return Container(
