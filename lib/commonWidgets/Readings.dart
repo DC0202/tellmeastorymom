@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 final String story =
     """A long time ago, there lived two kings in two different states. Both the kings were very strong and their kingdom was big, but they were not in talking terms, they did not like each other.
@@ -47,18 +48,27 @@ class _ReadingsState extends State<Readings> {
           children: <Widget>[
             StoryHeader(),
             Divider(
-              height: 60.0,
+              height: 60.0 * ScreenSize.heightMultiplyingFactor,
               color: Colors.grey,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                left: 15 * ScreenSize.widthMultiplyingFactor,
+              ),
               child: Text(
                 story,
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(
+                  fontFamily: 'Poppins-Light',
+                  fontSize: 15 * ScreenSize.heightMultiplyingFactor,
+                ),
               ),
             ),
             // Padding(
-            //   padding: const EdgeInsets.fromLTRB(16, 30, 280, 20),
+            //   padding: const EdgeInsets.fromLTRB(
+            //                16 * ScreenSize.widthMultiplyingFactor,
+            //                30 * ScreenSize.heightMultiplyingFactor,
+            //                280 * ScreenSize.widthMultiplyingFactor,
+            //                20 * ScreenSize.heightMultiplyingFactor,),
             //   child: RaisedButton(
             //     padding: EdgeInsets.all(0.0),
             //     onPressed: () {},
@@ -84,16 +94,26 @@ class _ReadingsState extends State<Readings> {
             //   ),
             // ),
             SizedBox(
-              height: 30.0,
+              height: 30.0 * ScreenSize.heightMultiplyingFactor,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 160.0,
-                  padding: EdgeInsets.all(15.0),
+                  width: 160.0 * ScreenSize.widthMultiplyingFactor,
+                  padding: EdgeInsets.fromLTRB(
+                    15 * ScreenSize.widthMultiplyingFactor,
+                    15 * ScreenSize.heightMultiplyingFactor,
+                    15 * ScreenSize.widthMultiplyingFactor,
+                    15 * ScreenSize.heightMultiplyingFactor,
+                  ),
                   child: RaisedButton(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.fromLTRB(
+                      10 * ScreenSize.widthMultiplyingFactor,
+                      10 * ScreenSize.heightMultiplyingFactor,
+                      10 * ScreenSize.widthMultiplyingFactor,
+                      10 * ScreenSize.heightMultiplyingFactor,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
@@ -106,15 +126,16 @@ class _ReadingsState extends State<Readings> {
                         Text(
                           "Like story: ",
                           style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12 * ScreenSize.heightMultiplyingFactor,
                           ),
                         ),
                         SizedBox(
-                          width: 15.0,
+                          width: 15.0 * ScreenSize.widthMultiplyingFactor,
                         ),
                         Icon(
                           Icons.favorite_border,
+                          size: 24 * ScreenSize.heightMultiplyingFactor,
                           color: Colors.black,
                         ),
                       ],
@@ -124,7 +145,7 @@ class _ReadingsState extends State<Readings> {
               ],
             ),
             Divider(
-              height: 25.0,
+              height: 60.0 * ScreenSize.heightMultiplyingFactor,
               color: Colors.grey,
             ),
             RowViewAll(
@@ -139,9 +160,9 @@ class _ReadingsState extends State<Readings> {
               },
             ),
             HomeScreenCardView(
-              boxHeight: 210.0,
-              insideWidth: 220.0,
-              insideHeight: 141.0,
+              boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
+              insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
+              insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
               itemCountOfCard: 4,
             ),
           ],
@@ -197,8 +218,8 @@ class _StoryHeaderState extends State<StoryHeader> {
               alignment: Alignment.topRight,
               children: [
                 Container(
-                  height: 250.0,
-                  width: 450.0,
+                  height: 250.0 * ScreenSize.heightMultiplyingFactor,
+                  width: 450.0 * ScreenSize.widthMultiplyingFactor,
                   decoration: BoxDecoration(
                     color: Colors.deepOrange,
                     borderRadius: BorderRadius.only(
@@ -232,6 +253,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                         child: IconButton(
                           // focusColor: Colors.white.withOpacity(0.8),
                           icon: Icon(Icons.arrow_back),
+                          iconSize: 24 * ScreenSize.heightMultiplyingFactor,
                           onPressed: () {
                             // print(
                             //   "Widget Index" + index.toString(),
@@ -239,9 +261,10 @@ class _StoryHeaderState extends State<StoryHeader> {
                           },
                         ),
                       ),
-                      SizedBox(
-                        width: 220.0,
-                      ),
+                      Spacer(),
+//                      SizedBox(
+//                        width: 220.0 * ScreenSize.widthMultiplyingFactor,
+//                      ),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.8),
@@ -251,6 +274,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                           child: IconButton(
                             // focusColor: Colors.white.withOpacity(0.8),
                             icon: Icon(Icons.volume_up),
+                            iconSize: 24 * ScreenSize.heightMultiplyingFactor,
                             onPressed: () {
                               speak();
                               // print(
@@ -261,7 +285,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                         ),
                       ),
                       SizedBox(
-                        width: 10.0,
+                        width: 10.0 * ScreenSize.widthMultiplyingFactor,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -271,6 +295,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                         child: IconButton(
                           // focusColor: Colors.white.withOpacity(0.8),
                           icon: Icon(Icons.bookmark_border),
+                          iconSize: 24 * ScreenSize.heightMultiplyingFactor,
                           onPressed: () {
                             // print(
                             //   "Widget Index" + index.toString(),
@@ -284,55 +309,64 @@ class _StoryHeaderState extends State<StoryHeader> {
               ],
             ),
             SizedBox(
-              height: 15.0,
+              height: 15.0 * ScreenSize.heightMultiplyingFactor,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                  left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 "Little red riding hood",
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
                   color: Colors.black,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                  left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 "By tellmeastorymom",
                 style: TextStyle(
-                  fontSize: 14.0,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                   color: Colors.black.withOpacity(0.5),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                  left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 "Posted on June 20 , 2020",
                 style: TextStyle(
-                  fontSize: 14.0,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                   color: Colors.black.withOpacity(0.5),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                  left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 "Estimated time to complete: 5 mins",
                 style: TextStyle(
-                  fontSize: 14.0,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                   color: Colors.black.withOpacity(0.5),
                 ),
               ),
             ),
             SizedBox(
-              height: 8.0,
+              height: 8.0 * ScreenSize.heightMultiplyingFactor,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(
+                  left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Wrap(
-                spacing: 10.0,
+                spacing: 10.0 * ScreenSize.widthMultiplyingFactor,
                 // runSpacing: 7.0,
                 children: List<Widget>.generate(
                   3,
@@ -340,8 +374,13 @@ class _StoryHeaderState extends State<StoryHeader> {
                     return Column(
                       children: <Widget>[
                         Container(
-                          height: 25.0,
-                          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          height: 25.0 * ScreenSize.heightMultiplyingFactor,
+                          padding: EdgeInsets.fromLTRB(
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                          ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
                             color: colorList[i],
@@ -349,7 +388,9 @@ class _StoryHeaderState extends State<StoryHeader> {
                           child: Text(
                             "Folklore",
                             style: TextStyle(
-                              fontSize: 15.0,
+                              fontFamily: 'Poppins-Regular',
+                              fontSize:
+                                  10.0 * ScreenSize.heightMultiplyingFactor,
                               color: Colors.white,
                             ),
                           ),

@@ -3,7 +3,7 @@ import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
-import 'package:tellmeastorymom/screens/Home.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -17,7 +17,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
       child: ListView(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(35.0, 35.0, 15.0, 45.0),
+            padding: EdgeInsets.fromLTRB(
+              35.0 * ScreenSize.widthMultiplyingFactor,
+              35.0 * ScreenSize.heightMultiplyingFactor,
+              15.0 * ScreenSize.widthMultiplyingFactor,
+              45.0 * ScreenSize.heightMultiplyingFactor,
+            ),
             decoration: BoxDecoration(
               color: primaryColour,
               borderRadius: BorderRadius.only(
@@ -38,13 +43,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                 ),
                 SizedBox(
-                  height: 15.0,
+                  height: 15.0 * ScreenSize.heightMultiplyingFactor,
                 ),
                 Text(
                   "Tellmeastorymom",
                   style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 22.0 * ScreenSize.heightMultiplyingFactor,
                     color: Colors.white,
                   ),
                 )
@@ -52,7 +57,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           SizedBox(
-            height: 30.0,
+            height: 30.0 * ScreenSize.heightMultiplyingFactor,
           ),
           ListTile(
             onTap: () {
@@ -87,17 +92,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
             },
             leading: Icon(
               Icons.favorite_border,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
               color: Colors.black,
             ),
-            title: Text("Liked stories"),
+            title: Text(
+              "Liked Stories",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
           ),
           ListTile(
             onTap: () {},
             leading: Icon(
               Icons.star_border,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
               color: Colors.black,
             ),
-            title: Text("Rate App"),
+            title: Text(
+              "Rate App",
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+              ),
+            ),
           ),
           ListTile(
             onTap: () {
@@ -107,16 +125,28 @@ class _HomeDrawerState extends State<HomeDrawer> {
             leading: Icon(
               Icons.share,
               color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
             ),
-            title: Text("Share with friends"),
+            title: Text(
+              "Share with friends",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
           ),
           ListTile(
             onTap: () {},
             leading: Icon(
               Icons.info_outline,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
               color: Colors.black,
             ),
-            title: Text("About"),
+            title: Text(
+              "About",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
           ),
         ],
       ),

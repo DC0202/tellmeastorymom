@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 import 'Readings.dart';
 
@@ -46,8 +47,11 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
               ));
             },
             child: Container(
-              margin:
-                  EdgeInsets.only(right: 15.0, left: index == 0 ? 15.0 : 0.0),
+              margin: EdgeInsets.only(
+                  right: 15.0 * ScreenSize.widthMultiplyingFactor,
+                  left: index == 0
+                      ? 15.0 * ScreenSize.widthMultiplyingFactor
+                      : 0.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +85,10 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.0 * ScreenSize.heightMultiplyingFactor,
+                          horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -108,10 +115,18 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                 color: Colors.white.withOpacity(0.8),
                                 shape: BoxShape.circle,
                               ),
-                              padding: EdgeInsets.all(5.0),
+                              padding: EdgeInsets.symmetric(
+                                vertical:
+                                    5.0 * ScreenSize.heightMultiplyingFactor,
+                                horizontal:
+                                    5.0 * ScreenSize.widthMultiplyingFactor,
+                              ),
                               child: GestureDetector(
                                 // focusColor: Colors.white.withOpacity(0.8),
-                                child: Icon(Icons.bookmark_border),
+                                child: Icon(
+                                  Icons.bookmark_border,
+                                  size: 24 * ScreenSize.heightMultiplyingFactor,
+                                ),
                                 onTap: () {
                                   print(
                                     "Widget Index" + index.toString(),
@@ -125,34 +140,41 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     ],
                   ),
                   SizedBox(
-                    height: 6.0,
+                    height: 6.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Text(
                     "Little red riding hood",
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
                       color: Colors.black,
                     ),
                   ),
                   Text(
                     "By tellmeastorymom",
                     style: TextStyle(
-                      fontSize: 9.0,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 9.0 * ScreenSize.heightMultiplyingFactor,
                       color: Colors.black.withOpacity(0.5),
                     ),
                   ),
                   SizedBox(
-                    height: 5.0,
+                    height: 5.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Wrap(
-                    spacing: 5.0,
+                    spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                     // runSpacing: 7.0,
                     children: List<Widget>.generate(
                       3,
                       (int i) {
                         return Container(
-                          height: 25.0,
-                          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          height: 25.0 * ScreenSize.heightMultiplyingFactor,
+                          padding: EdgeInsets.fromLTRB(
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                          ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
                             color: colorList[i],
@@ -161,7 +183,9 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                             child: Text(
                               "Folklore",
                               style: TextStyle(
-                                fontSize: 10.0,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize:
+                                    10.0 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.white,
                               ),
                             ),
