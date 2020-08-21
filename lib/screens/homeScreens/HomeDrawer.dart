@@ -67,6 +67,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             },
             leading: Icon(
               Icons.home,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
               color: Colors.black,
             ),
             title: Text("Home"),
@@ -81,6 +82,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             },
             leading: Icon(
               Icons.people_outline,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
               color: Colors.black,
             ),
             title: Text("Guest posts"),
