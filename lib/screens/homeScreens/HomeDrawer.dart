@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
+import 'package:tellmeastorymom/screens/Home.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -54,13 +56,47 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           ListTile(
             onTap: () {
+              Navigator.pop(context);
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => Home()));
+            },
+            leading: Icon(
+              Icons.home,
+              color: Colors.black,
+            ),
+            title: Text("Home"),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Guest Post",
+                        itemCount: 16,
+                      )));
+            },
+            leading: Icon(
+              Icons.people_outline,
+              color: Colors.black,
+            ),
+            title: Text("Guest posts"),
+          ),
+          ListTile(
+            onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => LikedStories()));
             },
-            title: Text("Liked Stories"),
+            leading: Icon(
+              Icons.favorite_border,
+              color: Colors.black,
+            ),
+            title: Text("Liked stories"),
           ),
           ListTile(
             onTap: () {},
+            leading: Icon(
+              Icons.star_border,
+              color: Colors.black,
+            ),
             title: Text("Rate App"),
           ),
           ListTile(
@@ -68,10 +104,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ShareWithFriends()));
             },
+            leading: Icon(
+              Icons.share,
+              color: Colors.black,
+            ),
             title: Text("Share with friends"),
           ),
           ListTile(
             onTap: () {},
+            leading: Icon(
+              Icons.info_outline,
+              color: Colors.black,
+            ),
             title: Text("About"),
           ),
         ],

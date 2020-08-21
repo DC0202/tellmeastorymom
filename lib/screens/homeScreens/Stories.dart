@@ -15,10 +15,9 @@ class _StoriesState extends State<Stories> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(size.height);
-    print(size.width);
     return Container(
       width: size.width,
+      padding: EdgeInsets.only(top: 15.0, bottom: 5.0),
       child: ListView(
         physics: physicsForApp,
         scrollDirection: Axis.vertical,
@@ -61,6 +60,9 @@ class _StoriesState extends State<Stories> {
             insideHeight: 141.0,
             itemCountOfCard: 4,
           ),
+          SizedBox(
+            height: 20.0,
+          ),
           RowViewAll(
             heading: "Recommended Stories",
             onpressed: () {
@@ -78,6 +80,9 @@ class _StoriesState extends State<Stories> {
             insideHeight: 141.0,
             itemCountOfCard: 4,
           ),
+          SizedBox(
+            height: 20.0,
+          ),
           RowViewAll(
             heading: "Latest Stories",
             onpressed: () {
@@ -87,26 +92,6 @@ class _StoriesState extends State<Stories> {
                         itemCount: 6,
                       )));
               print("Pressed Latest Stories View All");
-            },
-          ),
-          HomeScreenCardView(
-            boxHeight: 210.0,
-            insideWidth: 220.0,
-            insideHeight: 141.0,
-            itemCountOfCard: 4,
-          ),
-          RowViewAll(
-            heading: "Submitted Stories",
-            onpressed: () {
-//              Navigator.of(context).push(MaterialPageRoute(
-//                  builder: (context) => StoriesScreen(
-//                        heading: "Submitted Stories",
-//                        itemCount: 20,
-//                      )));
-//              print("Pressed Submitted Stories View All");
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Readings(),
-              ));
             },
           ),
           HomeScreenCardView(

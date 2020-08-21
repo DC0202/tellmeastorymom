@@ -99,8 +99,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  GestureDetector(
-                    onTap: () {
+                  OutlineButton(
+                    borderSide: BorderSide(
+                      color: primaryColour,
+                      width: 1.0,
+                    ),
+                    onPressed: () {
                       if (nextValue != 1) {
                         pageController.animateToPage(1,
                             duration: Duration(milliseconds: 700),
@@ -121,6 +125,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                   SizedBox(

@@ -9,7 +9,7 @@ class RowViewAll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 18.0, right: 28.0),
+      padding: EdgeInsets.only(left: 18.0, right: 28.0, bottom: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,12 +21,13 @@ class RowViewAll extends StatelessWidget {
               fontSize: 18.0,
             ),
           ),
-          FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            onPressed: onpressed,
-            padding: EdgeInsets.all(0),
+          GestureDetector(
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(15.0),
+            // ),
+            // onPressed: onpressed,
+            // padding: EdgeInsets.all(0),
+            onTap: onpressed,
             child: Align(
               alignment: Alignment.centerRight,
               child: Opacity(

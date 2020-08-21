@@ -57,34 +57,74 @@ class _ReadingsState extends State<Readings> {
                 style: TextStyle(fontSize: 15),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 30, 280, 20),
-              child: RaisedButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Like Story:',
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(16, 30, 280, 20),
+            //   child: RaisedButton(
+            //     padding: EdgeInsets.all(0.0),
+            //     onPressed: () {},
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Text(
+            //           'Like Story:',
+            //         ),
+            //         SizedBox(
+            //           width: 18.0,
+            //         ),
+            //         Icon(
+            //           Icons.favorite_border,
+            //           color: Colors.black,
+            //         )
+            //       ],
+            //     ),
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: 30.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 160.0,
+                  padding: EdgeInsets.all(15.0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.all(10.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    SizedBox(
-                      width: 18.0,
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 10.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Like story: ",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        Icon(
+                          Icons.favorite_border,
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.star_border,
-                      color: Colors.black,
-                    )
-                  ],
+                  ),
                 ),
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
+              ],
             ),
             Divider(
-              height: 60.0,
+              height: 25.0,
               color: Colors.grey,
             ),
             RowViewAll(
@@ -111,197 +151,217 @@ class _ReadingsState extends State<Readings> {
   }
 }
 
-class StoryHeader extends StatelessWidget {
+class StoryHeader extends StatefulWidget {
+  @override
+  _StoryHeaderState createState() => _StoryHeaderState();
+}
+
+class _StoryHeaderState extends State<StoryHeader> {
   final FlutterTts flutterTts = FlutterTts();
+
   List<Color> colorList = [
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
     Color(0xFFFF9870),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // flutterTts.setCancelHandler(() {
+    //   flutterTts.stop();
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     speak() async {
       await flutterTts.setLanguage("en-US");
       await flutterTts.setPitch(1.3);
       await flutterTts.setSpeechRate(0.9);
-
       await flutterTts.speak("Little red riding hood.         " + story);
     }
 
-    return Container(
+    return WillPopScope(
+      onWillPop: () async {
+        await flutterTts.stop();
+        Navigator.of(context).pop();
+      },
+      child: Container(
 //      margin: EdgeInsets.only(right: 0.0, left: 0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Container(
-                height: 250.0,
-                width: 450.0,
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(35),
-                    bottomRight: Radius.circular(35),
-                  ),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      blurRadius: 6.0,
-                      offset: Offset(0, 3),
-                      color: Colors.black.withOpacity(0.16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  height: 250.0,
+                  width: 450.0,
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrange,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35),
                     ),
-                  ],
-                  image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/cardImage.jpg',
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        blurRadius: 6.0,
+                        offset: Offset(0, 3),
+                        color: Colors.black.withOpacity(0.16),
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/cardImage.jpg',
+                      ),
+                      fit: BoxFit.cover,
                     ),
-                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        // focusColor: Colors.white.withOpacity(0.8),
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          // print(
-                          //   "Widget Index" + index.toString(),
-                          // );
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 220.0,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        shape: BoxShape.circle,
-                      ),
-                      child: GestureDetector(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                        ),
                         child: IconButton(
                           // focusColor: Colors.white.withOpacity(0.8),
-                          icon: Icon(Icons.volume_up),
+                          icon: Icon(Icons.arrow_back),
                           onPressed: () {
-                            speak();
                             // print(
                             //   "Widget Index" + index.toString(),
                             // );
                           },
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        shape: BoxShape.circle,
+                      SizedBox(
+                        width: 220.0,
                       ),
-                      child: IconButton(
-                        // focusColor: Colors.white.withOpacity(0.8),
-                        icon: Icon(Icons.bookmark_border),
-                        onPressed: () {
-                          // print(
-                          //   "Widget Index" + index.toString(),
-                          // );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              "Little red riding hood",
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              "By tellmeastorymom",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black.withOpacity(0.5),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              "Posted on June 20 , 2020",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black.withOpacity(0.5),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              "Estimated time to complete: 5 mins",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black.withOpacity(0.5),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Wrap(
-              spacing: 10.0,
-              // runSpacing: 7.0,
-              children: List<Widget>.generate(
-                3,
-                (int i) {
-                  return Column(
-                    children: <Widget>[
                       Container(
-                        height: 25.0,
-                        padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.0),
-                          color: colorList[i],
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
                         ),
-                        child: Text(
-                          "Folklore",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.white,
+                        child: GestureDetector(
+                          child: IconButton(
+                            // focusColor: Colors.white.withOpacity(0.8),
+                            icon: Icon(Icons.volume_up),
+                            onPressed: () {
+                              speak();
+                              // print(
+                              //   "Widget Index" + index.toString(),
+                              // );
+                            },
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          // focusColor: Colors.white.withOpacity(0.8),
+                          icon: Icon(Icons.bookmark_border),
+                          onPressed: () {
+                            // print(
+                            //   "Widget Index" + index.toString(),
+                            // );
+                          },
+                        ),
+                      ),
                     ],
-                  );
-                },
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "Little red riding hood",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Colors.black,
+                ),
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "By tellmeastorymom",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "Posted on June 20 , 2020",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "Estimated time to complete: 5 mins",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Wrap(
+                spacing: 10.0,
+                // runSpacing: 7.0,
+                children: List<Widget>.generate(
+                  3,
+                  (int i) {
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          height: 25.0,
+                          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0),
+                            color: colorList[i],
+                          ),
+                          child: Text(
+                            "Folklore",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
