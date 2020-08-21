@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Bookmarks.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Categories.dart';
 import 'package:tellmeastorymom/screens/homeScreens/HomeDrawer.dart';
@@ -27,8 +28,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         title: Text(
           "Tellmeastorymom",
           style: TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins-SemiBold',
+            fontSize: 22.0 * ScreenSize.heightMultiplyingFactor,
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -40,15 +41,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         bottom: TabBar(
           controller: tabController,
           indicatorSize: TabBarIndicatorSize.label,
-          indicatorWeight: 2.5,
+          indicatorWeight: 2.5 * ScreenSize.heightMultiplyingFactor,
           indicatorColor: Colors.white,
           labelStyle: TextStyle(
-            fontSize: 15.0,
+            fontFamily: 'Poppins-Medium',
+            fontSize: 15.0 * ScreenSize.heightMultiplyingFactor,
           ),
           unselectedLabelStyle: TextStyle(
-            fontSize: 15.0,
+            fontFamily: 'Poppins-Light',
+            fontSize: 15.0 * ScreenSize.heightMultiplyingFactor,
           ),
-          indicatorPadding: EdgeInsets.only(bottom: 10.0, right: 15.0),
+          indicatorPadding: EdgeInsets.only(
+              bottom: 10.0 * ScreenSize.heightMultiplyingFactor,
+              right: 15.0 * ScreenSize.widthMultiplyingFactor),
           tabs: [
             Tab(text: "Stories"),
             Tab(text: "Categories"),
@@ -61,6 +66,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Icons.search,
               color: Colors.white,
             ),
+            iconSize: 24 * ScreenSize.heightMultiplyingFactor,
             onPressed: () {},
           )
         ],

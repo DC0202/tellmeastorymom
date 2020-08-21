@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -34,9 +35,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           alignment: Alignment.topRight,
           children: [
             Positioned(
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
+              top: 0.0 * ScreenSize.heightMultiplyingFactor,
+              left: 0.0 * ScreenSize.widthMultiplyingFactor,
+              right: 0.0 * ScreenSize.widthMultiplyingFactor,
               child: Container(
                 height: size.height,
                 width: size.width,
@@ -57,34 +58,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         Image.asset(
                           'assets/images/onboarding' +
                               (index == 0 ? '1.png' : '2.png'),
-                          height: 450.0,
-                          width: index == 0 ? size.width + 200.0 : 330.0,
+                          height: 450.0 * ScreenSize.heightMultiplyingFactor,
+                          width: index == 0
+                              ? size.width +
+                                  200.0 * ScreenSize.widthMultiplyingFactor
+                              : 330.0 * ScreenSize.widthMultiplyingFactor,
                           fit: BoxFit.cover,
                         ),
                         SizedBox(
-                          height: 53.0,
+                          height: 53.0 * ScreenSize.heightMultiplyingFactor,
                         ),
                         Text(
                           name[index],
                           style: TextStyle(
-                            fontSize: 28.0,
+                            fontFamily: 'Poppins-SemiBold',
+                            fontSize: 28.0 * ScreenSize.heightMultiplyingFactor,
                             color: primaryColour,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 10.0 * ScreenSize.heightMultiplyingFactor,
                         ),
                         Text(
                           content[index],
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 16.0 * ScreenSize.heightMultiplyingFactor,
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         // SizedBox(
-                        //   height: 60.0,
+//                           height: 60.0*ScreenSize.heightMultiplyingFactor,
                         // ),
                       ],
                     );
@@ -95,14 +100,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Container(
               height: size.height,
               width: size.width,
-              padding: EdgeInsets.only(bottom: 50.0),
+              padding: EdgeInsets.only(
+                  bottom: 50.0 * ScreenSize.heightMultiplyingFactor),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   OutlineButton(
                     borderSide: BorderSide(
                       color: primaryColour,
-                      width: 1.0,
+                      width: 1.0 * ScreenSize.widthMultiplyingFactor,
                     ),
                     onPressed: () {
                       if (nextValue != 1) {
@@ -121,9 +127,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     child: Text(
                       "Next",
                       style: TextStyle(
+                        fontFamily: 'Poppins-Bold',
                         color: primaryColour,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
                       ),
                     ),
                     shape: RoundedRectangleBorder(
@@ -131,7 +137,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 13.0,
+                    height: 13.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -158,8 +164,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     // );
     // double zoom = 1.0 + (2.0 - 1.0) * selectedness;
     return Container(
-      width: 20.0,
-      margin: EdgeInsets.only(right: index == 0 ? 10.0 : 0.0),
+      width: 20.0 * ScreenSize.widthMultiplyingFactor,
+      margin: EdgeInsets.only(
+          right: index == 0
+              ? 10.0 * ScreenSize.widthMultiplyingFactor
+              : 0.0 * ScreenSize.widthMultiplyingFactor),
       child: Center(
         child: Material(
           color: index == nextValue
@@ -167,8 +176,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               : primaryColour.withOpacity(0.18),
           type: MaterialType.circle,
           child: Container(
-            width: 20.0,
-            height: 20.0,
+            width: 20.0 * ScreenSize.widthMultiplyingFactor,
+            height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
         ),
       ),

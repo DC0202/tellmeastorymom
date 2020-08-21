@@ -73,6 +73,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -90,13 +91,18 @@ class _CategoriesState extends State<Categories> {
     return Container(
       width: size.width,
       height: size.height,
-      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+      padding: EdgeInsets.fromLTRB(
+          10.0 * ScreenSize.widthMultiplyingFactor,
+          10.0 * ScreenSize.heightMultiplyingFactor,
+          10.0 * ScreenSize.widthMultiplyingFactor,
+          0.0 * ScreenSize.heightMultiplyingFactor),
       child: ListView.builder(
         itemCount: 20,
         scrollDirection: Axis.vertical,
         physics: physicsForApp,
         itemBuilder: (context, index) {
           var val = Random();
+          print(index);
           // while (val.toDouble() < 80.0 && val.toDouble() > 220.0) {
           //   val = Random().nextInt(80-220);
           // }
@@ -105,8 +111,11 @@ class _CategoriesState extends State<Categories> {
           var value = next(120, 180);
           print(value);
           return Container(
-            padding:
-                EdgeInsets.only(top: 10.0, bottom: 10.0, left: 7.5, right: 7.5),
+            padding: EdgeInsets.only(
+                top: 10.0 * ScreenSize.heightMultiplyingFactor,
+                bottom: 10.0 * ScreenSize.heightMultiplyingFactor,
+                left: 7.5 * ScreenSize.widthMultiplyingFactor,
+                right: 7.5 * ScreenSize.widthMultiplyingFactor),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,15 +126,22 @@ class _CategoriesState extends State<Categories> {
                     color: Color(0xFFFEE546),
                   ),
                   width: value.toDouble(),
-                  height: 141.0,
+                  height: 141.0 * ScreenSize.heightMultiplyingFactor,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: Colors.black,
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 17.5 * ScreenSize.widthMultiplyingFactor,
                   ),
-                  width: (340.0 - value),
-                  height: 141.0,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25.0),
+                      color: Colors.black,
+                    ),
+//                    width: (340.0 - value),
+                    height: 141.0 * ScreenSize.heightMultiplyingFactor,
+                  ),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 class ShareWithFriends extends StatefulWidget {
   @override
@@ -33,7 +34,8 @@ class _ShareWithFriendsState extends State<ShareWithFriends> {
                 Text(
                   "Invite your friends to read &\nenjoy amazing stories",
                   style: TextStyle(
-                    fontSize: 17.0,
+                    fontFamily: 'Poppins-SemiBold',
+                    fontSize: 17.0 * ScreenSize.heightMultiplyingFactor,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.center,
@@ -41,10 +43,16 @@ class _ShareWithFriendsState extends State<ShareWithFriends> {
               ],
             ),
             Container(
-              width: 234.0,
-              padding: EdgeInsets.all(15.0),
+              width: 234.0 * ScreenSize.widthMultiplyingFactor,
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
+                vertical: 15.0 * ScreenSize.heightMultiplyingFactor,
+              ),
               child: RaisedButton(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10.0 * ScreenSize.widthMultiplyingFactor,
+                  vertical: 10.0 * ScreenSize.heightMultiplyingFactor,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -56,14 +64,16 @@ class _ShareWithFriendsState extends State<ShareWithFriends> {
                     Icon(
                       Icons.share,
                       color: Colors.white,
+                      size: 24 * ScreenSize.heightMultiplyingFactor,
                     ),
                     SizedBox(
-                      width: 10.0,
+                      width: 10.0 * ScreenSize.widthMultiplyingFactor,
                     ),
                     Text(
                       "Share App",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontFamily: 'Poppins-SemiBold',
+                        fontSize: 14 * ScreenSize.heightMultiplyingFactor,
                         color: Colors.white,
                       ),
                     )

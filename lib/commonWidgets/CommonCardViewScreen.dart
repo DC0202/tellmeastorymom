@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 import 'Readings.dart';
 
@@ -26,7 +27,9 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
     return Container(
       // width: size.width,
       height: size.height,
-      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+      padding: EdgeInsets.only(
+          left: 20.0 * ScreenSize.widthMultiplyingFactor,
+          right: 20.0 * ScreenSize.widthMultiplyingFactor),
       // margin: EdgeInsets.only(top: 10.0, left: 10.0),
       child: ListView.builder(
         scrollDirection: Axis.vertical,
@@ -40,7 +43,9 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
               ));
             },
             child: Container(
-              margin: EdgeInsets.only(top: 15.0, bottom: 15.0),
+              margin: EdgeInsets.only(
+                  top: 15.0 * ScreenSize.heightMultiplyingFactor,
+                  bottom: 15.0 * ScreenSize.heightMultiplyingFactor),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,8 +54,8 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                     alignment: Alignment.topRight,
                     children: [
                       Container(
-                        height: 180.0,
-                        width: 375.0,
+                        height: 180.0 * ScreenSize.heightMultiplyingFactor,
+                        width: 375.0 * ScreenSize.widthMultiplyingFactor,
                         decoration: BoxDecoration(
                           color: Colors.deepOrange,
                           borderRadius: BorderRadius.circular(25.0),
@@ -70,7 +75,9 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -97,7 +104,11 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                 color: Colors.white.withOpacity(0.8),
                                 shape: BoxShape.circle,
                               ),
-                              padding: EdgeInsets.all(5.0),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      5.0 * ScreenSize.widthMultiplyingFactor,
+                                  vertical:
+                                      5.0 * ScreenSize.heightMultiplyingFactor),
                               child: GestureDetector(
                                 // focusColor: Colors.white.withOpacity(0.8),
                                 child: Icon(
@@ -107,6 +118,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                   color: widget.bookmark
                                       ? primaryColour
                                       : Colors.black,
+                                  size: 24 * ScreenSize.heightMultiplyingFactor,
                                 ),
                                 onTap: () {
                                   print(
@@ -121,35 +133,42 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                     ],
                   ),
                   SizedBox(
-                    height: 6.0,
+                    height: 6.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Text(
                     "Little red riding hood",
                     style: TextStyle(
-                      fontSize: 14.0,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                       color: Colors.black,
                     ),
                   ),
                   Text(
                     "By tellmeastorymom",
                     style: TextStyle(
-                      fontSize: 11.0,
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 11.0 * ScreenSize.heightMultiplyingFactor,
                       color: Colors.black.withOpacity(0.5),
                     ),
                   ),
                   SizedBox(
-                    height: 5.0,
+                    height: 5.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Wrap(
-                    spacing: 5.0,
+                    spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                     // runSpacing: 7.0,
                     children: List<Widget>.generate(
                       3,
                       (int i) {
                         return Container(
-                          height: 25.0,
-                          width: 70.0,
-                          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          height: 25.0 * ScreenSize.heightMultiplyingFactor,
+                          width: 70.0 * ScreenSize.widthMultiplyingFactor,
+                          padding: EdgeInsets.fromLTRB(
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                            10.0 * ScreenSize.widthMultiplyingFactor,
+                            5.0 * ScreenSize.heightMultiplyingFactor,
+                          ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
                             color: colorList[i],
@@ -158,7 +177,9 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                             child: Text(
                               "Folklore",
                               style: TextStyle(
-                                fontSize: 10.0,
+                                fontFamily: 'Poppins-Regular',
+                                fontSize:
+                                    10.0 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.white,
                               ),
                             ),

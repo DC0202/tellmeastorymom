@@ -31,3 +31,7 @@ Widget appBarOverall({String heading, bool searchThere = true}) {
         : [],
   );
 }
+
+const defaultWidth = 411.42857142857144;
+const defaultHeight = 774.8571428571429;
+const defaultSize = Size(defaultWidth, defaultHeight);

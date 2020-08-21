@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 
 class RowViewAll extends StatelessWidget {
   final String heading;
@@ -9,7 +10,11 @@ class RowViewAll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 18.0, right: 28.0, bottom: 10.0),
+      padding: EdgeInsets.only(
+        left: 18.0 * ScreenSize.widthMultiplyingFactor,
+        right: 28.0 * ScreenSize.widthMultiplyingFactor,
+        bottom: 10.0 * ScreenSize.heightMultiplyingFactor,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -17,8 +22,9 @@ class RowViewAll extends StatelessWidget {
           Text(
             heading,
             style: TextStyle(
+              fontFamily: 'Poppins-Regular',
               color: Colors.black,
-              fontSize: 18.0,
+              fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
             ),
           ),
           GestureDetector(
@@ -35,7 +41,8 @@ class RowViewAll extends StatelessWidget {
                 child: Text(
                   "View All",
                   style: TextStyle(
-                    fontSize: 12.0,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                 ),
               ),

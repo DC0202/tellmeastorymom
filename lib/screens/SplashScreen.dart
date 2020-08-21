@@ -1,6 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/screens/Home.dart';
+import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,11 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             Positioned(
-              left: 58.0,
-              top: 244.0,
+              left: 58.0 * ScreenSize.widthMultiplyingFactor,
+              top: 244.0 * ScreenSize.heightMultiplyingFactor,
               child: Container(
                 // color: Colors.blue,
-                width: size.width * 0.7,
+                width: size.width * 0.75 * ScreenSize.widthMultiplyingFactor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,34 +55,38 @@ class _SplashScreenState extends State<SplashScreen> {
                           TextSpan(
                             text: "tell\n",
                             style: TextStyle(
-                              fontSize: 18.0,
-                              height: 0.9,
-                              fontWeight: FontWeight.w100,
+                              fontFamily: 'Poppins-Thin',
+                              fontSize:
+                                  18.0 * ScreenSize.heightMultiplyingFactor,
+                              height: 0.9 * ScreenSize.heightMultiplyingFactor,
                             ),
                           ),
                           TextSpan(
                             text: "me a\n",
                             style: TextStyle(
-                              fontSize: 28.0,
+                              fontFamily: 'Poppins-Thin',
+                              fontSize:
+                                  28.0 * ScreenSize.heightMultiplyingFactor,
                               height: 0.7,
-                              fontWeight: FontWeight.w100,
                             ),
                           ),
                           TextSpan(
                             text: "Story\n",
                             style: TextStyle(
-                              fontSize: 90.0,
-                              height: 0.95,
-                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins-SemiBold',
+                              fontSize:
+                                  90.0 * ScreenSize.heightMultiplyingFactor,
+                              height: 0.95 * ScreenSize.heightMultiplyingFactor,
                               color: Color(0xFFFF8151),
                             ),
                           ),
                           TextSpan(
                             text: "mom",
                             style: TextStyle(
-                              fontSize: 35.0,
-                              height: 0.6,
-                              fontWeight: FontWeight.w100,
+                              fontFamily: 'Poppins-Thin',
+                              fontSize:
+                                  35.0 * ScreenSize.heightMultiplyingFactor,
+                              height: 0.6 * ScreenSize.heightMultiplyingFactor,
                             ),
                           ),
                         ],
