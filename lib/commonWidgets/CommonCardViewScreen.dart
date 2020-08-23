@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
@@ -6,16 +7,11 @@ import 'package:tellmeastorymom/screenSize.dart';
 import 'Readings.dart';
 
 class CommonCardViewScreen extends StatefulWidget {
-  final int itemCountOfCard;
-  final bool bookmark;
+//  final int itemCountOfCard;
+//  final bool bookmark;
   final List<StoryData> storyList;
 
-  const CommonCardViewScreen(
-      {Key key,
-      this.itemCountOfCard = 0,
-      this.storyList,
-      this.bookmark = false})
-      : super(key: key);
+  const CommonCardViewScreen({Key key, this.storyList}) : super(key: key);
   @override
   _CommonCardViewScreenState createState() => _CommonCardViewScreenState();
 }
@@ -26,19 +22,49 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
     Color(0xFFFF5954),
     Color(0xFFFF9870),
   ];
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      // width: size.width,
+      width: size.width,
+      color: Colors.white,
       height: size.height,
       padding: EdgeInsets.only(
           left: 20.0 * ScreenSize.widthMultiplyingFactor,
           right: 20.0 * ScreenSize.widthMultiplyingFactor),
       // margin: EdgeInsets.only(top: 10.0, left: 10.0),
-      child: widget.itemCountOfCard == 0
-          ? Center(
-              child: Text("No Stories to display!!"),
+      child: widget.storyList.length == 0
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/noStories.png',
+                  height: 243 * ScreenSize.heightMultiplyingFactor,
+                  width: 243 * ScreenSize.widthMultiplyingFactor,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 10.0 * ScreenSize.heightMultiplyingFactor,
+                  ),
+                  child: Text(
+                    "No Stories to display!!",
+                    style: TextStyle(
+                      fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+                      fontFamily: 'Poppins-SemiBold',
+                      color: primaryColour,
+                    ),
+                  ),
+                ),
+              ],
             )
           : ListView.builder(
               scrollDirection: Axis.vertical,
@@ -48,7 +74,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Readings(),
+                      builder: (context) => Readings(widget.storyList[index]),
                     ));
                   },
                   child: Container(
@@ -127,16 +153,29 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                         widget.storyList[index].isBookmarked
                                             ? Icons.bookmark
                                             : Icons.bookmark_border,
-                                        color: widget.bookmark
-                                            ? primaryColour
-                                            : Colors.black,
+                                        color:
+                                            widget.storyList[index].isBookmarked
+                                                ? primaryColour
+                                                : Colors.black,
                                         size: 24 *
                                             ScreenSize.heightMultiplyingFactor,
                                       ),
                                       onTap: () {
-                                        print(
-                                          "Widget Index" + index.toString(),
-                                        );
+//                                        print(
+//                                          "Widget Index" + index.toString(),
+//                                        );
+                                        setState(() {
+                                          widget.storyList[index].isBookmarked =
+                                              !widget.storyList[index]
+                                                  .isBookmarked;
+                                        });
+                                        firebaseFirestore
+                                            .collection("PopularStories")
+                                            .doc(widget.storyList[index].id)
+                                            .update({
+                                          "isBookmarked": widget
+                                              .storyList[index].isBookmarked
+                                        });
                                       },
                                     ),
                                   ),

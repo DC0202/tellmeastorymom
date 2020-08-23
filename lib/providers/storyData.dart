@@ -11,6 +11,8 @@ class StoryData {
   String estimated;
   String content;
   bool isLiked;
+  bool isLatest;
+  bool isRecommended;
 
   StoryData(
       {this.author,
@@ -19,6 +21,8 @@ class StoryData {
       this.id,
       this.isBookmarked,
       this.isLiked,
+      this.isLatest,
+      this.isRecommended,
       this.posted,
       this.related,
       this.storyImageURL,
@@ -31,25 +35,31 @@ class StoryData {
     this.id = snapshot.id.toString();
     this.isBookmarked = snapshot.data()['isBookmarked'];
     this.isLiked = snapshot.data()['isLiked'];
+    this.isLatest = snapshot.data()['isLatest'];
+    this.isRecommended = snapshot.data()['isRecommended'];
     this.posted = snapshot.data()['posted'];
     this.related = snapshot.data()['related'].cast<String>();
     this.storyImageURL = snapshot.data()['storyImageURL'];
     this.title = snapshot.data()['title'];
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "firstName": _firstName,
-  //     "lastName": _lastName,
-  //     "designation": _designation,
-  //     "phone": _phone,
-  //     "email": _email,
-  //     "address": _address,
-  //     "dob": _dob,
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      'author': author,
+      'content': content,
+      'estimated': estimated,
+      'isBookmarked': isBookmarked,
+      'isLiked': isLiked,
+      'posted': posted,
+      "related": related,
+      'storyImageURL': storyImageURL,
+      'title': title,
+    };
+  }
 }
 
 List<StoryData> popularStories = [];
 List<StoryData> recommendedStories = [];
 List<StoryData> latestStories = [];
+List<StoryData> likedStories = [];
+List<StoryData> bookmarkedStories = [];
