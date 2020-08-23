@@ -11,6 +11,8 @@ class _LikedStoriesState extends State<LikedStories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       appBar: appBarOverall(
         heading: "Liked Stories",
       ),

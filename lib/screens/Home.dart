@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/screenSize.dart';
@@ -20,9 +21,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     tabController = TabController(length: 3, vsync: this);
   }
 
+  // @override
+  // void didChangeDependencies() async {
+  //   super.didChangeDependencies();
+  //   await Firebase.initializeApp();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: primaryColour,
         title: Text(

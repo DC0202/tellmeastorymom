@@ -12,6 +12,8 @@ class _ShareWithFriendsState extends State<ShareWithFriends> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       appBar: appBarOverall(heading: "Share with friends", searchThere: false),
       body: Container(
         height: size.height,

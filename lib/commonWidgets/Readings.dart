@@ -41,9 +41,10 @@ class _ReadingsState extends State<Readings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: Container(
         child: ListView(
-          physics: physicsForApp,
           scrollDirection: Axis.vertical,
           children: <Widget>[
             StoryHeader(),
@@ -271,16 +272,15 @@ class _StoryHeaderState extends State<StoryHeader> {
                           shape: BoxShape.circle,
                         ),
                         child: GestureDetector(
-                          child: IconButton(
-                            // focusColor: Colors.white.withOpacity(0.8),
-                            icon: Icon(Icons.volume_up),
-                            iconSize: 24 * ScreenSize.heightMultiplyingFactor,
-                            onPressed: () {
-                              speak();
-                              // print(
-                              //   "Widget Index" + index.toString(),
-                              // );
-                            },
+                          onTap: () {
+                            speak();
+                          },
+                          onDoubleTap: () async {
+                            await flutterTts.stop();
+                          },
+                          child: Icon(
+                            Icons.volume_up,
+                            size: 24 * ScreenSize.heightMultiplyingFactor,
                           ),
                         ),
                       ),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 
 import 'CommonCardViewScreen.dart';
 
 class StoriesScreen extends StatefulWidget {
   final String heading;
   final int itemCount;
+  final List<StoryData> storyList;
 
-  const StoriesScreen({Key key, this.heading, this.itemCount})
+  const StoriesScreen(
+      {Key key, this.heading, this.storyList, this.itemCount = 0})
       : super(key: key);
   @override
   _StoriesScreenState createState() => _StoriesScreenState();
@@ -17,9 +20,12 @@ class _StoriesScreenState extends State<StoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       appBar: appBarOverall(heading: widget.heading),
       body: CommonCardViewScreen(
         itemCountOfCard: widget.itemCount,
+        storyList: widget.storyList,
       ),
     );
   }

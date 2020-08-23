@@ -68,8 +68,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
             leading: Icon(
               Icons.home,
               color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
             ),
-            title: Text("Home"),
+            title: Text(
+              "Home",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
           ),
           ListTile(
             onTap: () {
@@ -82,8 +88,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
             leading: Icon(
               Icons.people_outline,
               color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
             ),
-            title: Text("Guest posts"),
+            title: Text(
+              "Guest posts",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
           ),
           ListTile(
             onTap: () {
