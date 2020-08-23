@@ -19,13 +19,14 @@ class StoriesScreen extends StatefulWidget {
 class _StoriesScreenState extends State<StoriesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
-      appBar: appBarOverall(heading: widget.heading),
-      body: CommonCardViewScreen(
-        itemCountOfCard: widget.itemCount,
-        storyList: widget.storyList,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
+        appBar: appBarOverall(heading: widget.heading),
+        body: CommonCardViewScreen(
+          storyList: widget.storyList,
+        ),
       ),
     );
   }

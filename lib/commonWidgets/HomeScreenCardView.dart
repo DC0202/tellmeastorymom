@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 
 import 'Readings.dart';
@@ -8,17 +10,17 @@ class HomeScreenCardView extends StatefulWidget {
   final double boxHeight;
   final double insideHeight;
   final double insideWidth;
-  final int itemCountOfCard;
   final bool itemCard;
-
   const HomeScreenCardView(
       {Key key,
       this.boxHeight,
       this.insideHeight,
+      this.storyList,
       this.insideWidth,
-      this.itemCard = false,
-      this.itemCountOfCard})
+      this.itemCard = false})
       : super(key: key);
+
+  final List<StoryData> storyList;
 
   @override
   _HomeScreenCardViewState createState() => _HomeScreenCardViewState();
@@ -30,6 +32,8 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
     Color(0xFFFF5954),
     Color(0xFFFF9870),
   ];
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,12 +42,14 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: physicsForApp,
-        itemCount: widget.itemCountOfCard,
+        itemCount: widget.storyList.length < 3 ? widget.storyList.length : 3,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
+              // ),
+              print(index);
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Readings(),
+                builder: (context) => Readings(widget.storyList[index]),
               ));
             },
             child: Container(
@@ -109,7 +115,6 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                             // ),
                             // SizedBox(
                             //   width: 10.0,
-                            // ),
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.8),
@@ -124,13 +129,29 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                               child: GestureDetector(
                                 // focusColor: Colors.white.withOpacity(0.8),
                                 child: Icon(
-                                  Icons.bookmark_border,
+                                  widget.storyList[index].isBookmarked
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: widget.storyList[index].isBookmarked
+                                      ? primaryColour
+                                      : Colors.black,
                                   size: 24 * ScreenSize.heightMultiplyingFactor,
                                 ),
                                 onTap: () {
-                                  print(
-                                    "Widget Index" + index.toString(),
-                                  );
+//                                  print(
+//                                    "Widget Index" + index.toString(),
+//                                  );
+                                  setState(() {
+                                    widget.storyList[index].isBookmarked =
+                                        !widget.storyList[index].isBookmarked;
+                                  });
+                                  firebaseFirestore
+                                      .collection("PopularStories")
+                                      .doc(widget.storyList[index].id)
+                                      .update({
+                                    "isBookmarked":
+                                        widget.storyList[index].isBookmarked
+                                  });
                                 },
                               ),
                             ),
@@ -143,7 +164,8 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     height: 6.0 * ScreenSize.heightMultiplyingFactor,
                   ),
                   Text(
-                    "Little red riding hood",
+//                    "Little red riding hood",
+                    widget.storyList[index].title,
                     style: TextStyle(
                       fontFamily: 'Poppins-Regular',
                       fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
@@ -151,7 +173,8 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     ),
                   ),
                   Text(
-                    "By tellmeastorymom",
+                    widget.storyList[index].author,
+//                    "By tellmeastorymom",
                     style: TextStyle(
                       fontFamily: 'Poppins-Regular',
                       fontSize: 9.0 * ScreenSize.heightMultiplyingFactor,
@@ -165,7 +188,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                     // runSpacing: 7.0,
                     children: List<Widget>.generate(
-                      3,
+                      widget.storyList[index].related.length,
                       (int i) {
                         return Container(
                           height: 25.0 * ScreenSize.heightMultiplyingFactor,
@@ -181,7 +204,8 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                           ),
                           child: Center(
                             child: Text(
-                              "Folklore",
+                              widget.storyList[index].related[i],
+//                              "Folklore",
                               style: TextStyle(
                                 fontFamily: 'Poppins-Regular',
                                 fontSize:

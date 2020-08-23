@@ -85,12 +85,26 @@ class _CategoriesState extends State<Categories> {
     var val = Random().nextInt(320);
   }
 
+  List<Color> col = [
+    Color(0xFFDF5D90),
+    Color(0xFFFFC687),
+    Color(0xFF2D73D5),
+    Color(0xFFFF9870),
+    Color(0xFF6D60F8),
+    Color(0xFF68E0E0),
+    Color(0xFF1492E6),
+    Color(0xFFF39358),
+    Color(0xFF69DFA6),
+    Color(0xFF9D8DFF),
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width,
       height: size.height,
+      color: Colors.white,
       padding: EdgeInsets.fromLTRB(
           10.0 * ScreenSize.widthMultiplyingFactor,
           10.0 * ScreenSize.heightMultiplyingFactor,
@@ -102,12 +116,12 @@ class _CategoriesState extends State<Categories> {
         physics: physicsForApp,
         itemBuilder: (context, index) {
           var val = Random();
-          print(index);
+//          print(index);
           // while (val.toDouble() < 80.0 && val.toDouble() > 220.0) {
           //   val = Random().nextInt(80-220);
           // }
 
-          int next(int min, int max) => min + val.nextInt(max - min + 40);
+          int next(int min, int max) => min + val.nextInt(max - min + 50);
           var value = next(120, 180);
           print(value);
           return Container(
@@ -123,10 +137,25 @@ class _CategoriesState extends State<Categories> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
-                    color: Color(0xFFFEE546),
+//                    color: Color(0xFFFEE546),
+                    color: col[((2 * index) % col.length)],
                   ),
                   width: value.toDouble(),
                   height: 141.0 * ScreenSize.heightMultiplyingFactor,
+                  child: Center(
+                    child: Container(
+                      width: value.toDouble() - 10.0,
+                      child: Text(
+                        "0 - 3 Years Old knowledge",
+                        style: TextStyle(
+                          fontFamily: "Poppins-Bold",
+                          color: Colors.white,
+                          fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -135,9 +164,29 @@ class _CategoriesState extends State<Categories> {
                 ),
                 Expanded(
                   child: Container(
+                    child: Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 5.0 * ScreenSize.widthMultiplyingFactor,
+                          right: 5.0 * ScreenSize.widthMultiplyingFactor,
+                        ),
+//                        width: value.toDouble() - 10.0,
+                        child: Text(
+                          "Mumma made stories",
+                          style: TextStyle(
+                            fontFamily: "Poppins-Bold",
+                            color: Colors.white,
+                            fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.0),
-                      color: Colors.black,
+//                      color: Colors.black,
+                      color: col[((2 * index) + 1) % col.length],
                     ),
 //                    width: (340.0 - value),
                     height: 141.0 * ScreenSize.heightMultiplyingFactor,

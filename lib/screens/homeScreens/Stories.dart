@@ -13,130 +13,172 @@ class Stories extends StatefulWidget {
 }
 
 class _StoriesState extends State<Stories> {
-  bool isLoading = false;
+//  bool isLoading = false;
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      setState(() {
-        isLoading = true;
-      });
-      await firebaseFirestore
-          .collection("PopularStories")
-          .get()
-          .then((querySnapshot) {
-        querySnapshot.docs.forEach((result) {
-          popularStories.add(StoryData.fromSnapshot(result));
-          // print(result.id);
-          // result.data().map((key, value) => null)
-        });
-      });
-
-      print(popularStories[0].id);
-      setState(() {
-        isLoading = false;
-      });
-    });
+//    WidgetsBinding.instance.addPostFrameCallback((_) async {
+//      setState(() {
+//        isLoading = true;
+//      });
+//      await firebaseFirestore
+//          .collection("PopularStories")
+//          .get()
+//          .then((querySnapshot) {
+//        querySnapshot.docs.forEach((result) {
+//          popularStories.add(StoryData.fromSnapshot(result));
+//          // print(result.id);
+//          // result.data().map((key, value) => null)
+//        });
+//      });
+//
+//      print(popularStories[0].id);
+//      setState(() {
+//        isLoading = false;
+//      });
+//    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return isLoading
-        ? circularProgressIndicator()
-        : Container(
-            width: size.width,
-            padding: EdgeInsets.only(
-                top: 15.0 * ScreenSize.heightMultiplyingFactor,
-                bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
-            child: ListView(
-              physics: physicsForApp,
-              scrollDirection: Axis.vertical,
-              children: [
-                SizedBox(
-                  height: 21.0 * ScreenSize.heightMultiplyingFactor,
-                ),
-                RowViewAll(
-                  heading: "Popular Stories",
-                  onpressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StoriesScreen(
-                              heading: "Popular Stories",
-                              itemCount: popularStories.length,
-                              storyList: popularStories,
-                            )));
-                    print("Pressed Popular Stories View All");
-                  },
-                ),
-                HomeScreenCardView(
-                  boxHeight: 445 * ScreenSize.heightMultiplyingFactor,
-                  insideHeight: 344 * ScreenSize.heightMultiplyingFactor,
-                  insideWidth: 245 * ScreenSize.widthMultiplyingFactor,
-                  itemCountOfCard: 3,
-                  itemCard: true,
-                ),
-                RowViewAll(
-                  heading: "Ongoing Stories",
-                  onpressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StoriesScreen(
-                              heading: "Ongoing Stories",
-                              itemCount: 0,
-                            )));
-                    print("Pressed Ongoing Stories View All");
-                  },
-                ),
-                HomeScreenCardView(
-                  boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-                  insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-                  insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-                  itemCountOfCard: 4,
-                ),
-                SizedBox(
-                  height: 20.0 * ScreenSize.heightMultiplyingFactor,
-                ),
-                RowViewAll(
-                  heading: "Recommended Stories",
-                  onpressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StoriesScreen(
-                              heading: "Recommended Stories",
-                              itemCount: 10,
-                            )));
-                    print("Pressed Recommended Stories View All");
-                  },
-                ),
-                HomeScreenCardView(
-                  boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-                  insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-                  insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-                  itemCountOfCard: 4,
-                ),
-                SizedBox(
-                  height: 20.0 * ScreenSize.heightMultiplyingFactor,
-                ),
-                RowViewAll(
-                  heading: "Latest Stories",
-                  onpressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StoriesScreen(
-                              heading: "Latest Stories",
-                              itemCount: 6,
-                            )));
-                    print("Pressed Latest Stories View All");
-                  },
-                ),
-                HomeScreenCardView(
-                  boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-                  insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-                  insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-                  itemCountOfCard: 4,
-                ),
-              ],
-            ),
-          );
+//    return isLoading
+//        ? circularProgressIndicator()
+//        : Container(
+    return Container(
+      width: size.width,
+      color: Colors.white,
+      padding: EdgeInsets.only(
+          top: 15.0 * ScreenSize.heightMultiplyingFactor,
+          bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
+      child: ListView(
+        physics: physicsForApp,
+        scrollDirection: Axis.vertical,
+        children: [
+          SizedBox(
+            height: 21.0 * ScreenSize.heightMultiplyingFactor,
+          ),
+          RowViewAll(
+            heading: "Popular Stories",
+            onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Popular Stories",
+                        itemCount: popularStories.length,
+                        storyList: popularStories,
+                      )));
+              print("Pressed Popular Stories View All");
+            },
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: firebaseFirestore.collection("PopularStories").snapshots(),
+            builder: (context, snapshot) {
+              popularStories.clear();
+              if (snapshot.hasData)
+                snapshot.data.documents.forEach((result) {
+                  popularStories.add(StoryData.fromSnapshot(result));
+                });
+              return HomeScreenCardView(
+                boxHeight: 445 * ScreenSize.heightMultiplyingFactor,
+                insideHeight: 344 * ScreenSize.heightMultiplyingFactor,
+                insideWidth: 245 * ScreenSize.widthMultiplyingFactor,
+                storyList: popularStories,
+                itemCard: true,
+              );
+            },
+          ),
+          RowViewAll(
+            heading: "Recently Viewed Stories",
+            onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Recently Viewed Stories",
+                        itemCount: 0,
+                      )));
+              print("Pressed Recently Viewed Stories View All");
+            },
+          ),
+          HomeScreenCardView(
+            boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
+            insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
+            insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
+            storyList: [],
+          ),
+          SizedBox(
+            height: 20.0 * ScreenSize.heightMultiplyingFactor,
+          ),
+          RowViewAll(
+            heading: "Recommended Stories",
+            onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Recommended Stories",
+                        itemCount: recommendedStories.length,
+                        storyList: recommendedStories,
+                      )));
+              print("Pressed Recommended Stories View All");
+            },
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: firebaseFirestore
+                .collection("PopularStories")
+                .where("isRecommended", isEqualTo: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              recommendedStories.clear();
+              if (snapshot.hasData)
+                snapshot.data.documents.forEach((result) {
+                  recommendedStories.add(StoryData.fromSnapshot(result));
+                });
+              return HomeScreenCardView(
+                boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
+                insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
+                insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
+                storyList: recommendedStories,
+                itemCard: true,
+              );
+            },
+          ),
+          SizedBox(
+            height: 20.0 * ScreenSize.heightMultiplyingFactor,
+          ),
+          RowViewAll(
+            heading: "Latest Stories",
+            onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                        heading: "Latest Stories",
+                        itemCount: latestStories.length,
+                        storyList: latestStories,
+                      )));
+              print("Pressed Latest Stories View All");
+            },
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: firebaseFirestore
+                .collection("PopularStories")
+                .where("isLatest", isEqualTo: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              latestStories.clear();
+              if (snapshot.hasData)
+                snapshot.data.documents.forEach((result) {
+                  latestStories.add(StoryData.fromSnapshot(result));
+                });
+              return HomeScreenCardView(
+                boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
+                insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
+                insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
+                storyList: latestStories,
+                itemCard: true,
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
