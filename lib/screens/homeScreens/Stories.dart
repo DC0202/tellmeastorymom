@@ -20,26 +20,26 @@ class _StoriesState extends State<Stories> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      setState(() {
-        isLoading = true;
-      });
-      await firebaseFirestore
-          .collection("PopularStories")
-          .get()
-          .then((querySnapshot) {
-        querySnapshot.docs.forEach((result) {
-          popularStories.add(StoryData.fromSnapshot(result));
-          // print(result.id);
-          // result.data().map((key, value) => null)
-        });
-      });
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   setState(() {
+    //     isLoading = true;
+    //   });
+    //   await firebaseFirestore
+    //       .collection("PopularStories")
+    //       .get()
+    //       .then((querySnapshot) {
+    //     querySnapshot.docs.forEach((result) {
+    //       popularStories.add(StoryData.fromSnapshot(result));
+    //       // print(result.id);
+    //       // result.data().map((key, value) => null)
+    //     });
+    //   });
 
-      print(popularStories[0].id);
-      setState(() {
-        isLoading = false;
-      });
-    });
+    //   print(popularStories[0].id);
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // });
   }
 
   @override
