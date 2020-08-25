@@ -121,12 +121,11 @@ class _StoriesState extends State<Stories> {
             onpressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) =>
-                      StoriesScreen(
-                        heading: "Recommended Stories",
-                        itemCount: recommendedStories.length,
-                        storyList: recommendedStories,
-                      ),
+                  builder: (context) => StoriesScreen(
+                    heading: "Recommended Stories",
+                    itemCount: recommendedStories.length,
+                    storyList: recommendedStories,
+                  ),
                 ),
               );
               print("Pressed Recommended Stories View All");
@@ -160,12 +159,11 @@ class _StoriesState extends State<Stories> {
             onpressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) =>
-                      StoriesScreen(
-                        heading: "Latest Stories",
-                        itemCount: latestStories.length,
-                        storyList: latestStories,
-                      ),
+                  builder: (context) => StoriesScreen(
+                    heading: "Latest Stories",
+                    itemCount: latestStories.length,
+                    storyList: latestStories,
+                  ),
                 ),
               );
               print("Pressed Latest Stories View All");
