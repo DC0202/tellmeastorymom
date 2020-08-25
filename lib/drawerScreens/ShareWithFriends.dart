@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 
@@ -60,8 +61,11 @@ class _ShareWithFriendsState extends State<ShareWithFriends> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  onPressed: () {},
-                  color: Color(0xFF1492E6),
+                  onPressed: () {
+                    Share.share(
+                        'Hey checkout this app it would be worth your time.\nApp Url');
+                  },
+                  color: primaryColour,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

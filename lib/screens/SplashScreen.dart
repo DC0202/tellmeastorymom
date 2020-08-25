@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:tellmeastorymom/main.dart';
 import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/screens/Home.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,8 +16,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 1), () {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) =>
+              initScreen3 == 1 ? Home() : OnBoardingScreen()));
     });
   }
 

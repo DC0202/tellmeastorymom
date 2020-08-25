@@ -64,40 +64,46 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Popular Stories",
             onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (context) => StoriesScreen(
-                        heading: "Popular Stories",
-                        itemCount: popularStories.length,
-                        storyList: popularStories,
-                      )));
+                    heading: "Popular Stories",
+                    itemCount: popularStories.length,
+                    storyList: popularStories,
+                  ),
+                ),
+              );
               print("Pressed Popular Stories View All");
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore.collection("PopularStories").snapshots(),
-            builder: (context, snapshot) {
-              popularStories.clear();
-              if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
-                  popularStories.add(StoryData.fromSnapshot(result));
-                });
-              return HomeScreenCardView(
-                boxHeight: 445 * ScreenSize.heightMultiplyingFactor,
-                insideHeight: 344 * ScreenSize.heightMultiplyingFactor,
-                insideWidth: 245 * ScreenSize.widthMultiplyingFactor,
-                storyList: popularStories,
-                itemCard: true,
-              );
-            },
-          ),
+              stream:
+                  firebaseFirestore.collection("PopularStories").snapshots(),
+              builder: (context, snapshot) {
+                popularStories.clear();
+                if (snapshot.hasData)
+                  snapshot.data.documents.forEach((result) {
+                    popularStories.add(StoryData.fromSnapshot(result));
+                  });
+                return HomeScreenCardView(
+                  boxHeight: 445 * ScreenSize.heightMultiplyingFactor,
+                  insideHeight: 344 * ScreenSize.heightMultiplyingFactor,
+                  insideWidth: 245 * ScreenSize.widthMultiplyingFactor,
+                  storyList: popularStories,
+                  itemCard: true,
+                );
+              }),
           RowViewAll(
             heading: "Recently Viewed Stories",
             onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (context) => StoriesScreen(
-                        heading: "Recently Viewed Stories",
-                        itemCount: 0,
-                      )));
+                    heading: "Recently Viewed Stories",
+                    itemCount: 0,
+                  ),
+                ),
+              );
               print("Pressed Recently Viewed Stories View All");
             },
           ),
@@ -113,12 +119,16 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Recommended Stories",
             onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StoriesScreen(
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      StoriesScreen(
                         heading: "Recommended Stories",
                         itemCount: recommendedStories.length,
                         storyList: recommendedStories,
-                      )));
+                      ),
+                ),
+              );
               print("Pressed Recommended Stories View All");
             },
           ),
@@ -148,12 +158,16 @@ class _StoriesState extends State<Stories> {
           RowViewAll(
             heading: "Latest Stories",
             onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StoriesScreen(
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      StoriesScreen(
                         heading: "Latest Stories",
                         itemCount: latestStories.length,
                         storyList: latestStories,
-                      )));
+                      ),
+                ),
+              );
               print("Pressed Latest Stories View All");
             },
           ),

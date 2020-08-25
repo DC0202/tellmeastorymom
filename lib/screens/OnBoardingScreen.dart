@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
@@ -116,7 +117,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         color: primaryColour,
                         width: 1.0 * ScreenSize.widthMultiplyingFactor,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (nextValue != 1) {
                           pageController.animateToPage(1,
                               duration: Duration(milliseconds: 700),
@@ -128,6 +129,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               builder: (context) => Home(),
                             ),
                           );
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.setInt("initScreen3", 1);
                         }
                       },
                       child: Text(
