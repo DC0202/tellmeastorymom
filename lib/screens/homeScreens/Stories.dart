@@ -82,7 +82,7 @@ class _StoriesState extends State<Stories> {
               builder: (context, snapshot) {
                 popularStories.clear();
                 if (snapshot.hasData)
-                  snapshot.data.documents.forEach((result) {
+                  snapshot.data.docs.forEach((result) {
                     popularStories.add(StoryData.fromSnapshot(result));
                   });
                 return HomeScreenCardView(
@@ -93,26 +93,26 @@ class _StoriesState extends State<Stories> {
                   itemCard: true,
                 );
               }),
-          RowViewAll(
-            heading: "Recently Viewed Stories",
-            onpressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => StoriesScreen(
-                    heading: "Recently Viewed Stories",
-                    itemCount: 0,
-                  ),
-                ),
-              );
-              print("Pressed Recently Viewed Stories View All");
-            },
-          ),
-          HomeScreenCardView(
-            boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-            insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-            insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-            storyList: [],
-          ),
+          // RowViewAll(
+          //   heading: "Recently Viewed Stories",
+          //   onpressed: () {
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (context) => StoriesScreen(
+          //           heading: "Recently Viewed Stories",
+          //           itemCount: 0,
+          //         ),
+          //       ),
+          //     );
+          //     print("Pressed Recently Viewed Stories View All");
+          //   },
+          // ),
+          // HomeScreenCardView(
+          //   boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
+          //   insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
+          //   insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
+          //   storyList: [],
+          // ),
           SizedBox(
             height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
@@ -139,7 +139,7 @@ class _StoriesState extends State<Stories> {
             builder: (context, snapshot) {
               recommendedStories.clear();
               if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
+                snapshot.data.docs.forEach((result) {
                   recommendedStories.add(StoryData.fromSnapshot(result));
                 });
               return HomeScreenCardView(
@@ -177,7 +177,7 @@ class _StoriesState extends State<Stories> {
             builder: (context, snapshot) {
               latestStories.clear();
               if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
+                snapshot.data.docs.forEach((result) {
                   latestStories.add(StoryData.fromSnapshot(result));
                 });
               return HomeScreenCardView(

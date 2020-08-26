@@ -48,7 +48,7 @@ class _LikedStoriesState extends State<LikedStories> {
             builder: (context, snapshot) {
               likedStories.clear();
               if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
+                snapshot.data.docs.forEach((result) {
                   likedStories.add(StoryData.fromSnapshot(result));
                 });
               return CommonCardViewScreen(
