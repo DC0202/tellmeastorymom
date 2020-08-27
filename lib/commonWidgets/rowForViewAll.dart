@@ -28,11 +28,6 @@ class RowViewAll extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            // shape: RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.circular(15.0),
-            // ),
-            // onPressed: onpressed,
-            // padding: EdgeInsets.all(0),
             onTap: onpressed,
             child: Align(
               alignment: Alignment.centerRight,

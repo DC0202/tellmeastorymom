@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 const primaryColour = Color(0xFF9224BF);
 const physicsForApp = BouncingScrollPhysics();
 
-Widget appBarOverall({String heading, bool searchThere = true}) {
+Widget appBarOverall(
+    {String heading, bool searchThere = true, Function() onPressed}) {
   return AppBar(
     backgroundColor: primaryColour,
     title: Text(
@@ -25,7 +26,7 @@ Widget appBarOverall({String heading, bool searchThere = true}) {
                 Icons.search,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: onPressed,
             )
           ]
         : [],

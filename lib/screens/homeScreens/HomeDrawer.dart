@@ -4,7 +4,7 @@ import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
 import 'package:tellmeastorymom/screenSize.dart';
-import 'package:tellmeastorymom/screens/homeScreens/Profile.dart';
+import 'package:tellmeastorymom/drawerScreens/Profile.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -58,7 +58,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           SizedBox(
-            height: 30.0 * ScreenSize.heightMultiplyingFactor,
+            height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
           ListTile(
             onTap: () {
@@ -80,19 +80,16 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => StoriesScreen(
-                        heading: "Guest Post",
-                        itemCount: 16,
-                      )));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
             },
             leading: Icon(
-              Icons.people_outline,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
+              Icons.business,
               color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
             ),
             title: Text(
-              "Guest posts",
+              "Mompreneur",
               style: TextStyle(
                   fontFamily: 'Poppins-Regular',
                   fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
@@ -164,15 +161,28 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
+          SizedBox(
+            height: 50.0 * ScreenSize.heightMultiplyingFactor,
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                left: 15.0 * ScreenSize.widthMultiplyingFactor,
+                right: 15.0 * ScreenSize.widthMultiplyingFactor),
+            child: Divider(
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
+            ),
+          ),
           ListTile(
             onTap: () {},
             leading: Icon(
-              Icons.info_outline,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
+              Icons.exit_to_app,
               color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
             ),
             title: Text(
-              "About",
+              "Logout",
               style: TextStyle(
                   fontFamily: 'Poppins-Regular',
                   fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),

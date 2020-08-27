@@ -59,8 +59,9 @@ class _ReadingsState extends State<Readings> {
           children: <Widget>[
             StoryHeader(widget.story),
             Divider(
-              height: 60.0 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.grey,
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -73,6 +74,7 @@ class _ReadingsState extends State<Readings> {
                   fontFamily: 'Poppins-Light',
                   fontSize: 15 * ScreenSize.heightMultiplyingFactor,
                 ),
+                textAlign: TextAlign.justify,
               ),
             ),
             // Padding(
@@ -112,80 +114,72 @@ class _ReadingsState extends State<Readings> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 160.0 * ScreenSize.widthMultiplyingFactor,
+                  width: 120.0 * ScreenSize.widthMultiplyingFactor,
                   padding: EdgeInsets.fromLTRB(
-                    15 * ScreenSize.widthMultiplyingFactor,
-                    15 * ScreenSize.heightMultiplyingFactor,
-                    15 * ScreenSize.widthMultiplyingFactor,
-                    15 * ScreenSize.heightMultiplyingFactor,
+                    10 * ScreenSize.widthMultiplyingFactor,
+                    10 * ScreenSize.heightMultiplyingFactor,
+                    10 * ScreenSize.widthMultiplyingFactor,
+                    10 * ScreenSize.heightMultiplyingFactor,
                   ),
-                  child: RaisedButton(
-                    padding: EdgeInsets.fromLTRB(
-                      10 * ScreenSize.widthMultiplyingFactor,
-                      10 * ScreenSize.heightMultiplyingFactor,
-                      10 * ScreenSize.widthMultiplyingFactor,
-                      10 * ScreenSize.heightMultiplyingFactor,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    onPressed: () {},
+                  margin: EdgeInsets.only(
+                      left: 15.0 * ScreenSize.widthMultiplyingFactor),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        blurRadius: 6.0,
+                        color: Colors.black.withOpacity(0.16),
+                        offset: Offset(0, 3),
+                      )
+                    ],
                     color: Colors.white,
-                    elevation: 10.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Like story: ",
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 12 * ScreenSize.heightMultiplyingFactor,
-                          ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Like story: ",
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 12 * ScreenSize.heightMultiplyingFactor,
                         ),
-                        SizedBox(
-                          width: 15.0 * ScreenSize.widthMultiplyingFactor,
+                      ),
+                      SizedBox(
+                        width: 15.0 * ScreenSize.widthMultiplyingFactor,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          likedStories.clear();
+                          setState(() {
+                            widget.story.isLiked = !widget.story.isLiked;
+                          });
+                          firebaseFirestore
+                              .collection("PopularStories")
+                              .doc(widget.story.id)
+                              .update({"isLiked": widget.story.isLiked});
+                        },
+                        child: Icon(
+                          widget.story.isLiked
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          size: 24 * ScreenSize.heightMultiplyingFactor,
+                          color:
+                              widget.story.isLiked ? Colors.red : Colors.black,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            likedStories.clear();
-                            setState(() {
-                              widget.story.isLiked = !widget.story.isLiked;
-                            });
-                            firebaseFirestore
-                                .collection("PopularStories")
-                                .doc(widget.story.id)
-                                .update({"isLiked": widget.story.isLiked});
-                          },
-                          child: Icon(
-                            widget.story.isLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
-                            color: widget.story.isLiked
-                                ? Colors.red
-                                : Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
             Divider(
-              height: 60.0 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.grey,
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
             RowViewAll(
-              heading: "Similar Stories",
-              onpressed: () {
-//              Navigator.of(context).push(MaterialPageRoute(
-//                  builder: (context) => StoriesScreen(
-//                        heading: "Submitted Stories",
-//                        itemCount: 20,
-//                      )));
-//              print("Pressed Submitted Stories View All");
-              },
+              heading: "Recently Viewed",
+              onpressed: () {},
             ),
             HomeScreenCardView(
               boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
@@ -195,13 +189,15 @@ class _ReadingsState extends State<Readings> {
               //TODO:CHANGE THE STORY LIST
             ),
             Divider(
-              height: 60.0 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.grey,
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
             UserReview(),
             Divider(
-              height: 60.0 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.grey,
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -245,22 +241,26 @@ class _ReadingsState extends State<Readings> {
               ),
             ),
             Divider(
-              height: 60.0 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.grey,
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
               ),
               child: Text(
-                'Reviews',
+                'Reader\'s Reviews',
                 style: TextStyle(
                   fontFamily: 'Poppins-Medium',
                   fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
                 ),
               ),
             ),
-            commentList(),
+            CommentList(),
+            SizedBox(
+              height: 34.0 * ScreenSize.heightMultiplyingFactor,
+            ),
           ],
         ),
       ),
@@ -344,71 +344,87 @@ class _StoryHeaderState extends State<StoryHeader> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          shape: BoxShape.circle,
-                        ),
-                        child: IconButton(
-                          // focusColor: Colors.white.withOpacity(0.8),
-                          icon: Icon(Icons.arrow_back),
-                          iconSize: 24 * ScreenSize.heightMultiplyingFactor,
-                          onPressed: () {
-                            // print(
-                            //   "Widget Index" + index.toString(),
-                            // );
-                          },
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  3.0 * ScreenSize.widthMultiplyingFactor,
+                              vertical:
+                                  3.0 * ScreenSize.heightMultiplyingFactor),
+                          child: Icon(
+                            // focusColor: Colors.white.withOpacity(0.8),
+                            Icons.arrow_back,
+                            size: 24 * ScreenSize.heightMultiplyingFactor,
+                          ),
                         ),
                       ),
                       Spacer(),
 //                      SizedBox(
 //                        width: 220.0 * ScreenSize.widthMultiplyingFactor,
 //                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          shape: BoxShape.circle,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            speak();
-                          },
-                          onDoubleTap: () async {
-                            await flutterTts.stop();
-                          },
+                      GestureDetector(
+                        onTap: () {
+                          speak();
+                        },
+                        onDoubleTap: () async {
+                          await flutterTts.stop();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  3.0 * ScreenSize.widthMultiplyingFactor,
+                              vertical:
+                                  3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             Icons.volume_up,
                             size: 24 * ScreenSize.heightMultiplyingFactor,
-                            color: primaryColour,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                       SizedBox(
                         width: 10.0 * ScreenSize.widthMultiplyingFactor,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          shape: BoxShape.circle,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              widget.story.isBookmarked =
-                                  !widget.story.isBookmarked;
-                            });
-                            firebaseFirestore
-                                .collection("PopularStories")
-                                .doc(widget.story.id)
-                                .update({
-                              "isBookmarked": widget.story.isBookmarked
-                            });
-                          },
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            widget.story.isBookmarked =
+                                !widget.story.isBookmarked;
+                          });
+                          firebaseFirestore
+                              .collection("PopularStories")
+                              .doc(widget.story.id)
+                              .update(
+                                  {"isBookmarked": widget.story.isBookmarked});
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.8),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  3.0 * ScreenSize.widthMultiplyingFactor,
+                              vertical:
+                                  3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             widget.story.isBookmarked
                                 ? Icons.bookmark
                                 : Icons.bookmark_border,
-                            color: primaryColour,
+                            color: widget.story.isBookmarked
+                                ? primaryColour
+                                : Colors.black,
                             size: 24 * ScreenSize.heightMultiplyingFactor,
                             // focusColor: Colors.white.withOpacity(0.8),
                             // icon: Icon(Icons.bookmark_border),
@@ -440,15 +456,18 @@ class _StoryHeaderState extends State<StoryHeader> {
                     ),
                   ),
                   Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.2),
-                      shape: BoxShape.circle,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Share.share('Checkout this amazing story!');
-                      },
+                  GestureDetector(
+                    onTap: () {
+                      Share.share('Checkout this amazing story!');
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                          vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
                       child: Icon(
                         Icons.share,
                       ),
@@ -616,6 +635,9 @@ class UserReview extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(
+            height: 33.0 * ScreenSize.heightMultiplyingFactor,
+          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -630,24 +652,24 @@ class UserReview extends StatelessWidget {
             margin: EdgeInsets.symmetric(
               vertical: 15.0 * ScreenSize.widthMultiplyingFactor,
             ),
-            height: 143.0 * ScreenSize.heightMultiplyingFactor,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
-                color: Colors.blue,
-                width: 1.0,
+            // height: 143.0 * ScreenSize.heightMultiplyingFactor,
+            // decoration: BoxDecoration(
+            //   shape: BoxShape.rectangle,
+            //   border: Border.all(
+            //     color: Colors.blue,
+            //     width: 1.0,
+            //   ),
+            // ),
+            child: TextField(
+              decoration: InputDecoration(
+                focusColor: Colors.black.withOpacity(0.3),
+                hintText: 'Enter your comment here..',
+                border: OutlineInputBorder(),
               ),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter your comment here..',
-                  border: InputBorder.none,
-                ),
-              ),
+              maxLines: 5,
+              keyboardType: TextInputType.emailAddress,
+              textCapitalization: TextCapitalization.sentences,
+              textInputAction: TextInputAction.done,
             ),
           ),
           Align(
@@ -679,7 +701,7 @@ class UserReview extends StatelessWidget {
   }
 }
 
-class commentList extends StatelessWidget {
+class CommentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -708,8 +730,9 @@ Widget userRatings(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Divider(
-          height: 60.0 * ScreenSize.heightMultiplyingFactor,
-          color: Colors.grey,
+          height: 50.0 * ScreenSize.heightMultiplyingFactor,
+          thickness: 0.5,
+          color: Color(0xFF707070),
         ),
         RatingBarIndicator(
           rating: 3.60,

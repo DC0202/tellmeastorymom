@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/CommonCardViewScreen.dart';
+import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
 
@@ -14,21 +15,7 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 class _LikedStoriesState extends State<LikedStories> {
   @override
   void initState() {
-//      });
     super.initState();
-//    WidgetsBinding.instance.addPostFrameCallback((_) async {
-//       await firebaseFirestore
-//          .collection("PopularStories")
-//          .where("isLiked", isEqualTo: true)
-//          .get()
-//         .then((querySnapshot) {
-//        querySnapshot.docs.forEach((result) {
-//          likedStories.add(StoryData.fromSnapshot(result));
-//          // print(result.id);
-//          // result.data().map((key, value) => null)
-//        });
-
-//    });
   }
 
   @override
@@ -38,8 +25,13 @@ class _LikedStoriesState extends State<LikedStories> {
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         appBar: appBarOverall(
-          heading: "Liked Stories",
-        ),
+            heading: "Liked Stories",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchScreen()),
+              );
+            }),
         body: StreamBuilder<QuerySnapshot>(
             stream: firebaseFirestore
                 .collection("PopularStories")
@@ -48,7 +40,7 @@ class _LikedStoriesState extends State<LikedStories> {
             builder: (context, snapshot) {
               likedStories.clear();
               if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
+                snapshot.data.docs.forEach((result) {
                   likedStories.add(StoryData.fromSnapshot(result));
                 });
               return CommonCardViewScreen(

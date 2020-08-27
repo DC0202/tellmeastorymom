@@ -40,7 +40,6 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
       padding: EdgeInsets.only(
           left: 20.0 * ScreenSize.widthMultiplyingFactor,
           right: 20.0 * ScreenSize.widthMultiplyingFactor),
-      // margin: EdgeInsets.only(top: 10.0, left: 10.0),
       child: widget.storyList.length == 0
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -143,12 +142,11 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                       shape: BoxShape.circle,
                                     ),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 5.0 *
+                                        horizontal: 3.0 *
                                             ScreenSize.widthMultiplyingFactor,
-                                        vertical: 5.0 *
+                                        vertical: 3.0 *
                                             ScreenSize.heightMultiplyingFactor),
                                     child: GestureDetector(
-                                      // focusColor: Colors.white.withOpacity(0.8),
                                       child: Icon(
                                         widget.storyList[index].isBookmarked
                                             ? Icons.bookmark
@@ -161,16 +159,13 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                             ScreenSize.heightMultiplyingFactor,
                                       ),
                                       onTap: () {
-//                                        print(
-//                                          "Widget Index" + index.toString(),
-//                                        );
                                         setState(() {
                                           widget.storyList[index].isBookmarked =
                                               !widget.storyList[index]
                                                   .isBookmarked;
                                         });
                                         firebaseFirestore
-                                            .collection("PopularStories")                                        
+                                            .collection("PopularStories")
                                             .doc(widget.storyList[index].id)
                                             .update({
                                           "isBookmarked": widget
@@ -188,7 +183,6 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                           height: 6.0 * ScreenSize.heightMultiplyingFactor,
                         ),
                         Text(
-                          // "Little red riding hood",
                           widget.storyList[index].title,
                           style: TextStyle(
                             fontFamily: 'Poppins-Regular',
@@ -197,7 +191,6 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                           ),
                         ),
                         Text(
-                          // "By tellmeastorymom",
                           widget.storyList[index].author,
                           style: TextStyle(
                             fontFamily: 'Poppins-Regular',
@@ -210,7 +203,6 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                         ),
                         Wrap(
                           spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
-                          // runSpacing: 7.0,
                           children: List<Widget>.generate(
                             widget.storyList[index].related.length,
                             (int i) {

@@ -26,9 +26,10 @@ class _SearchScreenState extends State<SearchScreen> {
         resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           backgroundColor: primaryColour,
+          automaticallyImplyLeading: false,
           title: Container(
-            height: 35.0,
-            margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+            height: 42.5 * ScreenSize.heightMultiplyingFactor,
+            margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50.0),
               color: Colors.white,
