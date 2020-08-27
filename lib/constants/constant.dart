@@ -40,6 +40,8 @@ Widget circularProgressIndicator() {
   );
 }
 
-const defaultWidth = 411.42857142857144;
-const defaultHeight = 774.8571428571429;
+// const defaultWidth = 411.42857142857144;
+const defaultWidth = 375.0;
+// const defaultHeight = 774.8571428571429;
+const defaultHeight = 812.0;
 const defaultSize = Size(defaultWidth, defaultHeight);

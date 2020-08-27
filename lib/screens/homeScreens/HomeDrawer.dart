@@ -4,6 +4,7 @@ import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
 import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/screens/homeScreens/Profile.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -127,6 +128,23 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 fontFamily: 'Poppins-Regular',
                 fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
               ),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+            },
+            leading: Icon(
+              Icons.person_outline,
+              color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
+            ),
+            title: Text(
+              "Profile",
+              style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           ListTile(

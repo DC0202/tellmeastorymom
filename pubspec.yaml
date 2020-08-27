@@ -33,6 +33,7 @@ dependencies:
   flutter_tts:
   shared_preferences: ^0.5.10
   share: ^0.6.4+5
+  flutter_rating_bar: ^3.0.1+1
 
 dev_dependencies:
   flutter_test:

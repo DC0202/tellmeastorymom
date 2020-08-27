@@ -16,6 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 1), () {
+      ScreenSize(MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) =>
               initScreen3 == 1 ? Home() : OnBoardingScreen()));
