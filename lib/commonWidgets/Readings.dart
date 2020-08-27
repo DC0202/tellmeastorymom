@@ -395,7 +395,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                           onTap: () {
                             setState(() {
                               widget.story.isBookmarked =
-                              !widget.story.isBookmarked;
+                                  !widget.story.isBookmarked;
                             });
                             firebaseFirestore
                                 .collection("PopularStories")
@@ -503,11 +503,10 @@ class _StoryHeaderState extends State<StoryHeader> {
                   RatingBarIndicator(
                     rating: 2.75,
                     //TODO:add dynamic rating feature here
-                    itemBuilder: (context, index) =>
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
                     itemCount: 5,
                     itemSize: 25.0 * ScreenSize.heightMultiplyingFactor,
                   ),
@@ -694,12 +693,13 @@ class commentList extends StatelessWidget {
   }
 }
 
-Widget userRatings({double rating = 4.5,
-  String userName = 'UserName',
-  String commentDate = '00-00-00',
-  String commentTitle = 'Title',
-  String comment =
-  'Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text '}) {
+Widget userRatings(
+    {double rating = 4.5,
+    String userName = 'UserName',
+    String commentDate = '00-00-00',
+    String commentTitle = 'Title',
+    String comment =
+        'Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text Long comment text '}) {
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
@@ -714,11 +714,10 @@ Widget userRatings({double rating = 4.5,
         RatingBarIndicator(
           rating: 3.60,
           //TODO:add dynamic rating feature here
-          itemBuilder: (context, index) =>
-              Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
+          itemBuilder: (context, index) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
           itemCount: 5,
           itemSize: 25.0 * ScreenSize.heightMultiplyingFactor,
         ),
