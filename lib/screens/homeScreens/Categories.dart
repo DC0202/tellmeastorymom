@@ -81,9 +81,9 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  // double widthValue() {
-  //   var val = Random().nextInt(320);
-  // }
+  double widthValue() {
+    var val = Random().nextInt(320);
+  }
 
   List<Color> col = [
     Color(0xFFDF5D90),

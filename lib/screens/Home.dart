@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Bookmarks.dart';
@@ -146,7 +147,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 color: Colors.white,
               ),
               iconSize: 24 * ScreenSize.heightMultiplyingFactor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                );
+              },
             )
           ],
         ),

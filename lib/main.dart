@@ -1,17 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screens/SplashScreen.dart';
 
-int initScreen3;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen3 = prefs.getInt("initScreen3");
   await Firebase.initializeApp();
   runApp(MyApp());
 }

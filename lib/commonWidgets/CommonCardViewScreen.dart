@@ -170,7 +170,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                                   .isBookmarked;
                                         });
                                         firebaseFirestore
-                                            .collection("PopularStories")
+                                            .collection("PopularStories")                                        
                                             .doc(widget.storyList[index].id)
                                             .update({
                                           "isBookmarked": widget
