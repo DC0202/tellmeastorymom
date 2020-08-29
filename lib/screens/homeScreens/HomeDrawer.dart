@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
+import 'package:tellmeastorymom/authService.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
+import 'package:tellmeastorymom/drawerScreens/Profile.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
 import 'package:tellmeastorymom/screenSize.dart';
-import 'package:tellmeastorymom/drawerScreens/Profile.dart';
+import 'package:tellmeastorymom/screens/LoginScreen.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -175,7 +177,26 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              try {
+                FirebaseAuth.instance.signOut();
+              } catch (e) {
+                print(
+                    'error in FirebaseAuth.instance.signOut() on pressing logout');
+              }
+              try {
+                AuthService().signOutGoogle();
+              } catch (e) {
+                print(
+                    'error in AuthService().signOutGoogle() on pressing logout');
+              }
+
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
+            },
             leading: Icon(
               Icons.exit_to_app,
               color: Colors.black,

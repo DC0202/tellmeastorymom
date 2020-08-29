@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/main.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
-import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
+import 'package:tellmeastorymom/screens/LoginScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,12 +15,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 1), () async {
       ScreenSize(MediaQuery.of(context).size.width,
           MediaQuery.of(context).size.height);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) =>
-              initScreen3 == 1 ? Home() : OnBoardingScreen()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => FirebaseAuth.instance.currentUser == null
+              ? LoginScreen()
+              : Home(),
+        ),
+      );
     });
   }
 

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +18,11 @@ class ProfilePage extends StatelessWidget {
           children: [
             // appBarOverall(heading: 'Profile'),
             profilePageAppBar(),
-            profileDataList(),
+            profileDataList(
+              userEmail: UserData.getUserEmail(),
+              userName: UserData.getUserName(),
+              userPhone: UserData.getUserPhone(),
+            ),
           ],
         ),
       ),
@@ -83,11 +93,11 @@ Widget profileDataList(
           SizedBox(
             height: 36.0 * ScreenSize.heightMultiplyingFactor,
           ),
-          smallBox(Icons.mail_outline, "ajeetkumar@gmail.com"),
+          smallBox(Icons.mail_outline, userEmail),
           SizedBox(
             height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
-          smallBox(Icons.phone, "+91 9898989898"),
+          smallBox(Icons.phone, userPhone),
         ],
       ),
     ),

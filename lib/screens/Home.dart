@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Bookmarks.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Categories.dart';
@@ -23,9 +25,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-//      setState(() {
-//        isLoading = true;
-//      });
+      setState(() {
+        isLoading = true;
+      });
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .get()
+          .then((value) {
+        if (value != null) {
+          UserData(
+            value.data()['userName'],
+            value.data()['email'],
+            value.data()['phoneNumber'],
+          );
+        }
+      });
 //      await firebaseFirestore
 //          .collection("PopularStories")
 //          .get()
@@ -85,9 +100,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 //      for (var story in recommendedStories) {
 //        print("recommendedStories " + story.id);
 //      }
-//      setState(() {
-//        isLoading = false;
-//      });
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
