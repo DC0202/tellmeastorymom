@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/authService.dart';
 import 'package:tellmeastorymom/authentication.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
 import 'package:tellmeastorymom/screenSize.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
@@ -19,17 +18,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
   final _formKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String email;
   String password;
   bool _autoValidate = false;
-  validateInput() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-    }
-    setState(() {
-      _autoValidate = true;
-    });
-  }
+  bool isLoading = false;
+  bool isLoadingButton = false;
 
   void _toggleVisibility() {
     setState(() {
@@ -41,296 +35,345 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
-          child: ListView(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 35 * ScreenSize.heightMultiplyingFactor),
-              Text(
-                "Log In",
-                style: TextStyle(
-                    fontFamily: 'Poppins-Bold',
-                    fontSize: 40.0 * ScreenSize.heightMultiplyingFactor,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColour),
-              ),
-              Text(
-                "Access Account",
-                style: TextStyle(
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
-                    color: primaryColour),
-              ),
-              SizedBox(height: 70 * ScreenSize.heightMultiplyingFactor),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RawMaterialButton(
-                    onPressed: () async {
-                      final FirebaseFirestore firebaseFirestore =
-                          FirebaseFirestore.instance;
-                      final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-                      await AuthService().signInWithGoogle().then((value) {
-                        if (value)
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Home(),
-                            ),
-                          );
-                        else {
-                          firebaseFirestore
-                              .collection('Users')
-                              .doc(firebaseAuth.currentUser.uid)
-                              .set({
-                            'email': firebaseAuth.currentUser.email,
-                            'displayName': firebaseAuth.currentUser.displayName,
-                            'phoneNumber':
-                                firebaseAuth.currentUser.phoneNumber == null
-                                    ? "+91-9876543210"
-                                    : firebaseAuth.currentUser.phoneNumber,
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OnBoardingScreen(),
-                            ),
-                          );
-                        }
-                      });
-                      print("signINWithGoogle called");
-                    },
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/googleIcon.png',
-                          width: 65 * ScreenSize.widthMultiplyingFactor,
-                          height: 55 * ScreenSize.heightMultiplyingFactor,
-                        ),
-                        Text(
-                          'Signin WIth Google',
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-//                  SizedBox(
-//                    width: 18 * ScreenSize.widthMultiplyingFactor,
-//                  ),
-//                  GestureDetector(
-//                      child: Image.asset(
-//                        'assets/images/facebookIcon.png',
-//                        width: 50 * ScreenSize.widthMultiplyingFactor,
-//                        height: 60 * ScreenSize.heightMultiplyingFactor,
-//                      ),
-//                      onTap: () {}),
-//                  SizedBox(
-//                    width: 20 * ScreenSize.widthMultiplyingFactor,
-//                  ),
-//                  GestureDetector(
-//                      child: Image.asset(
-//                        'assets/Icons/twitterIcon.png',
-//                        width: 50 * ScreenSize.widthMultiplyingFactor,
-//                        height: 60 * ScreenSize.heightMultiplyingFactor,
-//                      ),
-//                      onTap: () {}),
-//                  SizedBox(
-//                    width: 20 * ScreenSize.widthMultiplyingFactor,
-//                  ),
-//                  GestureDetector(
-//                      child: Image.asset(
-//                        'assets/Icons/wordPressIcon.png',
-//                        width: 60 * ScreenSize.widthMultiplyingFactor,
-//                        height: 60 * ScreenSize.heightMultiplyingFactor,
-//                      ),
-//                      onTap: () {}),
-                ],
-              ),
-              SizedBox(
-                height: 15 * ScreenSize.heightMultiplyingFactor,
-              ),
-              Text(
-                "Or log in with Email",
-                style: TextStyle(
-                    fontFamily: 'Poppins-SemiBold',
-                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
-                    color: primaryColour),
-              ),
-              SizedBox(
-                height: 70 * ScreenSize.heightMultiplyingFactor,
-              ),
-              Form(
-                  key: _formKey,
-                  autovalidate: _autoValidate,
+        child: isLoading
+            ? circularProgressIndicator()
+            : SingleChildScrollView(
+                child: Container(
+                  height: size.height * ScreenSize.heightMultiplyingFactor,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  20 * ScreenSize.heightMultiplyingFactor,
-                              vertical: 20 * ScreenSize.widthMultiplyingFactor),
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (val) => email = val,
-                            validator: (val) {
-                              if (val.isEmpty) {
-                                return 'Enter a Email Address';
-                              }
-                              if (!RegExp(
-                                      r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                  .hasMatch(val)) {
-                                return 'Please enter a valid email Address';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.check,
-                                  size: 20 * ScreenSize.heightMultiplyingFactor,
-                                  color: Colors.black,
-                                ),
-                                labelText: "Email Address",
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Poppins-Medium',
-                                    color: Colors.black54)),
-                          )),
+                      // SizedBox(height: 35 * ScreenSize.heightMultiplyingFactor),
+                      Text(
+                        "Log In",
+                        style: TextStyle(
+                            fontFamily: 'Poppins-Bold',
+                            fontSize: 26.0 * ScreenSize.heightMultiplyingFactor,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColour),
+                      ),
+                      Text(
+                        "Access Account",
+                        style: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                            color: primaryColour),
+                      ),
                       SizedBox(
-                        height: 10 * ScreenSize.heightMultiplyingFactor,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20 * ScreenSize.heightMultiplyingFactor,
-                            vertical: 20 * ScreenSize.widthMultiplyingFactor),
-                        child: TextFormField(
-                          onChanged: (val) {
-                            setState(() {
-                              password = val;
-                            });
-                          },
-                          validator: (val) {
-                            if (val.length < 8) {
-                              return "Password must be of 8 characters";
-                            } else
-                              return null;
-                          },
-                          obscureText: _isHidden,
-                          decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _isHidden
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    size:
-                                        20 * ScreenSize.heightMultiplyingFactor,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: _toggleVisibility),
-                              labelText: "Password",
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Poppins-Medium',
-                                  color: Colors.black54)),
-                        ),
-                      ),
+                          height: 50.0 * ScreenSize.heightMultiplyingFactor),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          FlatButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Forget Password?",
-                                style: TextStyle(
-                                    fontFamily: 'Poppins-Medium',
-                                    fontSize: 15 *
-                                        ScreenSize.heightMultiplyingFactor),
-                              )),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            padding: EdgeInsets.fromLTRB(
+                              20.0 * ScreenSize.widthMultiplyingFactor,
+                              15.0 * ScreenSize.heightMultiplyingFactor,
+                              20.0 * ScreenSize.widthMultiplyingFactor,
+                              15.0 * ScreenSize.heightMultiplyingFactor,
+                            ),
+                            color: Colors.white,
+                            elevation: 10.0,
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              final FirebaseFirestore firebaseFirestore =
+                                  FirebaseFirestore.instance;
+                              final FirebaseAuth firebaseAuth =
+                                  FirebaseAuth.instance;
+                              await AuthService()
+                                  .signInWithGoogle()
+                                  .then((value) async {
+                                if (!value[1]) {
+                                  if (value[0]) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ),
+                                    );
+                                  } else {
+                                    print(firebaseAuth.currentUser.phoneNumber);
+                                    await firebaseFirestore
+                                        .collection('Users')
+                                        .doc(firebaseAuth.currentUser.uid)
+                                        .set({
+                                      'email': firebaseAuth.currentUser.email,
+                                      'displayName':
+                                          firebaseAuth.currentUser.displayName,
+                                      'phoneNumber': firebaseAuth
+                                                  .currentUser.phoneNumber ==
+                                              null
+                                          ? "+91-9876543210"
+                                          : firebaseAuth
+                                              .currentUser.phoneNumber,
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OnBoardingScreen(),
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  scaffoldKey.currentState
+                                      .showSnackBar(SnackBar(
+                                    content: Text(value[1]),
+                                    duration: Duration(seconds: 3),
+                                  ));
+                                }
+                              });
+                              setState(() {
+                                isLoading = false;
+                              });
+                              print("signINWithGoogle called");
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/googleIcon.png',
+                                  width: 32 * ScreenSize.widthMultiplyingFactor,
+                                  height:
+                                      32 * ScreenSize.heightMultiplyingFactor,
+                                ),
+                                SizedBox(
+                                    width: 10.0 *
+                                        ScreenSize.widthMultiplyingFactor),
+                                Text(
+                                  'Signin With Google',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 16.0 *
+                                        ScreenSize.heightMultiplyingFactor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
                         height: 15 * ScreenSize.heightMultiplyingFactor,
                       ),
-                      RaisedButton(
-                          padding: EdgeInsets.only(
-                              left: 80 * ScreenSize.widthMultiplyingFactor,
-                              right: 80 * ScreenSize.widthMultiplyingFactor,
-                              top: 7 * ScreenSize.heightMultiplyingFactor,
-                              bottom: 7 * ScreenSize.heightMultiplyingFactor),
-                          elevation: 7 * ScreenSize.heightMultiplyingFactor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          color: primaryColour,
-                          onPressed: () async {
-                            validateInput();
-                            bool check =
-                                await Authentication.checkUser(email, password);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    check ? Home() : ShareWithFriends(),
+                      Text(
+                        "Or log in with Email",
+                        style: TextStyle(
+                            fontFamily: 'Poppins-SemiBold',
+                            fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
+                            color: primaryColour),
+                      ),
+                      SizedBox(
+                        height: 120 * ScreenSize.heightMultiplyingFactor,
+                      ),
+                      Form(
+                        key: _formKey,
+                        autovalidate: _autoValidate,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        20 * ScreenSize.heightMultiplyingFactor,
+                                    vertical: 7.5 *
+                                        ScreenSize.widthMultiplyingFactor),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  onSaved: (val) => email = val,
+                                  validator: (val) {
+                                    if (val.isEmpty) {
+                                      return 'Enter a Email Address';
+                                    }
+                                    if (!RegExp(
+                                            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                        .hasMatch(val)) {
+                                      return 'Please enter a valid email Address';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.check,
+                                        size: 20 *
+                                            ScreenSize.heightMultiplyingFactor,
+                                        color: Colors.black,
+                                      ),
+                                      labelText: "Email Address",
+                                      labelStyle: TextStyle(
+                                          fontFamily: 'Poppins-Medium',
+                                          color: Colors.black54)),
+                                )),
+                            SizedBox(
+                              height: 10 * ScreenSize.heightMultiplyingFactor,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      20 * ScreenSize.heightMultiplyingFactor,
+                                  vertical:
+                                      7.5 * ScreenSize.widthMultiplyingFactor),
+                              child: TextFormField(
+                                onChanged: (val) {
+                                  setState(() {
+                                    password = val;
+                                  });
+                                },
+                                validator: (val) {
+                                  if (val.length < 8) {
+                                    return "Password must be of 8 characters";
+                                  } else
+                                    return null;
+                                },
+                                obscureText: _isHidden,
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                        icon: Icon(
+                                          _isHidden
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          size: 20 *
+                                              ScreenSize
+                                                  .heightMultiplyingFactor,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: _toggleVisibility),
+                                    labelText: "Password",
+                                    labelStyle: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        color: Colors.black54)),
                               ),
-                            );
-                          },
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontFamily: 'Poppins-SemiBold',
-                                color: Colors.white,
-                                fontSize:
-                                    25 * ScreenSize.heightMultiplyingFactor),
-                          )),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                FlatButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "Forget Password?",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins-Medium',
+                                          fontSize: 15 *
+                                              ScreenSize
+                                                  .heightMultiplyingFactor),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 15 * ScreenSize.heightMultiplyingFactor,
+                            ),
+                            Container(
+                              width: 234 * ScreenSize.widthMultiplyingFactor,
+                              child: MaterialButton(
+                                minWidth:
+                                    234 * ScreenSize.widthMultiplyingFactor,
+                                height: 45 * ScreenSize.heightMultiplyingFactor,
+                                color: Colors.purple,
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    setState(() {
+                                      isLoadingButton = true;
+                                    });
+                                    //A network error (such as timeout, interrupted connection or unreachable host) has occurred.
+                                    List<dynamic> check =
+                                        await Authentication.checkUser(
+                                            email, password);
+                                    if (check[0] == false) {
+                                      scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        content: Text(check[1]),
+                                        duration: Duration(seconds: 3),
+                                      ));
+                                    } else
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Home(),
+                                        ),
+                                      );
+                                    setState(() {
+                                      isLoadingButton = false;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _autoValidate = true;
+                                    });
+                                  }
+                                },
+                                child: isLoadingButton
+                                    ? Container(
+                                        margin: EdgeInsets.all(3.0),
+                                        height: 25.0 *
+                                            ScreenSize.widthMultiplyingFactor,
+                                        width: 25.0 *
+                                            ScreenSize.widthMultiplyingFactor,
+                                        child: circularProgressIndicator(
+                                            col: Colors.white))
+                                    : Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: "Poppins-Bold",
+                                          fontSize: 19 *
+                                              ScreenSize
+                                                  .heightMultiplyingFactor,
+                                        ),
+                                      ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15 * ScreenSize.heightMultiplyingFactor,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("Dont have an account?  ",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins-Regular',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      15 * ScreenSize.heightMultiplyingFactor,
+                                  color: primaryColour)),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Register",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins-Medium',
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                  fontSize:
+                                      15 * ScreenSize.heightMultiplyingFactor,
+                                  color: primaryColour),
+                            ),
+                          )
+                        ],
+                      )
                     ],
-                  )),
-              SizedBox(
-                height: 15 * ScreenSize.heightMultiplyingFactor,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                      fontFamily: 'Poppins-Medium',
-                      fontSize: 17 * ScreenSize.heightMultiplyingFactor),
+                  ),
                 ),
               ),
-              SizedBox(height: 8 * ScreenSize.heightMultiplyingFactor),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Dont have an account?",
-                      style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15 * ScreenSize.heightMultiplyingFactor,
-                          color: primaryColour)),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        " Register",
-                        style: TextStyle(
-                            fontFamily: 'Poppins-Medium',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15 * ScreenSize.heightMultiplyingFactor,
-                            color: primaryColour),
-                      ))
-                ],
-              )
-            ],
-          )
-        ],
-      )),
+      ),
     );
   }
 }

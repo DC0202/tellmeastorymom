@@ -21,55 +21,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String email;
   String password;
   bool _autoValidate = false;
-  validateInput() {
-    if (_formkey.currentState.validate()) {
-      _formkey.currentState.save();
-    }
-    setState(() {
-      _autoValidate = true;
-    });
-  }
+
+  bool isLoading = false;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return SafeArea(
-        child: Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20.0,
+    return Scaffold(
+      key: scaffoldKey,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            height: size.height * ScreenSize.heightMultiplyingFactor,
+            padding: EdgeInsets.only(
+              left: 20.0 * ScreenSize.widthMultiplyingFactor,
+              right: 20.0 * ScreenSize.widthMultiplyingFactor,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height:
-                      (size.height * 0.2) * ScreenSize.heightMultiplyingFactor,
-                  width: size.width * ScreenSize.widthMultiplyingFactor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Create Account",
-                        style: TextStyle(
-                            color: primaryColour,
-                            fontSize: 25 * ScreenSize.heightMultiplyingFactor,
-                            fontFamily: "Poppins-SemiBold"),
-                      ),
-                      Text(
-                        "Let's Create account First",
-                        style: TextStyle(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Create Account",
+                      style: TextStyle(
                           color: primaryColour,
-                          fontFamily: "Poppins-Medium",
-                        ),
+                          fontSize: 26 * ScreenSize.heightMultiplyingFactor,
+                          fontFamily: "Poppins-Bold"),
+                    ),
+                    Text(
+                      "Let's Create account First",
+                      style: TextStyle(
+                        color: primaryColour,
+                        fontSize: 14 * ScreenSize.heightMultiplyingFactor,
+                        fontFamily: "Poppins-SemiBold",
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 60.0 * ScreenSize.heightMultiplyingFactor,
                 ),
                 Form(
                   key: _formkey,
@@ -77,7 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) {
                             userName = val;
@@ -85,6 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           validator: (val) {
                             if (val.length < 3) {
                               return " Username is too short";
+                            } else if (!val.contains(' ')) {
+                              return " Please Enter Full Name";
                             } else
                               return null;
                           },
@@ -94,15 +92,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               size: 20 * ScreenSize.heightMultiplyingFactor,
                               color: Colors.black,
                             ),
-                            labelText: "User name",
+                            labelText: "Full name",
                             labelStyle: TextStyle(
-                              fontFamily: "Poppins-Regular",
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 16 * ScreenSize.heightMultiplyingFactor,
                             ),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(10),
@@ -118,7 +119,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: InputDecoration(
                             prefixText: "+91-",
                             labelStyle: TextStyle(
-                              fontFamily: "Poppins-Regular",
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 16 * ScreenSize.heightMultiplyingFactor,
                             ),
                             suffixIcon: Icon(
                               Icons.check,
@@ -130,7 +132,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) => email = val,
                           validator: (val) {
@@ -145,7 +149,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelStyle: TextStyle(
-                              fontFamily: "Poppins-Regular",
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 16 * ScreenSize.heightMultiplyingFactor,
                             ),
                             suffixIcon: Icon(
                               Icons.check,
@@ -157,7 +162,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onChanged: (val) {
                             setState(() {
@@ -165,7 +172,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             });
                           },
                           onSaved: (val) {
-                            password = val;
+                            setState(() {
+                              password = val;
+                            });
                           },
                           validator: (val) {
                             if (val.length < 8) {
@@ -176,7 +185,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           obscureText: !showNormalPassword,
                           decoration: InputDecoration(
                             labelStyle: TextStyle(
-                              fontFamily: "Poppins-Regular",
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 16 * ScreenSize.heightMultiplyingFactor,
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -197,18 +207,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           validator: (val) {
                             if (val == password) {
                               return null;
                             } else
-                              return "Password is different";
+                              return "Password does not match! Please Re-Write.";
                           },
                           obscureText: !showConfirmPassword,
                           decoration: InputDecoration(
                             labelStyle: TextStyle(
-                              fontFamily: "Poppins-Regular",
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 16 * ScreenSize.heightMultiplyingFactor,
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -231,39 +244,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 60 * ScreenSize.heightMultiplyingFactor,
                       ),
-                      MaterialButton(
-                        minWidth: 200 * ScreenSize.widthMultiplyingFactor,
-                        height: 45 * ScreenSize.heightMultiplyingFactor,
-                        color: Colors.purple,
-                        onPressed: () async {
-                          validateInput();
-                          bool check = await Authentication.createUser(
-                              email, password, userName, phoneNumber);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => check
-                                  ? OnBoardingScreen()
-                                  : ShareWithFriends(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Register",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18 * ScreenSize.heightMultiplyingFactor,
+                      Container(
+                        width: 234 * ScreenSize.widthMultiplyingFactor,
+                        child: MaterialButton(
+                          minWidth: 234 * ScreenSize.widthMultiplyingFactor,
+                          height: 45 * ScreenSize.heightMultiplyingFactor,
+                          color: primaryColour,
+                          onPressed: () async {
+                            if (_formkey.currentState.validate()) {
+                              _formkey.currentState.save();
+                              setState(() {
+                                isLoading = true;
+                              });
+                              List<dynamic> check =
+                                  await Authentication.createUser(
+                                      email, password, userName, phoneNumber);
+                              if (!check[0]) {
+                                scaffoldKey.currentState.showSnackBar(SnackBar(
+                                  content: Text(check[1]),
+                                  duration: Duration(seconds: 3),
+                                ));
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OnBoardingScreen()),
+                                );
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } else {
+                              setState(() {
+                                _autoValidate = true;
+                              });
+                            }
+                          },
+                          child: isLoading
+                              ? Container(
+                                  margin: EdgeInsets.all(3.0),
+                                  height:
+                                      25.0 * ScreenSize.widthMultiplyingFactor,
+                                  width:
+                                      25.0 * ScreenSize.widthMultiplyingFactor,
+                                  child: circularProgressIndicator(
+                                      col: Colors.white))
+                              : Text(
+                                  "Register",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        18 * ScreenSize.heightMultiplyingFactor,
+                                  ),
+                                ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 40 * ScreenSize.heightMultiplyingFactor,
+                  height: 10 * ScreenSize.heightMultiplyingFactor,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -290,6 +333,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

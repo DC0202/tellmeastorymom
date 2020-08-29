@@ -12,34 +12,49 @@ class AuthService {
     return _auth.authStateChanges();
   }
 
-  Future<bool> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+  Future<List<dynamic>> signInWithGoogle() async {
+    bool returnData = false;
+    bool foundError = false;
+    String errorMessage = "";
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
-    // Create a new credential
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      // Create a new credential
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    User user = (await _auth.signInWithCredential(credential)).user;
-    await firebaseFirestore.collection('Users').get().then((value) {
-      value.docs.forEach((element) {
-        element.data().forEach((key, value) {
-          if (key.toString() == "emailID" && value.toString() == user.email) {
-            return true;
-          }
+      User user = (await _auth.signInWithCredential(credential)).user;
+      await firebaseFirestore.collection('Users').get().then((value) {
+        value.docs.forEach((element) {
+          element.data().forEach((key, value) {
+            print("Key: " + key);
+            print("Value: " + value);
+            if (key.toString() == "email" && value.toString() == user.email) {
+              print("HELLO USER MATCHED");
+              returnData = true;
+            }
+          });
         });
       });
-    });
-    print(user.email);
-
+      print(user.providerData);
+      print(returnData);
+    } catch (e) {
+      foundError = true;
+      errorMessage = e.message;
+    }
     // Once signed in, return the UserCredential
-    return false;
+    return [
+      returnData,
+      foundError,
+      errorMessage,
+    ];
   }
 
   void signOutGoogle() async {

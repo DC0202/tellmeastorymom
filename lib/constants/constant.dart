@@ -33,10 +33,10 @@ Widget appBarOverall(
   );
 }
 
-Widget circularProgressIndicator() {
+Widget circularProgressIndicator({col = primaryColour}) {
   return Center(
     child: CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(primaryColour),
+      valueColor: AlwaysStoppedAnimation<Color>(col),
     ),
   );
 }

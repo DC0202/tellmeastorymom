@@ -35,7 +35,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           .then((value) {
         if (value != null) {
           UserData(
-            value.data()['userName'],
+            value.data()['displayName'],
             value.data()['email'],
             value.data()['phoneNumber'],
           );
