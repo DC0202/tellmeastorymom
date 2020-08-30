@@ -19,12 +19,17 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isHidden = true;
   final _formKey = GlobalKey<FormState>();
+  final _textInputKey = GlobalKey<FormFieldState>();
+  final greenTick = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String email;
   String password;
   bool _autoValidate = false;
   bool isLoading = false;
   bool isLoadingButton = false;
+  bool test2 = false;
+  bool test = true;
+  TextEditingController phonenumberController = TextEditingController();
 
   void _toggleVisibility() {
     setState(() {
@@ -90,47 +95,63 @@ class _LoginScreenState extends State<LoginScreen> {
                               await AuthService()
                                   .signInWithGoogle()
                                   .then((value) async {
-                                if (!value[1]) {
-                                  if (value[0]) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Home(),
-                                      ),
-                                    );
-                                  } else {
-                                    print(firebaseAuth.currentUser.phoneNumber);
-                                    await firebaseFirestore
-                                        .collection('Users')
-                                        .doc(firebaseAuth.currentUser.uid)
-                                        .set({
-                                      'email': firebaseAuth.currentUser.email,
-                                      'displayName':
-                                          firebaseAuth.currentUser.displayName,
-                                      'phoneNumber': firebaseAuth
-                                                  .currentUser.phoneNumber ==
-                                              null
-                                          ? "+91-9876543210"
-                                          : firebaseAuth
-                                              .currentUser.phoneNumber,
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => firebaseAuth
+                                if (value[3]) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                } else {
+                                  if (!value[1]) {
+                                    if (value[0]) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Home(),
+                                        ),
+                                      );
+                                    } else {
+                                      print(
+                                          firebaseAuth.currentUser.phoneNumber);
+                                      await firebaseFirestore
+                                          .collection('Users')
+                                          .doc(firebaseAuth.currentUser.uid)
+                                          .set({
+                                        'email': firebaseAuth.currentUser.email,
+                                        'displayName': firebaseAuth
+                                            .currentUser.displayName,
+                                        'phoneNumber': firebaseAuth
                                                     .currentUser.phoneNumber ==
                                                 null
-                                            ? PhoneNumberScreen()
-                                            : OnBoardingScreen(),
-                                      ),
-                                    );
+                                            ? "+91-9876543210"
+                                            : firebaseAuth
+                                                .currentUser.phoneNumber,
+                                      });
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => firebaseAuth
+                                                      .currentUser
+                                                      .phoneNumber ==
+                                                  null
+                                              ? PhoneNumberScreen()
+                                              : OnBoardingScreen(),
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    setState(() {
+                                      isLoading = false;
+                                      final snackBar = SnackBar(
+                                          content:
+                                              Text('Something Went Wrong!'));
+                                      Scaffold.of(context)
+                                          .showSnackBar(snackBar);
+                                    });
+                                    scaffoldKey.currentState
+                                        .showSnackBar(SnackBar(
+                                      content: Text(value[2]),
+                                      duration: Duration(seconds: 3),
+                                    ));
                                   }
-                                } else {
-                                  scaffoldKey.currentState
-                                      .showSnackBar(SnackBar(
-                                    content: Text(value[2]),
-                                    duration: Duration(seconds: 3),
-                                  ));
                                 }
                               });
                               setState(() {
@@ -183,37 +204,71 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        20 * ScreenSize.heightMultiplyingFactor,
-                                    vertical: 7.5 *
-                                        ScreenSize.widthMultiplyingFactor),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  onSaved: (val) => email = val,
-                                  validator: (val) {
-                                    if (val.isEmpty) {
-                                      return 'Enter a Email Address';
-                                    }
-                                    if (!RegExp(
-                                            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                        .hasMatch(val)) {
-                                      return 'Please enter a valid email Address';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                      suffixIcon: Icon(
-                                        Icons.check,
-                                        size: 20 *
-                                            ScreenSize.heightMultiplyingFactor,
-                                        color: Colors.black,
-                                      ),
-                                      labelText: "Email Address",
-                                      labelStyle: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          color: Colors.black54)),
-                                )),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      20 * ScreenSize.heightMultiplyingFactor,
+                                  vertical:
+                                      7.5 * ScreenSize.widthMultiplyingFactor),
+                              child: TextFormField(
+                                key: _textInputKey,
+                                controller: phonenumberController,
+                                keyboardType: TextInputType.emailAddress,
+                                onChanged: (value) {
+                                  setState(() {
+                                    test =
+                                        _textInputKey.currentState.validate();
+                                  });
+                                },
+                                onSaved: (val) => email = val,
+                                validator: (val) {
+                                  if (val.isEmpty) {
+                                    return 'Enter a Email Address';
+                                  }
+                                  if (!RegExp(
+                                          r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                      .hasMatch(val)) {
+                                    return 'Please enter a valid email Address';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+//                                    suffixIcon: test
+//                                        ? _textInputKey.currentState == null
+//                                            ? Icon(
+//                                                Icons.check,
+//                                                size: 20 *
+//                                                    ScreenSize
+//                                                        .heightMultiplyingFactor,
+//                                                color: Colors.transparent,
+//                                              )
+//                                            : Icon(
+//                                                Icons.check,
+//                                                key: greenTick,
+//                                                size: 20 *
+//                                                    ScreenSize
+//                                                        .heightMultiplyingFactor,
+//                                                color: Colors.green,
+//                                              )
+//                                        : CircularProgressIndicator(
+//                                            valueColor:
+//                                                AlwaysStoppedAnimation<Color>(
+//                                                    Colors.purple),
+//                                          ),
+
+//                                        :
+//                                    Icon(
+//                                            Icons.ac_unit,
+//                                            size: 20 *
+//                                                ScreenSize
+//                                                    .heightMultiplyingFactor,
+//                                            color: Colors.red,
+//                                          ),
+                                    labelText: "Email Address",
+                                    labelStyle: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        color: Colors.black54)),
+                              ),
+                            ),
                             SizedBox(
                               height: 10 * ScreenSize.heightMultiplyingFactor,
                             ),
