@@ -1,6 +1,12 @@
+//import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../screens/LoginScreen.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -16,41 +22,44 @@ class AuthService {
     bool returnData = false;
     bool foundError = false;
     String errorMessage = "";
+    bool isSelected = false;
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
       print(googleUser);
+      if (googleUser != null) {
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+        print(googleAuth);
 
-      print(googleAuth);
+        // Create a new credential
+        final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      // Create a new credential
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      print(credential);
-
-      User user = (await _auth.signInWithCredential(credential)).user;
-      await firebaseFirestore.collection('Users').get().then((value) {
-        value.docs.forEach((element) {
-          element.data().forEach((key, value) {
-            print("Key: " + key);
-            print("Value: " + value);
-            if (key.toString() == "email" && value.toString() == user.email) {
-              print("HELLO USER MATCHED");
-              returnData = true;
-            }
+        print(credential);
+        User user = (await _auth.signInWithCredential(credential)).user;
+        await firebaseFirestore.collection('Users').get().then((value) {
+          value.docs.forEach((element) {
+            element.data().forEach((key, value) {
+              print("Key: " + key);
+              print("Value: " + value);
+              if (key.toString() == "email" && value.toString() == user.email) {
+                print("HELLO USER MATCHED");
+                returnData = true;
+              }
+            });
           });
         });
-      });
-      print(user.providerData);
-      print(returnData);
+        print(user.providerData);
+        print(returnData);
+      } else {
+        isSelected = true;
+      }
     } catch (e) {
       foundError = true;
       errorMessage = e.message;
@@ -60,6 +69,7 @@ class AuthService {
       returnData,
       foundError,
       errorMessage,
+      isSelected,
     ];
   }
 

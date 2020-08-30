@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 if (StoryData.fromSnapshot(result)
                     .title
                     .toLowerCase()
-                    .contains(textSearch)) {
+                    .contains(textSearch.toLowerCase())) {
                   popularStories.add(StoryData.fromSnapshot(result));
                 }
               });
