@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
   @override
@@ -102,7 +105,22 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     ),
                   ),
                   OutlineButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final FirebaseFirestore firebaseFirestore =
+                          FirebaseFirestore.instance;
+                      firebaseFirestore
+                          .collection('Users')
+                          .doc(FirebaseAuth.instance.currentUser.uid)
+                          .update({
+                        'phoneNumber': phoneNumber,
+                      });
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OnBoardingScreen(),
+                        ),
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0),
                       side: BorderSide(

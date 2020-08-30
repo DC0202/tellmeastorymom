@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/providers/authService.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
+import 'package:tellmeastorymom/drawerScreens/Mompreneur.dart';
 import 'package:tellmeastorymom/drawerScreens/Profile.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
-import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/authService.dart';
 import 'package:tellmeastorymom/screens/LoginScreen.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -83,7 +84,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ListTile(
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+                  .push(MaterialPageRoute(builder: (context) => Mompreneur()));
             },
             leading: Icon(
               Icons.business,

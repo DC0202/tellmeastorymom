@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/drawerScreens/mompreneurScreens/interviewReading.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/providers/userData.dart';
 
 import 'Readings.dart';
@@ -12,9 +13,13 @@ class HomeScreenCardView extends StatefulWidget {
   final double insideHeight;
   final double insideWidth;
   final bool itemCard;
+  final bool isInterview;
+  final bool isDiary;
   const HomeScreenCardView(
       {Key key,
       this.boxHeight,
+      this.isInterview = false,
+      this.isDiary = false,
       this.insideHeight,
       this.storyList,
       this.insideWidth,
@@ -53,7 +58,11 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                     // ),
                     print(index);
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Readings(widget.storyList[index]),
+                      builder: (context) => !widget.isInterview
+                          ? Readings(widget.storyList[index])
+                          : InterviewReading(
+                              story: widget.storyList[index],
+                              isDiary: widget.isDiary),
                     ));
                   },
                   child: Container(
@@ -94,82 +103,98 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical:
-                                    8.0 * ScreenSize.heightMultiplyingFactor,
-                                horizontal:
-                                    8.0 * ScreenSize.widthMultiplyingFactor,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.8),
-                                      shape: BoxShape.circle,
-                                    ),
+                            !widget.isInterview
+                                ? Padding(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: 3.0 *
+                                      vertical: 8.0 *
                                           ScreenSize.heightMultiplyingFactor,
-                                      horizontal: 3.0 *
+                                      horizontal: 8.0 *
                                           ScreenSize.widthMultiplyingFactor,
                                     ),
-                                    child: GestureDetector(
-                                      child: Icon(
-                                        widget.storyList[index].isBookmarked
-                                                .contains(UserData.getUserId())
-                                            ? Icons.bookmark
-                                            : Icons.bookmark_border,
-                                        color: widget
-                                                .storyList[index].isBookmarked
-                                                .contains(UserData.getUserId())
-                                            ? primaryColour
-                                            : Colors.black,
-                                        size: 24 *
-                                            ScreenSize.heightMultiplyingFactor,
-                                      ),
-                                      onTap: () {
-                                        // setState(() {
-                                        //   widget.storyList[index].isBookmarked =
-                                        //       !widget.storyList[index]
-                                        //           .isBookmarked;
-                                        // });
-                                        // firebaseFirestore
-                                        //     .collection("PopularStories")
-                                        //     .doc(widget.storyList[index].id)
-                                        //     .update({
-                                        //   "isBookmarked": widget
-                                        //       .storyList[index].isBookmarked
-                                        // });
-                                        bool valueOfList = widget
-                                            .storyList[index].isBookmarked
-                                            .contains(UserData.getUserId());
-                                        if (valueOfList) {
-                                          firebaseFirestore
-                                              .collection("PopularStories")
-                                              .doc(widget.storyList[index].id)
-                                              .update({
-                                            "isBookmarked":
-                                                FieldValue.arrayRemove(
-                                                    [UserData.getUserId()])
-                                          });
-                                        } else {
-                                          firebaseFirestore
-                                              .collection("PopularStories")
-                                              .doc(widget.storyList[index].id)
-                                              .update({
-                                            "isBookmarked":
-                                                FieldValue.arrayUnion(
-                                                    [UserData.getUserId()])
-                                          });
-                                        }
-                                      },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.8),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 3.0 *
+                                                ScreenSize
+                                                    .heightMultiplyingFactor,
+                                            horizontal: 3.0 *
+                                                ScreenSize
+                                                    .widthMultiplyingFactor,
+                                          ),
+                                          child: GestureDetector(
+                                            child: Icon(
+                                              widget.storyList[index]
+                                                      .isBookmarked
+                                                      .contains(
+                                                          UserData.getUserId())
+                                                  ? Icons.bookmark
+                                                  : Icons.bookmark_border,
+                                              color: widget.storyList[index]
+                                                      .isBookmarked
+                                                      .contains(
+                                                          UserData.getUserId())
+                                                  ? primaryColour
+                                                  : Colors.black,
+                                              size: 24 *
+                                                  ScreenSize
+                                                      .heightMultiplyingFactor,
+                                            ),
+                                            onTap: () {
+                                              // setState(() {
+                                              //   widget.storyList[index].isBookmarked =
+                                              //       !widget.storyList[index]
+                                              //           .isBookmarked;
+                                              // });
+                                              // firebaseFirestore
+                                              //     .collection("PopularStories")
+                                              //     .doc(widget.storyList[index].id)
+                                              //     .update({
+                                              //   "isBookmarked": widget
+                                              //       .storyList[index].isBookmarked
+                                              // });
+                                              bool valueOfList = widget
+                                                  .storyList[index].isBookmarked
+                                                  .contains(
+                                                      UserData.getUserId());
+                                              if (valueOfList) {
+                                                firebaseFirestore
+                                                    .collection(
+                                                        "PopularStories")
+                                                    .doc(widget
+                                                        .storyList[index].id)
+                                                    .update({
+                                                  "isBookmarked":
+                                                      FieldValue.arrayRemove([
+                                                    UserData.getUserId()
+                                                  ])
+                                                });
+                                              } else {
+                                                firebaseFirestore
+                                                    .collection(
+                                                        "PopularStories")
+                                                    .doc(widget
+                                                        .storyList[index].id)
+                                                    .update({
+                                                  "isBookmarked":
+                                                      FieldValue.arrayUnion([
+                                                    UserData.getUserId()
+                                                  ])
+                                                });
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
+                                  )
+                                : SizedBox(),
                           ],
                         ),
                         SizedBox(
@@ -194,39 +219,48 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                         SizedBox(
                           height: 5.0 * ScreenSize.heightMultiplyingFactor,
                         ),
-                        Wrap(
-                          spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
-                          children: List<Widget>.generate(
-                            widget.storyList[index].related.length,
-                            (int i) {
-                              return Container(
-                                height:
-                                    25.0 * ScreenSize.heightMultiplyingFactor,
-                                padding: EdgeInsets.fromLTRB(
-                                  10.0 * ScreenSize.widthMultiplyingFactor,
-                                  5.0 * ScreenSize.heightMultiplyingFactor,
-                                  10.0 * ScreenSize.widthMultiplyingFactor,
-                                  5.0 * ScreenSize.heightMultiplyingFactor,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  color: colorList[i],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    widget.storyList[index].related[i],
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 10.0 *
+                        !widget.isInterview
+                            ? Wrap(
+                                spacing:
+                                    5.0 * ScreenSize.widthMultiplyingFactor,
+                                children: List<Widget>.generate(
+                                  widget.storyList[index].related.length,
+                                  (int i) {
+                                    return Container(
+                                      height: 25.0 *
                                           ScreenSize.heightMultiplyingFactor,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                      padding: EdgeInsets.fromLTRB(
+                                        10.0 *
+                                            ScreenSize.widthMultiplyingFactor,
+                                        5.0 *
+                                            ScreenSize.heightMultiplyingFactor,
+                                        10.0 *
+                                            ScreenSize.widthMultiplyingFactor,
+                                        5.0 *
+                                            ScreenSize.heightMultiplyingFactor,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(25.0),
+                                        color: colorList[i],
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          widget.storyList[index].related[i],
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins-Regular',
+                                            fontSize: 10.0 *
+                                                ScreenSize
+                                                    .heightMultiplyingFactor,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),

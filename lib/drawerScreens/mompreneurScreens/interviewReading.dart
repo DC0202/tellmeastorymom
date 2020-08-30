@@ -1,39 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
+import 'package:tellmeastorymom/commonWidgets/commentList.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
-import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
-import 'package:tellmeastorymom/providers/commentData.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/providers/userData.dart';
 
-import 'commentList.dart';
-
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-class Readings extends StatefulWidget {
+class InterviewReading extends StatefulWidget {
   final StoryData story;
+  final bool isDiary;
 
-  Readings(this.story);
+  InterviewReading({
+    this.story,
+    this.isDiary = false,
+  });
 
   @override
-  _ReadingsState createState() => _ReadingsState();
+  _InterviewReadingState createState() => _InterviewReadingState();
 }
 
-class _ReadingsState extends State<Readings> {
+class _InterviewReadingState extends State<InterviewReading> {
   List<Color> colorList = [
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
     Color(0xFFFF9870),
   ];
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  List<CommentData> commentList = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,9 +48,9 @@ class _ReadingsState extends State<Readings> {
               color: Color(0xFF707070),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: 15 * ScreenSize.widthMultiplyingFactor,
-                right: 15 * ScreenSize.widthMultiplyingFactor,
+              padding: EdgeInsets.symmetric(
+                horizontal: 15 * ScreenSize.widthMultiplyingFactor,
+                vertical: 15 * ScreenSize.heightMultiplyingFactor,
               ),
               child: Text(
                 "${widget.story.content}",
@@ -63,14 +61,94 @@ class _ReadingsState extends State<Readings> {
                 textAlign: TextAlign.justify,
               ),
             ),
-            SizedBox(
-              height: 30.0 * ScreenSize.heightMultiplyingFactor,
+            Divider(
+              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              thickness: 1.0,
+              color: Color(0xFF707070),
             ),
+            !widget.isDiary
+                ? Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
+                          vertical: 15.0 * ScreenSize.heightMultiplyingFactor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'About',
+                              style: TextStyle(
+                                fontSize:
+                                    14.0 * ScreenSize.heightMultiplyingFactor,
+                                fontFamily: 'Poppins-SemiBold',
+                              ),
+                            ),
+                            Text(
+                              widget.story.content,
+                              style: TextStyle(
+                                fontSize:
+                                    15.0 * ScreenSize.heightMultiplyingFactor,
+                                fontFamily: 'Poppins-Light',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        height: 50.0 * ScreenSize.heightMultiplyingFactor,
+                        thickness: 1.0,
+                        color: Color(0xFF707070),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
+                          vertical: 15.0 * ScreenSize.heightMultiplyingFactor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Interview',
+                              style: TextStyle(
+                                fontSize:
+                                    14.0 * ScreenSize.heightMultiplyingFactor,
+                                fontFamily: 'Poppins-SemiBold',
+                              ),
+                            ),
+                            QnAList(),
+                            Text(
+                              'Follow ' + widget.story.title + ' on Facebook :',
+                              style: TextStyle(
+                                fontSize:
+                                    12.0 * ScreenSize.heightMultiplyingFactor,
+                                fontFamily: 'Poppins-Medium',
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                widget.story.title,
+                                style: TextStyle(
+                                  fontSize:
+                                      12.0 * ScreenSize.heightMultiplyingFactor,
+                                  fontFamily: 'Poppins-Medium',
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 120.0 * ScreenSize.widthMultiplyingFactor,
+                  width: 145.0 * ScreenSize.widthMultiplyingFactor,
                   padding: EdgeInsets.fromLTRB(
                     10 * ScreenSize.widthMultiplyingFactor,
                     10 * ScreenSize.heightMultiplyingFactor,
@@ -94,7 +172,7 @@ class _ReadingsState extends State<Readings> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Like story: ",
+                        !widget.isDiary ? "Like Interview: " : "Like Diary: ",
                         style: TextStyle(
                           fontFamily: 'Poppins-Regular',
                           fontSize: 12 * ScreenSize.heightMultiplyingFactor,
@@ -170,6 +248,7 @@ class _ReadingsState extends State<Readings> {
               insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
               insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
               storyList: popularStories,
+              isInterview: true,
               //TODO:CHANGE THE STORY LIST
             ),
             Divider(
@@ -177,9 +256,7 @@ class _ReadingsState extends State<Readings> {
               thickness: 1.0,
               color: Color(0xFF707070),
             ),
-            UserReview(
-              storyId: widget.story.id,
-            ),
+            UserReview(),
             Divider(
               height: 50.0 * ScreenSize.heightMultiplyingFactor,
               thickness: 1.0,
@@ -197,27 +274,8 @@ class _ReadingsState extends State<Readings> {
                 ),
               ),
             ),
-            StreamBuilder<QuerySnapshot>(
-              stream: firebaseFirestore
-                  .collection('PopularStories')
-                  .doc(widget.story.id)
-                  .collection('Comments')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                commentList = [];
-                if (snapshot.hasData) {
-                  snapshot.data.docs.forEach((result) {
-                    commentList.add(CommentData.fromSnapshot(result));
-                    print(result);
-                  });
-                  // print(commentList[0]);
-                  return CommentList(
-                    hasRating: true,
-                    commentList: commentList,
-                  );
-                }
-                return circularProgressIndicator();
-              },
+            CommentList(
+              hasRating: false,
             ),
             SizedBox(
               height: 34.0 * ScreenSize.heightMultiplyingFactor,
@@ -329,9 +387,6 @@ class _StoryHeaderState extends State<StoryHeader> {
                         ),
                       ),
                       Spacer(),
-//                      SizedBox(
-//                        width: 220.0 * ScreenSize.widthMultiplyingFactor,
-//                      ),
                       GestureDetector(
                         onTap: () {
                           speak();
@@ -359,66 +414,6 @@ class _StoryHeaderState extends State<StoryHeader> {
                       SizedBox(
                         width: 10.0 * ScreenSize.widthMultiplyingFactor,
                       ),
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: firebaseFirestore
-                              .collection("PopularStories")
-                              .doc(widget.story.id)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            List<String> isBookmarked = [];
-                            if (snapshot.hasData) {
-                              isBookmarked =
-                                  snapshot.data.data()["isBookmarked"] == null
-                                      ? []
-                                      : snapshot.data
-                                          .data()["isBookmarked"]
-                                          .cast<String>();
-                            }
-
-                            return GestureDetector(
-                              onTap: () {
-                                bool valueOfList =
-                                    isBookmarked.contains(userID);
-                                if (valueOfList) {
-                                  firebaseFirestore
-                                      .collection("PopularStories")
-                                      .doc(widget.story.id)
-                                      .update({
-                                    "isBookmarked":
-                                        FieldValue.arrayRemove([userID])
-                                  });
-                                } else {
-                                  firebaseFirestore
-                                      .collection("PopularStories")
-                                      .doc(widget.story.id)
-                                      .update({
-                                    "isBookmarked":
-                                        FieldValue.arrayUnion([userID])
-                                  });
-                                }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.8),
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        3.0 * ScreenSize.widthMultiplyingFactor,
-                                    vertical: 3.0 *
-                                        ScreenSize.heightMultiplyingFactor),
-                                child: Icon(
-                                  isBookmarked.contains(userID)
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_border,
-                                  color: isBookmarked.contains(userID)
-                                      ? primaryColour
-                                      : Colors.black,
-                                  size: 24 * ScreenSize.heightMultiplyingFactor,
-                                ),
-                              ),
-                            );
-                          }),
                     ],
                   ),
                 )
@@ -499,54 +494,6 @@ class _StoryHeaderState extends State<StoryHeader> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 15.0 * ScreenSize.widthMultiplyingFactor,
-                right: 15.0 * ScreenSize.widthMultiplyingFactor,
-              ),
-            ),
-            SizedBox(
-              height: 8.0 * ScreenSize.heightMultiplyingFactor,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
-              child: Wrap(
-                spacing: 10.0 * ScreenSize.widthMultiplyingFactor,
-                // runSpacing: 7.0,
-                children: List<Widget>.generate(
-                  widget.story.related.length,
-                  (int i) {
-                    return Column(
-                      children: <Widget>[
-                        Container(
-                          height: 25.0 * ScreenSize.heightMultiplyingFactor,
-                          padding: EdgeInsets.fromLTRB(
-                            10.0 * ScreenSize.widthMultiplyingFactor,
-                            5.0 * ScreenSize.heightMultiplyingFactor,
-                            10.0 * ScreenSize.widthMultiplyingFactor,
-                            5.0 * ScreenSize.heightMultiplyingFactor,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            color: colorList[i],
-                          ),
-                          child: Text(
-                            widget.story.related[i],
-                            style: TextStyle(
-                              fontFamily: 'Poppins-Regular',
-                              fontSize:
-                                  10.0 * ScreenSize.heightMultiplyingFactor,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -554,22 +501,7 @@ class _StoryHeaderState extends State<StoryHeader> {
   }
 }
 
-class UserReview extends StatefulWidget {
-  final String storyId;
-
-  const UserReview({Key key, this.storyId}) : super(key: key);
-
-  @override
-  _UserReviewState createState() => _UserReviewState();
-}
-
-class _UserReviewState extends State<UserReview> {
-  double ratingStar = 3.0;
-  String comment = '';
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController textEditingController = TextEditingController();
-  bool _autoValidate = false;
-
+class UserReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -578,110 +510,42 @@ class _UserReviewState extends State<UserReview> {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                'Rate story : ',
-                style: TextStyle(
-                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
-                  fontFamily: 'Poppins-Medium',
-                ),
-              ),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
-                ),
-                height: 45.0 * ScreenSize.heightMultiplyingFactor,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5.0,
-                      offset: Offset(5.0, 5.0),
-                    ),
-                  ],
-                  color: Colors.white,
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50.0),
-                  ),
-                ),
-                child: Center(
-                  child: RatingBar(
-                    initialRating: 3,
-                    minRating: 0,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemSize: 30.0 * ScreenSize.heightMultiplyingFactor,
-                    itemPadding:
-                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 2.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      setState(() {
-                        ratingStar = rating;
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
           SizedBox(
             height: 33.0 * ScreenSize.heightMultiplyingFactor,
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Please share views to inspire others :',
+              'Please share views :',
               style: TextStyle(
                 fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                 fontFamily: 'Poppins-Medium',
               ),
             ),
           ),
-          Form(
-            key: _formKey,
-            autovalidate: _autoValidate,
-            child: Container(
-              margin: EdgeInsets.symmetric(
-                vertical: 15.0 * ScreenSize.widthMultiplyingFactor,
+          Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 15.0 * ScreenSize.widthMultiplyingFactor,
+            ),
+            // height: 143.0 * ScreenSize.heightMultiplyingFactor,
+            // decoration: BoxDecoration(
+            //   shape: BoxShape.rectangle,
+            //   border: Border.all(
+            //     color: Colors.blue,
+            //     width: 1.0,
+            //   ),
+            // ),
+            child: TextField(
+              decoration: InputDecoration(
+                focusColor: Colors.black.withOpacity(0.3),
+                hintText: 'Enter your comment here..',
+                border: OutlineInputBorder(),
               ),
-              // height: 143.0 * ScreenSize.heightMultiplyingFactor,
-              // decoration: BoxDecoration(
-              //   shape: BoxShape.rectangle,
-              //   border: Border.all(
-              //     color: Colors.blue,
-              //     width: 1.0,
-              //   ),
-              // ),
-              child: TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    comment = value;
-                  });
-                },
-                validator: (value) {
-                  if (value.length < 80)
-                    return "Minimum 80 characters required";
-                  return null;
-                },
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  focusColor: Colors.black.withOpacity(0.3),
-                  hintText: 'Enter your comment here..',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 5,
-                maxLength: 245,
-                keyboardType: TextInputType.emailAddress,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.done,
-              ),
+              maxLines: 5,
+              maxLength: 245,
+              keyboardType: TextInputType.emailAddress,
+              textCapitalization: TextCapitalization.sentences,
+              textInputAction: TextInputAction.done,
             ),
           ),
           Align(
@@ -695,25 +559,7 @@ class _UserReviewState extends State<UserReview> {
               color: Colors.white,
               elevation: 5.0 * ScreenSize.heightMultiplyingFactor,
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
-                  CommentData commentData = CommentData(
-                      commentBy: UserData.getUserName(),
-                      content: comment,
-                      ratingStars: ratingStar,
-                      postedOn: DateFormat("dd-MM-yy").format(DateTime.now()));
-                  //good story aa to gaya neeche
-                  firebaseFirestore
-                      .collection('PopularStories')
-                      .doc(widget.storyId)
-                      .collection('Comments')
-                      .add(commentData.toJson());
-                  textEditingController.clear();
-                } else {
-                  setState(() {
-                    _autoValidate = true;
-                  });
-                }
+                print('Post Comment Pressed');
               },
               child: Text(
                 'Post Comment',
@@ -730,3 +576,93 @@ class _UserReviewState extends State<UserReview> {
     );
   }
 }
+
+class QnAList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return QnA();
+      },
+      itemCount: 5,
+    );
+  }
+}
+
+Widget QnA({
+  String question = 'Some Question',
+  String userName = 'Some User',
+  String answer =
+      'Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer Some Long Answer ',
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: EdgeInsets.fromLTRB(
+          0,
+          20.0 * ScreenSize.heightMultiplyingFactor,
+          0,
+          3.0 * ScreenSize.heightMultiplyingFactor,
+        ),
+        child: Text(
+          question,
+          style: TextStyle(
+            fontFamily: 'Poppins-Medium',
+            fontSize: 12 * ScreenSize.heightMultiplyingFactor,
+          ),
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: userName,
+              style: TextStyle(
+                fontSize: 12 * ScreenSize.heightMultiplyingFactor,
+                fontFamily: 'Poppins-Medium',
+                color: Colors.black,
+              ),
+            ),
+            TextSpan(
+              text: ' : ' + answer + '\n',
+              style: TextStyle(
+                fontSize: 12 * ScreenSize.heightMultiplyingFactor,
+                fontFamily: 'Poppins-Light',
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+      Divider(
+        height: 50.0 * ScreenSize.heightMultiplyingFactor,
+        indent: 0,
+        endIndent: 0,
+        thickness: 0.5,
+        color: Color(0xFF707070),
+      ),
+    ],
+  );
+}
+// RichText(
+// text: TextSpan(
+// children: <TextSpan>[
+// TextSpan(
+// text: userName,
+// style: TextStyle(
+// fontWeight: FontWeight.w900,
+// fontSize: 20,
+// ),
+// ),
+// TextSpan(
+// text: ' ' + userComment + '\n',
+// style: TextStyle(
+// fontSize: 15,
+// ),
+// ),
+// ],
+// ),
+// ),
