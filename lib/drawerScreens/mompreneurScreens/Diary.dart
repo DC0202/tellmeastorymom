@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
-import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
 
@@ -12,10 +11,10 @@ class Diary extends StatefulWidget {
 class _DiaryState extends State<Diary> {
   @override
   Widget build(BuildContext context) {
-    Divider contentDivider = Divider(
-      color: primaryColour,
-      height: 30,
-    );
+    // Divider contentDivider = Divider(
+    //   color: primaryColour,
+    //   height: 30,
+    // );
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width,

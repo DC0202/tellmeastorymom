@@ -261,8 +261,9 @@ class _StoryHeaderState extends State<StoryHeader> {
       await flutterTts.setLanguage("en-US");
       await flutterTts.setPitch(1.3);
       await flutterTts.setSpeechRate(0.9);
-      await flutterTts
-          .speak(widget.story.title + "          " + widget.story.content);
+      await flutterTts.speak(widget.story.title +
+          "..............................." +
+          widget.story.content);
     }
 
     return WillPopScope(
@@ -308,7 +309,8 @@ class _StoryHeaderState extends State<StoryHeader> {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          await flutterTts.stop();
                           Navigator.of(context).pop();
                         },
                         child: Container(

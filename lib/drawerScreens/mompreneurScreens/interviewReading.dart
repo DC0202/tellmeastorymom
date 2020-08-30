@@ -584,14 +584,14 @@ class QnAList extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        return QnA();
+        return qnA();
       },
       itemCount: 5,
     );
   }
 }
 
-Widget QnA({
+Widget qnA({
   String question = 'Some Question',
   String userName = 'Some User',
   String answer =

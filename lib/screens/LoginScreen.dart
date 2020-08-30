@@ -165,9 +165,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Image.asset(
                                   'assets/images/googleIcon.png',
-                                  width: 32 * ScreenSize.widthMultiplyingFactor,
+                                  width: 28 * ScreenSize.widthMultiplyingFactor,
                                   height:
-                                      32 * ScreenSize.heightMultiplyingFactor,
+                                      28 * ScreenSize.heightMultiplyingFactor,
                                 ),
                                 SizedBox(
                                     width: 10.0 *
