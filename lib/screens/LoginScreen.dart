@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool isLoadingButton = false;
   bool test2 = false;
-  bool test = true;
+  bool test = false;
   TextEditingController phonenumberController = TextEditingController();
 
   void _toggleVisibility() {
@@ -214,17 +214,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: phonenumberController,
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (value) {
-                                  setState(() {
-                                    test =
-                                        _textInputKey.currentState.validate();
-                                  });
+                                  if (value.contains("@") &&
+                                      value.contains("."))
+                                    setState(() {
+                                      test =
+                                          _textInputKey.currentState.validate();
+                                    });
+                                  print(test);
                                 },
                                 onSaved: (val) => email = val,
                                 validator: (val) {
-                                  if (val.isEmpty) {
-                                    return 'Enter a Email Address';
-                                  }
-                                  if (!RegExp(
+                                  if (val == "") {
+                                    return 'Enter Email Address';
+                                  } else if (!RegExp(
                                           r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                                       .hasMatch(val)) {
                                     return 'Please enter a valid email Address';
@@ -232,37 +234,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-//                                    suffixIcon: test
-//                                        ? _textInputKey.currentState == null
-//                                            ? Icon(
-//                                                Icons.check,
-//                                                size: 20 *
-//                                                    ScreenSize
-//                                                        .heightMultiplyingFactor,
-//                                                color: Colors.transparent,
-//                                              )
-//                                            : Icon(
-//                                                Icons.check,
-//                                                key: greenTick,
-//                                                size: 20 *
-//                                                    ScreenSize
-//                                                        .heightMultiplyingFactor,
-//                                                color: Colors.green,
-//                                              )
-//                                        : CircularProgressIndicator(
-//                                            valueColor:
-//                                                AlwaysStoppedAnimation<Color>(
-//                                                    Colors.purple),
-//                                          ),
-
-//                                        :
-//                                    Icon(
-//                                            Icons.ac_unit,
-//                                            size: 20 *
-//                                                ScreenSize
-//                                                    .heightMultiplyingFactor,
-//                                            color: Colors.red,
-//                                          ),
+                                    suffix: phonenumberController.text == ""
+                                        ? Container()
+                                        : !test
+                                            ? Container(
+                                                margin: EdgeInsets.all(3.0),
+                                                height: 25.0 *
+                                                    ScreenSize
+                                                        .widthMultiplyingFactor,
+                                                width: 25.0 *
+                                                    ScreenSize
+                                                        .widthMultiplyingFactor,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(primaryColour),
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.check,
+                                                size: 20 *
+                                                    ScreenSize
+                                                        .heightMultiplyingFactor,
+                                                color: Colors.green,
+                                              ),
                                     labelText: "Email Address",
                                     labelStyle: TextStyle(
                                         fontFamily: 'Poppins-Medium',
