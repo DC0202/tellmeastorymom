@@ -8,28 +8,9 @@ import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 
-//final String story =
-//    """A long time ago, there lived two kings in two different states. Both the kings were very strong and their kingdom was big, but they were not in talking terms, they did not like each other.
-//
-//Because both the kings considered themselves superior to the other.
-//
-//One day both of them went for travel and met each other on a narrow path. Only one chariot was able to cross that narrow path at a time.
-//
-//Both the kings were adamant and they were not ready to compromise.
-//
-//Finally, Charioteers started discussing,
-//one said “Our king has 1 lakh soldiers, 100-acre fertile land and thousands of animals”,
-//“our king also has 1 lakh soldiers, 100-acre fertile land and thousands of animals”, the second charioteer replied.
-//
-//Both the charioteers were projecting their king more superior than the other.
-//
-//At last, the first charioteer said: “our king punishes the bad people, hate the lazy person and uses the money for the betterment of the kingdom”.
-//
-//Our king “helps the bad people to become better person, make lazy people work harder and uses the money for the betterment of poor and needy person” the second charioteer replied.
-//
-//Now before the first charioteer says anything, the first king came down from his chariot and said ” You are a better human being and made way for the second king”.""";
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 class Readings extends StatefulWidget {
@@ -69,7 +50,7 @@ class _ReadingsState extends State<Readings> {
                 right: 15 * ScreenSize.widthMultiplyingFactor,
               ),
               child: Text(
-                widget.story.content,
+                "${widget.story.content}",
                 style: TextStyle(
                   fontFamily: 'Poppins-Light',
                   fontSize: 15 * ScreenSize.heightMultiplyingFactor,
@@ -77,36 +58,6 @@ class _ReadingsState extends State<Readings> {
                 textAlign: TextAlign.justify,
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(
-            //                16 * ScreenSize.widthMultiplyingFactor,
-            //                30 * ScreenSize.heightMultiplyingFactor,
-            //                280 * ScreenSize.widthMultiplyingFactor,
-            //                20 * ScreenSize.heightMultiplyingFactor,),
-            //   child: RaisedButton(
-            //     padding: EdgeInsets.all(0.0),
-            //     onPressed: () {},
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Text(
-            //           'Like Story:',
-            //         ),
-            //         SizedBox(
-            //           width: 18.0,
-            //         ),
-            //         Icon(
-            //           Icons.favorite_border,
-            //           color: Colors.black,
-            //         )
-            //       ],
-            //     ),
-            //     color: Colors.white,
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //   ),
-            // ),
             SizedBox(
               height: 30.0 * ScreenSize.heightMultiplyingFactor,
             ),
@@ -147,26 +98,54 @@ class _ReadingsState extends State<Readings> {
                       SizedBox(
                         width: 15.0 * ScreenSize.widthMultiplyingFactor,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          likedStories.clear();
-                          setState(() {
-                            widget.story.isLiked = !widget.story.isLiked;
-                          });
-                          firebaseFirestore
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: firebaseFirestore
                               .collection("PopularStories")
                               .doc(widget.story.id)
-                              .update({"isLiked": widget.story.isLiked});
-                        },
-                        child: Icon(
-                          widget.story.isLiked
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          size: 24 * ScreenSize.heightMultiplyingFactor,
-                          color:
-                              widget.story.isLiked ? Colors.red : Colors.black,
-                        ),
-                      ),
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            List<String> isLiked = [];
+                            if (snapshot.hasData) {
+                              isLiked = snapshot.data.data()["isLiked"] == null
+                                  ? []
+                                  : snapshot.data
+                                      .data()["isLiked"]
+                                      .cast<String>();
+                            }
+                            print(isLiked.length);
+                            return GestureDetector(
+                              onTap: () {
+                                bool valueOfList =
+                                    isLiked.contains(UserData.getUserId());
+                                if (valueOfList) {
+                                  firebaseFirestore
+                                      .collection("PopularStories")
+                                      .doc(widget.story.id)
+                                      .update({
+                                    "isLiked": FieldValue.arrayRemove(
+                                        [UserData.getUserId()])
+                                  });
+                                } else {
+                                  firebaseFirestore
+                                      .collection("PopularStories")
+                                      .doc(widget.story.id)
+                                      .update({
+                                    "isLiked": FieldValue.arrayUnion(
+                                        [UserData.getUserId()])
+                                  });
+                                }
+                              },
+                              child: Icon(
+                                isLiked.contains(UserData.getUserId())
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                size: 24 * ScreenSize.heightMultiplyingFactor,
+                                color: isLiked.contains(UserData.getUserId())
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            );
+                          }),
                     ],
                   ),
                 ),
@@ -283,10 +262,12 @@ class _StoryHeaderState extends State<StoryHeader> {
     Color(0xFFFF5954),
     Color(0xFFFF9870),
   ];
+  String userID = "";
 
   @override
   void initState() {
     super.initState();
+    userID = UserData.getUserId();
     // flutterTts.setCancelHandler(() {
     //   flutterTts.stop();
     // });
@@ -396,42 +377,66 @@ class _StoryHeaderState extends State<StoryHeader> {
                       SizedBox(
                         width: 10.0 * ScreenSize.widthMultiplyingFactor,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            widget.story.isBookmarked =
-                                !widget.story.isBookmarked;
-                          });
-                          firebaseFirestore
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: firebaseFirestore
                               .collection("PopularStories")
                               .doc(widget.story.id)
-                              .update(
-                                  {"isBookmarked": widget.story.isBookmarked});
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  3.0 * ScreenSize.widthMultiplyingFactor,
-                              vertical:
-                                  3.0 * ScreenSize.heightMultiplyingFactor),
-                          child: Icon(
-                            widget.story.isBookmarked
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                            color: widget.story.isBookmarked
-                                ? primaryColour
-                                : Colors.black,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
-                            // focusColor: Colors.white.withOpacity(0.8),
-                            // icon: Icon(Icons.bookmark_border),
-                            // size: 24 * ScreenSize.heightMultiplyingFactor,
-                          ),
-                        ),
-                      ),
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            List<String> isBookmarked = [];
+                            if (snapshot.hasData) {
+                              isBookmarked =
+                                  snapshot.data.data()["isBookmarked"] == null
+                                      ? []
+                                      : snapshot.data
+                                          .data()["isBookmarked"]
+                                          .cast<String>();
+                            }
+
+                            return GestureDetector(
+                              onTap: () {
+                                bool valueOfList =
+                                    isBookmarked.contains(userID);
+                                if (valueOfList) {
+                                  firebaseFirestore
+                                      .collection("PopularStories")
+                                      .doc(widget.story.id)
+                                      .update({
+                                    "isBookmarked":
+                                        FieldValue.arrayRemove([userID])
+                                  });
+                                } else {
+                                  firebaseFirestore
+                                      .collection("PopularStories")
+                                      .doc(widget.story.id)
+                                      .update({
+                                    "isBookmarked":
+                                        FieldValue.arrayUnion([userID])
+                                  });
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.8),
+                                  shape: BoxShape.circle,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        3.0 * ScreenSize.widthMultiplyingFactor,
+                                    vertical: 3.0 *
+                                        ScreenSize.heightMultiplyingFactor),
+                                child: Icon(
+                                  isBookmarked.contains(userID)
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_border,
+                                  color: isBookmarked.contains(userID)
+                                      ? primaryColour
+                                      : Colors.black,
+                                  size: 24 * ScreenSize.heightMultiplyingFactor,
+                                ),
+                              ),
+                            );
+                          }),
                     ],
                   ),
                 )

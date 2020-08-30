@@ -1,4 +1,4 @@
-import 'constants/constant.dart';
+import 'constant.dart';
 
 class ScreenSize {
   final double _width;

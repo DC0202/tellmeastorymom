@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 
 import 'Readings.dart';
 
@@ -149,28 +150,53 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                     child: GestureDetector(
                                       child: Icon(
                                         widget.storyList[index].isBookmarked
+                                                .contains(UserData.getUserId())
                                             ? Icons.bookmark
                                             : Icons.bookmark_border,
-                                        color:
-                                            widget.storyList[index].isBookmarked
-                                                ? primaryColour
-                                                : Colors.black,
+                                        color: widget
+                                                .storyList[index].isBookmarked
+                                                .contains(UserData.getUserId())
+                                            ? primaryColour
+                                            : Colors.black,
                                         size: 24 *
                                             ScreenSize.heightMultiplyingFactor,
                                       ),
                                       onTap: () {
-                                        setState(() {
-                                          widget.storyList[index].isBookmarked =
-                                              !widget.storyList[index]
-                                                  .isBookmarked;
-                                        });
-                                        firebaseFirestore
-                                            .collection("PopularStories")
-                                            .doc(widget.storyList[index].id)
-                                            .update({
-                                          "isBookmarked": widget
-                                              .storyList[index].isBookmarked
-                                        });
+                                        bool valueOfList = widget
+                                            .storyList[index].isBookmarked
+                                            .contains(UserData.getUserId());
+                                        if (valueOfList) {
+                                          firebaseFirestore
+                                              .collection("PopularStories")
+                                              .doc(widget.storyList[index].id)
+                                              .update({
+                                            "isBookmarked":
+                                                FieldValue.arrayRemove(
+                                                    [UserData.getUserId()])
+                                          });
+                                        } else {
+                                          firebaseFirestore
+                                              .collection("PopularStories")
+                                              .doc(widget.storyList[index].id)
+                                              .update({
+                                            "isBookmarked":
+                                                FieldValue.arrayUnion(
+                                                    [UserData.getUserId()])
+                                          });
+                                        }
+
+                                        // setState(() {
+                                        //   widget.storyList[index].isBookmarked =
+                                        //       !widget.storyList[index]
+                                        //           .isBookmarked;
+                                        // });
+                                        // firebaseFirestore
+                                        //     .collection("PopularStories")
+                                        //     .doc(widget.storyList[index].id)
+                                        //     .update({
+                                        //   "isBookmarked": widget
+                                        //       .storyList[index].isBookmarked
+                                        // });
                                       },
                                     ),
                                   ),

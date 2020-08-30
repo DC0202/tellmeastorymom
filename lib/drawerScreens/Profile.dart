@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/userData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

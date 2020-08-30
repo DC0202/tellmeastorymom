@@ -5,7 +5,7 @@ import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 
 class Stories extends StatefulWidget {
   @override

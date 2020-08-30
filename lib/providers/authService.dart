@@ -20,15 +20,21 @@ class AuthService {
       // Trigger the authentication flow
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
+      print(googleUser);
+
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+
+      print(googleAuth);
 
       // Create a new credential
       final GoogleAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+
+      print(credential);
 
       User user = (await _auth.signInWithCredential(credential)).user;
       await firebaseFirestore.collection('Users').get().then((value) {

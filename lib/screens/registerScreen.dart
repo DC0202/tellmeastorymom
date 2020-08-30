@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tellmeastorymom/authentication.dart';
+import 'package:tellmeastorymom/providers/authentication.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 import '../constants/constant.dart';

@@ -4,6 +4,7 @@ import 'package:tellmeastorymom/commonWidgets/CommonCardViewScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 
 class LikedStories extends StatefulWidget {
   @override
@@ -33,15 +34,16 @@ class _LikedStoriesState extends State<LikedStories> {
               );
             }),
         body: StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore
-                .collection("PopularStories")
-                .where("isLiked", isEqualTo: true)
-                .snapshots(),
+            stream: firebaseFirestore.collection("PopularStories").snapshots(),
             builder: (context, snapshot) {
               likedStories.clear();
               if (snapshot.hasData)
                 snapshot.data.docs.forEach((result) {
-                  likedStories.add(StoryData.fromSnapshot(result));
+                  List<String> likedListData = result.data()["isLiked"] == null
+                      ? []
+                      : result.data()["isLiked"].cast<String>();
+                  if (likedListData.contains(UserData.getUserId()))
+                    likedStories.add(StoryData.fromSnapshot(result));
                 });
               return CommonCardViewScreen(
                 storyList: likedStories,

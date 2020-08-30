@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/authService.dart';
+import 'package:tellmeastorymom/providers/authService.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/Profile.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/screens/LoginScreen.dart';
 
 class HomeDrawer extends StatefulWidget {

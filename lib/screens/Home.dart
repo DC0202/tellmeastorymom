@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/userData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Bookmarks.dart';
 import 'package:tellmeastorymom/screens/homeScreens/Categories.dart';
 import 'package:tellmeastorymom/screens/homeScreens/HomeDrawer.dart';
@@ -35,6 +35,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           .then((value) {
         if (value != null) {
           UserData(
+            FirebaseAuth.instance.currentUser.uid,
             value.data()['displayName'],
             value.data()['email'],
             value.data()['phoneNumber'],

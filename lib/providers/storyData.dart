@@ -4,13 +4,13 @@ class StoryData {
   String id;
   String storyImageURL;
   String title;
-  bool isBookmarked;
+  List<String> isBookmarked;
   String author;
   List<String> related;
   String posted;
   String estimated;
   String content;
-  bool isLiked;
+  List<String> isLiked;
   bool isLatest;
   bool isRecommended;
 
@@ -33,8 +33,12 @@ class StoryData {
     this.content = snapshot.data()['content'];
     this.estimated = snapshot.data()['estimated'];
     this.id = snapshot.id.toString();
-    this.isBookmarked = snapshot.data()['isBookmarked'];
-    this.isLiked = snapshot.data()['isLiked'];
+    this.isBookmarked = snapshot.data()['isBookmarked'] == null
+        ? []
+        : snapshot.data()['isBookmarked'].cast<String>();
+    this.isLiked = snapshot.data()['isLiked'] == null
+        ? []
+        : snapshot.data()['isLiked'].cast<String>();
     this.isLatest = snapshot.data()['isLatest'];
     this.isRecommended = snapshot.data()['isRecommended'];
     this.posted = snapshot.data()['posted'];

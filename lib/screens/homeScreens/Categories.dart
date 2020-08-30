@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/categoryData.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -62,10 +62,12 @@ class _CategoriesState extends State<Categories> {
       child: StreamBuilder(
         stream: firebaseFirestore.collection("categories").snapshots(),
         builder: (context, snapshot) {
+          categories = [];
           if (snapshot.hasData) {
             snapshot.data.docs.forEach((result) {
               categories.add(CategoryData.fromSnapshot(result));
             });
+            print(categories.length);
             return ListView.builder(
               itemCount: categories.length,
               scrollDirection: Axis.vertical,
@@ -74,7 +76,7 @@ class _CategoriesState extends State<Categories> {
                 var val = Random();
                 int next(int min, int max) => min + val.nextInt(max - min + 50);
                 var value = next(120, 180);
-                print(value);
+                // print(value);
                 return Container(
                   padding: EdgeInsets.only(
                     top: 10.0 * ScreenSize.heightMultiplyingFactor,

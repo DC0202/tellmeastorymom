@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/authService.dart';
-import 'package:tellmeastorymom/authentication.dart';
+import 'package:tellmeastorymom/commonWidgets/phoneNumberScreen.dart';
+import 'package:tellmeastorymom/providers/authService.dart';
+import 'package:tellmeastorymom/providers/authentication.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/screens/Home.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 import 'package:tellmeastorymom/screens/registerScreen.dart';
@@ -116,15 +117,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            OnBoardingScreen(),
+                                        builder: (context) => firebaseAuth
+                                                    .currentUser.phoneNumber ==
+                                                null
+                                            ? PhoneNumberScreen()
+                                            : OnBoardingScreen(),
                                       ),
                                     );
                                   }
                                 } else {
                                   scaffoldKey.currentState
                                       .showSnackBar(SnackBar(
-                                    content: Text(value[1]),
+                                    content: Text(value[2]),
                                     duration: Duration(seconds: 3),
                                   ));
                                 }

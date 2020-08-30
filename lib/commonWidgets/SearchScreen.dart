@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
 
-import '../screenSize.dart';
+import '../constants/screenSize.dart';
 import 'CommonCardViewScreen.dart';
 
 class SearchScreen extends StatefulWidget {

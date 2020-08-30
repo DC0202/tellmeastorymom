@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tellmeastorymom/screenSize.dart';
+import 'package:tellmeastorymom/constants/screenSize.dart';
 
 class RowViewAll extends StatelessWidget {
   final String heading;
