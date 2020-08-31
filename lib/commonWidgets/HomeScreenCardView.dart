@@ -249,7 +249,15 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          widget.storyList[index].related[i],
+                                          widget.storyList[index].related[i]
+                                                      .length >
+                                                  9
+                                              ? widget.storyList[index]
+                                                      .related[i]
+                                                      .substring(0, 6) +
+                                                  '...'
+                                              : widget
+                                                  .storyList[index].related[i],
                                           style: TextStyle(
                                             fontFamily: 'Poppins-Regular',
                                             fontSize: 10.0 *

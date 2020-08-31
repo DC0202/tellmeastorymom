@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/providers/userData.dart';
 
 import 'Readings.dart';
@@ -247,7 +247,6 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                               return Container(
                                 height:
                                     25.0 * ScreenSize.heightMultiplyingFactor,
-                                width: 70.0 * ScreenSize.widthMultiplyingFactor,
                                 padding: EdgeInsets.fromLTRB(
                                   10.0 * ScreenSize.widthMultiplyingFactor,
                                   5.0 * ScreenSize.heightMultiplyingFactor,
@@ -258,15 +257,17 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                   borderRadius: BorderRadius.circular(25.0),
                                   color: colorList[i % colorList.length],
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    widget.storyList[index].related[i],
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins-Regular',
-                                      fontSize: 10.0 *
-                                          ScreenSize.heightMultiplyingFactor,
-                                      color: Colors.white,
-                                    ),
+                                child: Text(
+                                  widget.storyList[index].related[i].length > 9
+                                      ? widget.storyList[index].related[i]
+                                              .substring(0, 6) +
+                                          '...'
+                                      : widget.storyList[index].related[i],
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins-Regular',
+                                    fontSize: 10.0 *
+                                        ScreenSize.heightMultiplyingFactor,
+                                    color: Colors.white,
                                   ),
                                 ),
                               );

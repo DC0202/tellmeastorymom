@@ -18,13 +18,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(
-              35.0 * ScreenSize.widthMultiplyingFactor,
+              45.0 * ScreenSize.widthMultiplyingFactor,
               35.0 * ScreenSize.heightMultiplyingFactor,
-              15.0 * ScreenSize.widthMultiplyingFactor,
+              45.0 * ScreenSize.widthMultiplyingFactor,
               45.0 * ScreenSize.heightMultiplyingFactor,
             ),
             decoration: BoxDecoration(
@@ -38,12 +38,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.amber,
-                  radius: 50.0,
-                  child: Image.asset(
-                    'assets/images/profileImage.png',
-                    fit: BoxFit.contain,
+                Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.amber,
+                    radius: 50.0,
+                    child: Image.asset(
+                      'assets/images/profileImage.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -60,9 +62,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
               ],
             ),
           ),
-          SizedBox(
-            height: 20.0 * ScreenSize.heightMultiplyingFactor,
-          ),
+          // SizedBox(
+          //   height: 20.0 * ScreenSize.heightMultiplyingFactor,
+          // ),
           ListTile(
             onTap: () {
               Navigator.pop(context);
@@ -164,18 +166,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
-          SizedBox(
-            height: 50.0 * ScreenSize.heightMultiplyingFactor,
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: 15.0 * ScreenSize.widthMultiplyingFactor,
-                right: 15.0 * ScreenSize.widthMultiplyingFactor),
-            child: Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
-              thickness: 1.0,
-              color: Color(0xFF707070),
-            ),
+          Spacer(),
+          Divider(
+            height: 5.0 * ScreenSize.heightMultiplyingFactor,
+            thickness: 1.0,
+            indent: 15.0 * ScreenSize.widthMultiplyingFactor,
+            endIndent: 15.0 * ScreenSize.widthMultiplyingFactor,
+            color: Color(0xFF707070),
           ),
           ListTile(
             onTap: () {

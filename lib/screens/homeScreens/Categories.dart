@@ -1,9 +1,10 @@
 import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/providers/categoryData.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/categoryData.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -112,6 +113,15 @@ class _CategoriesState extends State<Categories> {
                               print(
                                   categories[((2 * index) % categories.length)]
                                       .categoryName);
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => StoriesScreen(
+                              //       heading: "Popular Stories",
+                              //       itemCount: popularStories.length,
+                              //       storyList: popularStories,
+                              //     ),
+                              //   ),
+                              // );
                             },
                             child: Stack(
                               alignment: Alignment.center,
