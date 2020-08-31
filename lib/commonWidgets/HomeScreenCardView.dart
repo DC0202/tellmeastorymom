@@ -37,6 +37,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
     Color(0xFFFF9870),
+    Color(0xFF6D60F8)
   ];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -142,7 +143,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                                           UserData.getUserId())
                                                   ? primaryColour
                                                   : Colors.black,
-                                              size: 24 *
+                                              size: 35 *
                                                   ScreenSize
                                                       .heightMultiplyingFactor,
                                             ),
@@ -224,7 +225,9 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                 spacing:
                                     5.0 * ScreenSize.widthMultiplyingFactor,
                                 children: List<Widget>.generate(
-                                  widget.storyList[index].related.length,
+                                  widget.storyList[index].related.length < 3
+                                      ? widget.storyList[index].related.length
+                                      : 3,
                                   (int i) {
                                     return Container(
                                       height: 25.0 *
@@ -242,7 +245,7 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(25.0),
-                                        color: colorList[i],
+                                        color: colorList[i % colorList.length],
                                       ),
                                       child: Center(
                                         child: Text(

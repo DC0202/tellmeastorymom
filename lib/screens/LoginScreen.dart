@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool test2 = false;
   bool test = false;
   TextEditingController phonenumberController = TextEditingController();
+  ImageProvider googleIcon = AssetImage("assets/images/googleIcon.png");
 
   void _toggleVisibility() {
     setState(() {
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ? circularProgressIndicator()
             : SingleChildScrollView(
                 child: Container(
-                  height: size.height * ScreenSize.heightMultiplyingFactor,
+                  height: 774 * ScreenSize.heightMultiplyingFactor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 } else {
                                   if (!value[1]) {
                                     if (value[0]) {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => Home(),
@@ -125,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             : firebaseAuth
                                                 .currentUser.phoneNumber,
                                       });
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => firebaseAuth
@@ -163,8 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  'assets/images/googleIcon.png',
+                                Image(
+                                  image: googleIcon,
                                   width: 28 * ScreenSize.widthMultiplyingFactor,
                                   height:
                                       28 * ScreenSize.heightMultiplyingFactor,
@@ -173,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 10.0 *
                                         ScreenSize.widthMultiplyingFactor),
                                 Text(
-                                  'Signin With Google',
+                                  'Sign-In With Google',
                                   style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
                                     fontSize: 16.0 *

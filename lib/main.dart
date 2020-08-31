@@ -20,6 +20,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     precacheImage(
         AssetImage(
+          'assets/images/splashScreen.png',
+        ),
+        context);
+    precacheImage(
+        AssetImage(
+          'assets/images/googleIcon.png',
+        ),
+        context);
+    precacheImage(
+        AssetImage(
           'assets/images/cardImage.jpg',
         ),
         context);
@@ -38,11 +48,7 @@ class MyApp extends StatelessWidget {
           'assets/images/shareImage.png',
         ),
         context);
-    precacheImage(
-        AssetImage(
-          'assets/images/splashScreen.png',
-        ),
-        context);
+
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(

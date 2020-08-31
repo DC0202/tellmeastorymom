@@ -28,6 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  ImageProvider logo = AssetImage("assets/images/splashScreen.png");
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,8 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Container(
                 width: size.width,
-                child: Image.asset(
-                  'assets/images/splashScreen.png',
+                child: Image(
+                  image: logo,
                   fit: BoxFit.fitWidth,
                 ),
               ),

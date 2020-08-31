@@ -108,7 +108,11 @@ class _CategoriesState extends State<Categories> {
                             splashColor: col[((2 * index) % col.length)]
                                 .withOpacity(0.3),
                             borderRadius: BorderRadius.circular(25.0),
-                            onTap: () {},
+                            onTap: () {
+                              print(
+                                  categories[((2 * index) % categories.length)]
+                                      .categoryName);
+                            },
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -151,7 +155,11 @@ class _CategoriesState extends State<Categories> {
                               splashColor: col[((2 * index) + 1) % col.length]
                                   .withOpacity(0.3),
                               borderRadius: BorderRadius.circular(25.0),
-                              onTap: () {},
+                              onTap: () {
+                                print(categories[
+                                        ((2 * index) + 1) % categories.length]
+                                    .categoryName);
+                              },
                               child: Center(
                                 child: Container(
                                   padding: EdgeInsets.only(

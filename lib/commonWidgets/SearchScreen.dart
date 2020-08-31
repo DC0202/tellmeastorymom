@@ -15,6 +15,7 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchData = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  TextEditingController textEditingController = TextEditingController();
   List<StoryData> popularStories = [];
   String textSearch = 'some loreal epsum';
   @override
@@ -28,13 +29,14 @@ class _SearchScreenState extends State<SearchScreen> {
           backgroundColor: primaryColour,
           automaticallyImplyLeading: false,
           title: Container(
-            height: 42.5 * ScreenSize.heightMultiplyingFactor,
+            height: 50 * ScreenSize.heightMultiplyingFactor,
             margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50.0),
               color: Colors.white,
             ),
             child: TextField(
+              controller: textEditingController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: IconButton(
@@ -52,10 +54,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    textEditingController.clear();
+                    // Navigator.of(context).pop();
                   },
                 ),
-                hintText: "Search a story ...",
+                hintText: "Search a story .......",
               ),
               // keyboardType: TextInputType.name,
               onChanged: (value) {

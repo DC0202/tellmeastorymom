@@ -42,76 +42,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           );
         }
       });
-//      await firebaseFirestore
-//          .collection("PopularStories")
-//          .get()
-//          .then((querySnapshot) {
-//        querySnapshot.docs.forEach((result) {
-//          popularStories.add(StoryData.fromSnapshot(result));
-//          // print(result.id);
-//          // result.data().map((key, value) => null)
-//        });
-//      });
-      /*StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore
-                .collection("PopularStories")
-                .where("isLiked", isEqualTo: true)
-                .snapshots(),
-            builder: (context, snapshot) {
-              likedStories.clear();
-              if (snapshot.hasData)
-                snapshot.data.documents.forEach((result) {
-                  likedStories.add(StoryData.fromSnapshot(result));
-                });
-              return CommonCardViewScreen(
-                storyList: likedStories,
-              );
-            }),*/
-//      await firebaseFirestore
-//          .collection("PopularStories")
-//          .where("isLatest", isEqualTo: true)
-//          .get()
-//          .then((querySnapshot) {
-//        querySnapshot.docs.forEach((result) {
-//          latestStories.add(StoryData.fromSnapshot(result));
-//          // print(result.id);
-//          // result.data().map((key, value) => null)
-//        });
-//      });
-//      await firebaseFirestore
-//          .collection("PopularStories")
-//          .where("isRecommended", isEqualTo: true)
-//          .get()
-//          .then((querySnapshot) {
-//        querySnapshot.docs.forEach((result) {
-//          recommendedStories.add(StoryData.fromSnapshot(result));
-//          // print(result.id);
-//          // result.data().map((key, value) => null)
-//        });
-//      });
-//      print(popularStories.length);
-//      print(latestStories.length);
-//      print(recommendedStories.length);
-//      for (var story in popularStories) {
-//        print("popularStories " + story.id);
-//      }
-//      for (var story in latestStories) {
-//        print("latestStories " + story.id);
-//      }
-//      for (var story in recommendedStories) {
-//        print("recommendedStories " + story.id);
-//      }
       setState(() {
         isLoading = false;
       });
     });
   }
-
-  // @override
-  // void didChangeDependencies() async {
-  //   super.didChangeDependencies();
-  //   await Firebase.initializeApp();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +97,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 Icons.search,
                 color: Colors.white,
               ),
-              iconSize: 24 * ScreenSize.heightMultiplyingFactor,
+              iconSize: 35 * ScreenSize.heightMultiplyingFactor,
               onPressed: () {
                 Navigator.push(
                   context,

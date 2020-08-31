@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            height: size.height * ScreenSize.heightMultiplyingFactor,
+            height: 774 * ScreenSize.heightMultiplyingFactor,
             padding: EdgeInsets.only(
               left: 20.0 * ScreenSize.widthMultiplyingFactor,
               right: 20.0 * ScreenSize.widthMultiplyingFactor,

@@ -27,11 +27,6 @@ class Readings extends StatefulWidget {
 }
 
 class _ReadingsState extends State<Readings> {
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-  ];
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<CommentData> commentList = [];
   @override
@@ -243,6 +238,7 @@ class _StoryHeaderState extends State<StoryHeader> {
     Color(0xFF5A8FD8),
     Color(0xFFFF5954),
     Color(0xFFFF9870),
+    Color(0xFF6D60F8)
   ];
   String userID = "";
 
@@ -259,11 +255,9 @@ class _StoryHeaderState extends State<StoryHeader> {
   Widget build(BuildContext context) {
     speak() async {
       await flutterTts.setLanguage("en-US");
-      await flutterTts.setPitch(1.3);
-      await flutterTts.setSpeechRate(0.9);
-      await flutterTts.speak(widget.story.title +
-          "..............................." +
-          widget.story.content);
+      await flutterTts.setPitch(1.0);
+      await flutterTts.setSpeechRate(0.85);
+      await flutterTts.speak(widget.story.title + "." + widget.story.content);
     }
 
     return WillPopScope(
@@ -326,7 +320,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                           child: Icon(
                             // focusColor: Colors.white.withOpacity(0.8),
                             Icons.arrow_back,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
+                            size: 35 * ScreenSize.heightMultiplyingFactor,
                           ),
                         ),
                       ),
@@ -353,13 +347,13 @@ class _StoryHeaderState extends State<StoryHeader> {
                                   3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             Icons.volume_up,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
+                            size: 35 * ScreenSize.heightMultiplyingFactor,
                             color: Colors.black,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: 10.0 * ScreenSize.widthMultiplyingFactor,
+                        width: 20.0 * ScreenSize.widthMultiplyingFactor,
                       ),
                       StreamBuilder<DocumentSnapshot>(
                           stream: firebaseFirestore
@@ -416,7 +410,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                                   color: isBookmarked.contains(userID)
                                       ? primaryColour
                                       : Colors.black,
-                                  size: 24 * ScreenSize.heightMultiplyingFactor,
+                                  size: 35 * ScreenSize.heightMultiplyingFactor,
                                 ),
                               ),
                             );
@@ -459,6 +453,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                       ),
                       child: Icon(
                         Icons.share,
+                        size: 35 * ScreenSize.heightMultiplyingFactor,
                       ),
                     ),
                   ),
@@ -514,7 +509,8 @@ class _StoryHeaderState extends State<StoryHeader> {
               padding: EdgeInsets.only(
                   left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Wrap(
-                spacing: 10.0 * ScreenSize.widthMultiplyingFactor,
+                spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
+                runSpacing: 5.0,
                 // runSpacing: 7.0,
                 children: List<Widget>.generate(
                   widget.story.related.length,
@@ -531,14 +527,14 @@ class _StoryHeaderState extends State<StoryHeader> {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25.0),
-                            color: colorList[i],
+                            color: colorList[i % colorList.length],
                           ),
                           child: Text(
                             widget.story.related[i],
                             style: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize:
-                                  10.0 * ScreenSize.heightMultiplyingFactor,
+                                  12.0 * ScreenSize.heightMultiplyingFactor,
                               color: Colors.white,
                             ),
                           ),
@@ -710,7 +706,11 @@ class _UserReviewState extends State<UserReview> {
                       .doc(widget.storyId)
                       .collection('Comments')
                       .add(commentData.toJson());
-                  textEditingController.clear();
+
+                  setState(() {
+                    textEditingController.clear();
+                    _autoValidate = false;
+                  });
                 } else {
                   setState(() {
                     _autoValidate = true;
