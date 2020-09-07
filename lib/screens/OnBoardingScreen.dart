@@ -13,7 +13,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<String> name = ['Read', 'Explore'];
   List<String> content = [
     'Interesting stories on\nyour favourite topics',
-    'A collection of stories everday.\nRead, Enjoy & Grow.'
+    'A collection of stories everday.\nRead, Enjoy & Grow.',
   ];
 
   PageController pageController;
@@ -61,13 +61,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/images/onboarding' +
-                                (index == 0 ? '1.png' : '2.png'),
+                            'assets/images/onboarding' + (index == 0 ? '1.png' : '2.png'),
                             height: 450.0 * ScreenSize.heightMultiplyingFactor,
-                            width: index == 0
-                                ? size.width +
-                                    200.0 * ScreenSize.widthMultiplyingFactor
-                                : 330.0 * ScreenSize.widthMultiplyingFactor,
+                            width: index == 0 ? size.width + 200.0 * ScreenSize.widthMultiplyingFactor : 330.0 * ScreenSize.widthMultiplyingFactor,
                             fit: BoxFit.cover,
                           ),
                           SizedBox(
@@ -77,8 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             name[index],
                             style: TextStyle(
                               fontFamily: 'Poppins-SemiBold',
-                              fontSize:
-                                  28.0 * ScreenSize.heightMultiplyingFactor,
+                              fontSize: 28.0 * ScreenSize.heightMultiplyingFactor,
                               color: primaryColour,
                             ),
                           ),
@@ -89,8 +84,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             content[index],
                             style: TextStyle(
                               fontFamily: 'Poppins-Regular',
-                              fontSize:
-                                  16.0 * ScreenSize.heightMultiplyingFactor,
+                              fontSize: 16.0 * ScreenSize.heightMultiplyingFactor,
                               color: Colors.black,
                             ),
                             textAlign: TextAlign.center,
@@ -107,8 +101,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               Container(
                 height: size.height,
                 width: size.width,
-                padding: EdgeInsets.only(
-                    bottom: 50.0 * ScreenSize.heightMultiplyingFactor),
+                padding: EdgeInsets.only(bottom: 50.0 * ScreenSize.heightMultiplyingFactor),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -119,9 +112,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                       onPressed: () async {
                         if (nextValue != 1) {
-                          pageController.animateToPage(1,
-                              duration: Duration(milliseconds: 700),
-                              curve: Curves.easeInToLinear);
+                          pageController.animateToPage(1, duration: Duration(milliseconds: 700), curve: Curves.easeInToLinear);
                         } else {
                           Navigator.pushReplacement(
                             context,
@@ -129,8 +120,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               builder: (context) => Home(),
                             ),
                           );
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
                           await prefs.setInt("initScreen3", 1);
                         }
                       },
@@ -176,15 +166,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     // double zoom = 1.0 + (2.0 - 1.0) * selectedness;
     return Container(
       width: 20.0 * ScreenSize.widthMultiplyingFactor,
-      margin: EdgeInsets.only(
-          right: index == 0
-              ? 10.0 * ScreenSize.widthMultiplyingFactor
-              : 0.0 * ScreenSize.widthMultiplyingFactor),
+      margin: EdgeInsets.only(right: index == 0 ? 10.0 * ScreenSize.widthMultiplyingFactor : 0.0 * ScreenSize.widthMultiplyingFactor),
       child: Center(
         child: Material(
-          color: index == nextValue
-              ? primaryColour
-              : primaryColour.withOpacity(0.18),
+          color: index == nextValue ? primaryColour : primaryColour.withOpacity(0.18),
           type: MaterialType.circle,
           child: Container(
             width: 20.0 * ScreenSize.widthMultiplyingFactor,
