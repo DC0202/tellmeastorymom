@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   TextEditingController textEditingController = TextEditingController();
-  List<StoryData> popularStories = [];
+  List<StoryData> allStories = [];
   String textSearch = 'some loreal epsum';
   @override
   Widget build(BuildContext context) {
@@ -81,22 +81,19 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: firebaseFirestore.collection("PopularStories").snapshots(),
+          stream: firebaseFirestore.collection("Stories").snapshots(),
           builder: (context, snapshot) {
-            popularStories.clear();
+            allStories.clear();
             if (snapshot.hasData)
               snapshot.data.docs.forEach((result) {
                 print(result.data());
-                if (StoryData.fromSnapshot(result)
-                    .title
-                    .toLowerCase()
-                    .contains(textSearch.toLowerCase())) {
-                  popularStories.add(StoryData.fromSnapshot(result));
+                if (StoryData.fromSnapshot(result).title.toLowerCase().contains(textSearch.toLowerCase())) {
+                  allStories.add(StoryData.fromSnapshot(result));
                 }
               });
-            print(popularStories.toString());
+            print(allStories.toString());
 
-            return popularStories.isEmpty
+            return allStories.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -114,8 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Text(
                             "No Stories to display!!",
                             style: TextStyle(
-                              fontSize:
-                                  18.0 * ScreenSize.heightMultiplyingFactor,
+                              fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
                               fontFamily: 'Poppins-SemiBold',
                               color: primaryColour,
                             ),
@@ -125,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   )
                 : CommonCardViewScreen(
-                    storyList: popularStories,
+                    storyList: allStories,
                   );
           },
         ),

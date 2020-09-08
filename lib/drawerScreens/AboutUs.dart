@@ -66,12 +66,9 @@ class AboutUsData extends StatelessWidget {
           height: 450 * ScreenSize.heightMultiplyingFactor,
         ),
         Container(
-            padding: EdgeInsets.all(20 * ScreenSize.heightMultiplyingFactor),
+            padding: EdgeInsets.symmetric(horizontal: 20 * ScreenSize.widthMultiplyingFactor),
             child: Text(
-              "We aim to provide a platform to those parents who "
-              "find it difficult to curate stories for their little ones. "
-              "We're using groundbreaking technology to set stories free into"
-              " a world of unbridled possibility.",
+              "We aim to provide a platform to those parents who find it difficult to curate stories for their little ones. We're using groundbreaking technology to set stories free into a world of unbridled possibility.",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20 * ScreenSize.heightMultiplyingFactor,

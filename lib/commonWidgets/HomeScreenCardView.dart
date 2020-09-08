@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/drawerScreens/mompreneurScreens/interviewReading.dart';
@@ -15,16 +16,7 @@ class HomeScreenCardView extends StatefulWidget {
   final bool itemCard;
   final bool isInterview;
   final bool isDiary;
-  const HomeScreenCardView(
-      {Key key,
-      this.boxHeight,
-      this.isInterview = false,
-      this.isDiary = false,
-      this.insideHeight,
-      this.storyList,
-      this.insideWidth,
-      this.itemCard = false})
-      : super(key: key);
+  const HomeScreenCardView({Key key, this.boxHeight, this.isInterview = false, this.isDiary = false, this.insideHeight, this.storyList, this.insideWidth, this.itemCard = false}) : super(key: key);
 
   final List<StoryData> storyList;
 
@@ -33,12 +25,7 @@ class HomeScreenCardView extends StatefulWidget {
 }
 
 class _HomeScreenCardViewState extends State<HomeScreenCardView> {
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-    Color(0xFF6D60F8)
-  ];
+  List<Color> colorList = [Color(0xFF5A8FD8), Color(0xFFFF5954), Color(0xFFFF9870), Color(0xFF6D60F8)];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
@@ -51,27 +38,18 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
           : ListView.builder(
               scrollDirection: Axis.horizontal,
               physics: physicsForApp,
-              itemCount:
-                  widget.storyList.length < 3 ? widget.storyList.length : 3,
+              itemCount: widget.storyList.length < 3 ? widget.storyList.length : 3,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
                     // ),
                     print(index);
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => !widget.isInterview
-                          ? Readings(widget.storyList[index])
-                          : InterviewReading(
-                              story: widget.storyList[index],
-                              isDiary: widget.isDiary),
+                      builder: (context) => !widget.isInterview ? Readings(widget.storyList[index]) : InterviewReading(story: widget.storyList[index], isDiary: widget.isDiary),
                     ));
                   },
                   child: Container(
-                    margin: EdgeInsets.only(
-                        right: 15.0 * ScreenSize.widthMultiplyingFactor,
-                        left: index == 0
-                            ? 15.0 * ScreenSize.widthMultiplyingFactor
-                            : 0.0),
+                    margin: EdgeInsets.only(right: 15.0 * ScreenSize.widthMultiplyingFactor, left: index == 0 ? 15.0 * ScreenSize.widthMultiplyingFactor : 0.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,13 +71,18 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                   ),
                                 ],
                                 image: DecorationImage(
-                                  image: widget.itemCard
-                                      ? AssetImage(
-                                          'assets/images/cardImage.jpg',
-                                        )
-                                      : AssetImage(
-                                          'assets/images/smallCardImage.jpg',
-                                        ),
+                                  // image: widget.itemCard
+                                  //     ? AssetImage(
+                                  //         'assets/images/cardImage.jpg',
+                                  //       )
+                                  //     : AssetImage(
+                                  //         'assets/images/smallCardImage.jpg',
+                                  //       ),
+                                  image: AdvancedNetworkImage(
+                                    widget.storyList[index].storyImageURL,
+                                    useDiskCache: true,
+                                    cacheRule: CacheRule(maxAge: const Duration(days: 2)),
+                                  ),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -107,45 +90,26 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                             !widget.isInterview
                                 ? Padding(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: 8.0 *
-                                          ScreenSize.heightMultiplyingFactor,
-                                      horizontal: 8.0 *
-                                          ScreenSize.widthMultiplyingFactor,
+                                      vertical: 8.0 * ScreenSize.heightMultiplyingFactor,
+                                      horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
                                     ),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.8),
+                                            color: Colors.white.withOpacity(0.8),
                                             shape: BoxShape.circle,
                                           ),
                                           padding: EdgeInsets.symmetric(
-                                            vertical: 3.0 *
-                                                ScreenSize
-                                                    .heightMultiplyingFactor,
-                                            horizontal: 3.0 *
-                                                ScreenSize
-                                                    .widthMultiplyingFactor,
+                                            vertical: 3.0 * ScreenSize.heightMultiplyingFactor,
+                                            horizontal: 3.0 * ScreenSize.widthMultiplyingFactor,
                                           ),
                                           child: GestureDetector(
                                             child: Icon(
-                                              widget.storyList[index]
-                                                      .isBookmarked
-                                                      .contains(
-                                                          UserData.getUserId())
-                                                  ? Icons.bookmark
-                                                  : Icons.bookmark_border,
-                                              color: widget.storyList[index]
-                                                      .isBookmarked
-                                                      .contains(
-                                                          UserData.getUserId())
-                                                  ? primaryColour
-                                                  : Colors.black,
-                                              size: 35 *
-                                                  ScreenSize
-                                                      .heightMultiplyingFactor,
+                                              widget.storyList[index].isBookmarked.contains(UserData.getUserId()) ? Icons.bookmark : Icons.bookmark_border,
+                                              color: widget.storyList[index].isBookmarked.contains(UserData.getUserId()) ? primaryColour : Colors.black,
+                                              size: 35 * ScreenSize.heightMultiplyingFactor,
                                             ),
                                             onTap: () {
                                               // setState(() {
@@ -154,39 +118,20 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                                               //           .isBookmarked;
                                               // });
                                               // firebaseFirestore
-                                              //     .collection("PopularStories")
+                                              //     .collection("Stories")
                                               //     .doc(widget.storyList[index].id)
                                               //     .update({
                                               //   "isBookmarked": widget
                                               //       .storyList[index].isBookmarked
                                               // });
-                                              bool valueOfList = widget
-                                                  .storyList[index].isBookmarked
-                                                  .contains(
-                                                      UserData.getUserId());
+                                              bool valueOfList = widget.storyList[index].isBookmarked.contains(UserData.getUserId());
                                               if (valueOfList) {
-                                                firebaseFirestore
-                                                    .collection(
-                                                        "PopularStories")
-                                                    .doc(widget
-                                                        .storyList[index].id)
-                                                    .update({
-                                                  "isBookmarked":
-                                                      FieldValue.arrayRemove([
-                                                    UserData.getUserId()
-                                                  ])
+                                                firebaseFirestore.collection("Stories").doc(widget.storyList[index].id).update({
+                                                  "isBookmarked": FieldValue.arrayRemove([UserData.getUserId()])
                                                 });
                                               } else {
-                                                firebaseFirestore
-                                                    .collection(
-                                                        "PopularStories")
-                                                    .doc(widget
-                                                        .storyList[index].id)
-                                                    .update({
-                                                  "isBookmarked":
-                                                      FieldValue.arrayUnion([
-                                                    UserData.getUserId()
-                                                  ])
+                                                firebaseFirestore.collection("Stories").doc(widget.storyList[index].id).update({
+                                                  "isBookmarked": FieldValue.arrayUnion([UserData.getUserId()])
                                                 });
                                               }
                                             },
@@ -222,47 +167,28 @@ class _HomeScreenCardViewState extends State<HomeScreenCardView> {
                         ),
                         !widget.isInterview
                             ? Wrap(
-                                spacing:
-                                    5.0 * ScreenSize.widthMultiplyingFactor,
+                                spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                                 children: List<Widget>.generate(
-                                  widget.storyList[index].related.length < 3
-                                      ? widget.storyList[index].related.length
-                                      : 3,
+                                  widget.storyList[index].related.length < 3 ? widget.storyList[index].related.length : 3,
                                   (int i) {
                                     return Container(
-                                      height: 25.0 *
-                                          ScreenSize.heightMultiplyingFactor,
+                                      height: 25.0 * ScreenSize.heightMultiplyingFactor,
                                       padding: EdgeInsets.fromLTRB(
-                                        10.0 *
-                                            ScreenSize.widthMultiplyingFactor,
-                                        5.0 *
-                                            ScreenSize.heightMultiplyingFactor,
-                                        10.0 *
-                                            ScreenSize.widthMultiplyingFactor,
-                                        5.0 *
-                                            ScreenSize.heightMultiplyingFactor,
+                                        10.0 * ScreenSize.widthMultiplyingFactor,
+                                        5.0 * ScreenSize.heightMultiplyingFactor,
+                                        10.0 * ScreenSize.widthMultiplyingFactor,
+                                        5.0 * ScreenSize.heightMultiplyingFactor,
                                       ),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(25.0),
+                                        borderRadius: BorderRadius.circular(25.0),
                                         color: colorList[i % colorList.length],
                                       ),
                                       child: Center(
                                         child: Text(
-                                          widget.storyList[index].related[i]
-                                                      .length >
-                                                  9
-                                              ? widget.storyList[index]
-                                                      .related[i]
-                                                      .substring(0, 6) +
-                                                  '...'
-                                              : widget
-                                                  .storyList[index].related[i],
+                                          widget.storyList[index].related[i].length > 9 ? widget.storyList[index].related[i].substring(0, 6) + '...' : widget.storyList[index].related[i],
                                           style: TextStyle(
                                             fontFamily: 'Poppins-Regular',
-                                            fontSize: 10.0 *
-                                                ScreenSize
-                                                    .heightMultiplyingFactor,
+                                            fontSize: 10.0 * ScreenSize.heightMultiplyingFactor,
                                             color: Colors.white,
                                           ),
                                         ),

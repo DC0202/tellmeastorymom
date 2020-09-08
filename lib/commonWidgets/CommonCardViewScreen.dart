@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
@@ -18,12 +19,7 @@ class CommonCardViewScreen extends StatefulWidget {
 }
 
 class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-    Color(0xFF6D60F8)
-  ];
+  List<Color> colorList = [Color(0xFF5A8FD8), Color(0xFFFF5954), Color(0xFFFF9870), Color(0xFF6D60F8)];
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -39,9 +35,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
       width: size.width,
       color: Colors.white,
       height: size.height,
-      padding: EdgeInsets.only(
-          left: 20.0 * ScreenSize.widthMultiplyingFactor,
-          right: 20.0 * ScreenSize.widthMultiplyingFactor),
+      padding: EdgeInsets.only(left: 20.0 * ScreenSize.widthMultiplyingFactor, right: 20.0 * ScreenSize.widthMultiplyingFactor),
       child: widget.storyList.length == 0
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -79,9 +73,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                     ));
                   },
                   child: Container(
-                    margin: EdgeInsets.only(
-                        top: 15.0 * ScreenSize.heightMultiplyingFactor,
-                        bottom: 15.0 * ScreenSize.heightMultiplyingFactor),
+                    margin: EdgeInsets.only(top: 15.0 * ScreenSize.heightMultiplyingFactor, bottom: 15.0 * ScreenSize.heightMultiplyingFactor),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +82,7 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                           alignment: Alignment.topRight,
                           children: [
                             Container(
-                              height:
-                                  180.0 * ScreenSize.heightMultiplyingFactor,
+                              height: 180.0 * ScreenSize.heightMultiplyingFactor,
                               width: 375.0 * ScreenSize.widthMultiplyingFactor,
                               decoration: BoxDecoration(
                                 color: Colors.deepOrange,
@@ -104,19 +95,20 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                   ),
                                 ],
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/cardImage.jpg',
+                                  // image: AssetImage(
+                                  //   'assets/images/cardImage.jpg',
+                                  // ),
+                                  image: AdvancedNetworkImage(
+                                    widget.storyList[index].storyImageURL,
+                                    useDiskCache: true,
+                                    cacheRule: CacheRule(maxAge: const Duration(days: 2)),
                                   ),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      8.0 * ScreenSize.widthMultiplyingFactor,
-                                  vertical:
-                                      8.0 * ScreenSize.heightMultiplyingFactor),
+                              padding: EdgeInsets.symmetric(horizontal: 8.0 * ScreenSize.widthMultiplyingFactor, vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -140,69 +132,33 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                   // ),
 
                                   StreamBuilder(
-                                    stream: firebaseFirestore
-                                        .collection("PopularStories")
-                                        .doc(widget.storyList[index].id)
-                                        .snapshots(),
+                                    stream: firebaseFirestore.collection("Stories").doc(widget.storyList[index].id).snapshots(),
                                     builder: (context, snapshot) {
                                       List<String> isBookmarked = [];
                                       if (snapshot.hasData) {
-                                        isBookmarked = snapshot.data
-                                                    .data()["isBookmarked"] ==
-                                                null
-                                            ? []
-                                            : snapshot.data
-                                                .data()["isBookmarked"]
-                                                .cast<String>();
+                                        isBookmarked = snapshot.data.data()["isBookmarked"] == null ? [] : snapshot.data.data()["isBookmarked"].cast<String>();
                                       }
                                       return Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.8),
                                           shape: BoxShape.circle,
                                         ),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 3.0 *
-                                                ScreenSize
-                                                    .widthMultiplyingFactor,
-                                            vertical: 3.0 *
-                                                ScreenSize
-                                                    .heightMultiplyingFactor),
+                                        padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                                         child: GestureDetector(
                                           child: Icon(
-                                            isBookmarked.contains(
-                                                    UserData.getUserId())
-                                                ? Icons.bookmark
-                                                : Icons.bookmark_border,
-                                            color: isBookmarked.contains(
-                                                    UserData.getUserId())
-                                                ? primaryColour
-                                                : Colors.black,
-                                            size: 35 *
-                                                ScreenSize
-                                                    .heightMultiplyingFactor,
+                                            isBookmarked.contains(UserData.getUserId()) ? Icons.bookmark : Icons.bookmark_border,
+                                            color: isBookmarked.contains(UserData.getUserId()) ? primaryColour : Colors.black,
+                                            size: 35 * ScreenSize.heightMultiplyingFactor,
                                           ),
                                           onTap: () {
-                                            bool valueOfList = isBookmarked
-                                                .contains(UserData.getUserId());
+                                            bool valueOfList = isBookmarked.contains(UserData.getUserId());
                                             if (valueOfList) {
-                                              firebaseFirestore
-                                                  .collection("PopularStories")
-                                                  .doc(widget
-                                                      .storyList[index].id)
-                                                  .update({
-                                                "isBookmarked":
-                                                    FieldValue.arrayRemove(
-                                                        [UserData.getUserId()])
+                                              firebaseFirestore.collection("Stories").doc(widget.storyList[index].id).update({
+                                                "isBookmarked": FieldValue.arrayRemove([UserData.getUserId()])
                                               });
                                             } else {
-                                              firebaseFirestore
-                                                  .collection("PopularStories")
-                                                  .doc(widget
-                                                      .storyList[index].id)
-                                                  .update({
-                                                "isBookmarked":
-                                                    FieldValue.arrayUnion(
-                                                        [UserData.getUserId()])
+                                              firebaseFirestore.collection("Stories").doc(widget.storyList[index].id).update({
+                                                "isBookmarked": FieldValue.arrayUnion([UserData.getUserId()])
                                               });
                                             }
                                           },
@@ -240,13 +196,10 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                         Wrap(
                           spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                           children: List<Widget>.generate(
-                            widget.storyList[index].related.length < 4
-                                ? widget.storyList[index].related.length
-                                : 4,
+                            widget.storyList[index].related.length < 4 ? widget.storyList[index].related.length : 4,
                             (int i) {
                               return Container(
-                                height:
-                                    25.0 * ScreenSize.heightMultiplyingFactor,
+                                height: 25.0 * ScreenSize.heightMultiplyingFactor,
                                 padding: EdgeInsets.fromLTRB(
                                   10.0 * ScreenSize.widthMultiplyingFactor,
                                   5.0 * ScreenSize.heightMultiplyingFactor,
@@ -258,15 +211,10 @@ class _CommonCardViewScreenState extends State<CommonCardViewScreen> {
                                   color: colorList[i % colorList.length],
                                 ),
                                 child: Text(
-                                  widget.storyList[index].related[i].length > 9
-                                      ? widget.storyList[index].related[i]
-                                              .substring(0, 6) +
-                                          '...'
-                                      : widget.storyList[index].related[i],
+                                  widget.storyList[index].related[i].length > 9 ? widget.storyList[index].related[i].substring(0, 6) + '...' : widget.storyList[index].related[i],
                                   style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
-                                    fontSize: 10.0 *
-                                        ScreenSize.heightMultiplyingFactor,
+                                    fontSize: 10.0 * ScreenSize.heightMultiplyingFactor,
                                     color: Colors.white,
                                   ),
                                 ),

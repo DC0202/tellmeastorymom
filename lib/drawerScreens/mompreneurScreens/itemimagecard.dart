@@ -17,18 +17,7 @@ class ItemImageCard extends StatefulWidget {
   final double insideHeight;
   final double insideWidth;
   final bool itemCard;
-  const ItemImageCard(
-      {Key key,
-      this.title,
-      this.posted,
-      this.author,
-      this.boxHeight,
-      this.insideHeight,
-      this.story,
-      this.insideWidth,
-      this.assetname,
-      this.itemCard = false})
-      : super(key: key);
+  const ItemImageCard({Key key, this.title, this.posted, this.author, this.boxHeight, this.insideHeight, this.story, this.insideWidth, this.assetname, this.itemCard = false}) : super(key: key);
 
   final StoryData story;
   final String assetname;
@@ -51,8 +40,7 @@ class _ItemImageCardState extends State<ItemImageCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  InterviewReading(story: popularStories[0], isDiary: true),
+              builder: (context) => InterviewReading(story: popularStories[0], isDiary: true),
             ),
           );
         },
@@ -101,34 +89,19 @@ class _ItemImageCardState extends State<ItemImageCard> {
                         ),
                         child: GestureDetector(
                           child: Icon(
-                            widget.story.isBookmarked
-                                    .contains(UserData.getUserId())
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                            color: widget.story.isBookmarked
-                                    .contains(UserData.getUserId())
-                                ? primaryColour
-                                : Colors.black,
+                            widget.story.isBookmarked.contains(UserData.getUserId()) ? Icons.bookmark : Icons.bookmark_border,
+                            color: widget.story.isBookmarked.contains(UserData.getUserId()) ? primaryColour : Colors.black,
                             size: 24 * ScreenSize.heightMultiplyingFactor,
                           ),
                           onTap: () {
-                            bool valueOfList = widget.story.isBookmarked
-                                .contains(UserData.getUserId());
+                            bool valueOfList = widget.story.isBookmarked.contains(UserData.getUserId());
                             if (valueOfList) {
-                              firebaseFirestore
-                                  .collection("PopularStories")
-                                  .doc(widget.story.id)
-                                  .update({
-                                "isBookmarked": FieldValue.arrayRemove(
-                                    [UserData.getUserId()])
+                              firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                "isBookmarked": FieldValue.arrayRemove([UserData.getUserId()])
                               });
                             } else {
-                              firebaseFirestore
-                                  .collection("PopularStories")
-                                  .doc(widget.story.id)
-                                  .update({
-                                "isBookmarked": FieldValue.arrayUnion(
-                                    [UserData.getUserId()])
+                              firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                "isBookmarked": FieldValue.arrayUnion([UserData.getUserId()])
                               });
                             }
                           },
@@ -147,9 +120,7 @@ class _ItemImageCardState extends State<ItemImageCard> {
               children: [
                 Text(
                   widget.title,
-                  style: TextStyle(
-                      fontSize: 16 * ScreenSize.heightMultiplyingFactor,
-                      fontFamily: "Poppins-Regular"),
+                  style: TextStyle(fontSize: 16 * ScreenSize.heightMultiplyingFactor, fontFamily: "Poppins-Regular"),
                 ),
                 Text(
                   widget.author,

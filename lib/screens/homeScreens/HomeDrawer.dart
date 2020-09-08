@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/drawerScreens/AboutUs.dart';
 import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/Mompreneur.dart';
 import 'package:tellmeastorymom/drawerScreens/Profile.dart';
@@ -78,15 +79,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Home",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Mompreneur()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Mompreneur()));
             },
             leading: Icon(
               Icons.business,
@@ -95,15 +93,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Mompreneur",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => LikedStories()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LikedStories()));
             },
             leading: Icon(
               Icons.favorite_border,
@@ -112,9 +107,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Liked Stories",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           ListTile(
@@ -134,8 +127,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
             },
             leading: Icon(
               Icons.person_outline,
@@ -144,15 +136,26 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Profile",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ShareWithFriends()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUs()));
+            },
+            leading: Icon(
+              Icons.person_outline,
+              color: Colors.black,
+              size: 24 * ScreenSize.heightMultiplyingFactor,
+            ),
+            title: Text(
+              "About Us",
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithFriends()));
             },
             leading: Icon(
               Icons.share,
@@ -161,9 +164,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Share with friends",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
           Spacer(),
@@ -179,14 +180,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
               try {
                 FirebaseAuth.instance.signOut();
               } catch (e) {
-                print(
-                    'error in FirebaseAuth.instance.signOut() on pressing logout');
+                print('error in FirebaseAuth.instance.signOut() on pressing logout');
               }
               try {
                 AuthService().signOutGoogle();
               } catch (e) {
-                print(
-                    'error in AuthService().signOutGoogle() on pressing logout');
+                print('error in AuthService().signOutGoogle() on pressing logout');
               }
 
               Navigator.of(context).pushReplacement(
@@ -202,9 +201,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             title: Text(
               "Logout",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
             ),
           ),
         ],

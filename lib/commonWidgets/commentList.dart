@@ -8,8 +8,7 @@ class CommentList extends StatefulWidget {
   final bool hasRating;
   final List<CommentData> commentList;
 
-  const CommentList({Key key, this.hasRating, this.commentList})
-      : super(key: key);
+  const CommentList({Key key, this.hasRating, this.commentList}) : super(key: key);
 
   @override
   _CommentListState createState() => _CommentListState();
@@ -18,7 +17,7 @@ class CommentList extends StatefulWidget {
 class _CommentListState extends State<CommentList> {
   @override
   Widget build(BuildContext context) {
-    return widget.commentList.length == 0
+    return (widget.commentList == null || widget.commentList.length == 0)
         ? Container(
             height: 120 * ScreenSize.heightMultiplyingFactor,
             child: Center(

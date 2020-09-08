@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tellmeastorymom/providers/authentication.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/authentication.dart';
 import 'package:tellmeastorymom/screens/OnBoardingScreen.dart';
 
 import '../constants/constant.dart';
@@ -26,7 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(
@@ -46,10 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Text(
                       "Create Account",
-                      style: TextStyle(
-                          color: primaryColour,
-                          fontSize: 26 * ScreenSize.heightMultiplyingFactor,
-                          fontFamily: "Poppins-Bold"),
+                      style: TextStyle(color: primaryColour, fontSize: 26 * ScreenSize.heightMultiplyingFactor, fontFamily: "Poppins-Bold"),
                     ),
                     Text(
                       "Let's Create account First",
@@ -62,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 60.0 * ScreenSize.heightMultiplyingFactor,
+                  height: 40.0 * ScreenSize.heightMultiplyingFactor,
                 ),
                 Form(
                   key: _formkey,
@@ -70,9 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
-                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) {
                             userName = val;
@@ -100,9 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
-                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(10),
@@ -131,15 +123,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
-                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) => email = val,
                           validator: (val) {
-                            bool emailValid = RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(val);
+                            bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val);
                             if (emailValid) {
                               return null;
                             } else
@@ -161,9 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
-                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onChanged: (val) {
                             setState(() {
@@ -189,9 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                showNormalPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                showNormalPassword ? Icons.visibility : Icons.visibility_off,
                                 size: 20 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.black,
                               ),
@@ -206,9 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0 * ScreenSize.widthMultiplyingFactor,
-                            vertical: 8.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           validator: (val) {
                             if (val == password) {
@@ -224,9 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                showConfirmPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                showConfirmPassword ? Icons.visibility : Icons.visibility_off,
                                 size: 20 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.black,
                               ),
@@ -241,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 60 * ScreenSize.heightMultiplyingFactor,
+                        height: 20 * ScreenSize.heightMultiplyingFactor,
                       ),
                       Container(
                         width: 234 * ScreenSize.widthMultiplyingFactor,
@@ -255,9 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              List<dynamic> check =
-                                  await Authentication.createUser(
-                                      email, password, userName, phoneNumber);
+                              List<dynamic> check = await Authentication.createUser(email, password, userName, phoneNumber);
                               if (!check[0]) {
                                 scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content: Text(check[1]),
@@ -266,8 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               } else {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OnBoardingScreen()),
+                                  MaterialPageRoute(builder: (context) => OnBoardingScreen()),
                                 );
                               }
                               setState(() {
@@ -282,18 +259,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: isLoading
                               ? Container(
                                   margin: EdgeInsets.all(3.0),
-                                  height:
-                                      25.0 * ScreenSize.widthMultiplyingFactor,
-                                  width:
-                                      25.0 * ScreenSize.widthMultiplyingFactor,
-                                  child: circularProgressIndicator(
-                                      col: Colors.white))
+                                  height: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                  width: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                  child: circularProgressIndicator(col: Colors.white))
                               : Text(
                                   "Register",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize:
-                                        18 * ScreenSize.heightMultiplyingFactor,
+                                    fontSize: 18 * ScreenSize.heightMultiplyingFactor,
                                   ),
                                 ),
                           shape: RoundedRectangleBorder(
@@ -313,15 +286,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Text(
                       'Already have an account? ',
                       style: TextStyle(
-                          color: primaryColour, fontFamily: "Poppins-Regular"),
+                        color: primaryColour,
+                        fontFamily: "Poppins-Regular",
+                        fontSize: 15 * ScreenSize.heightMultiplyingFactor,
+                      ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                       child: Text(
                         'Log In',
                         style: TextStyle(
                           color: primaryColour,
                           fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          fontSize: 15 * ScreenSize.heightMultiplyingFactor,
                         ),
                       ),
                     ),

@@ -13,6 +13,7 @@ class StoryData {
   List<String> isLiked;
   bool isLatest;
   bool isRecommended;
+  bool isPopular;
 
   StoryData(
       {this.author,
@@ -22,6 +23,7 @@ class StoryData {
       this.isBookmarked,
       this.isLiked,
       this.isLatest,
+      this.isPopular,
       this.isRecommended,
       this.posted,
       this.related,
@@ -33,13 +35,10 @@ class StoryData {
     this.content = snapshot.data()['content'];
     this.estimated = snapshot.data()['estimated'];
     this.id = snapshot.id.toString();
-    this.isBookmarked = snapshot.data()['isBookmarked'] == null
-        ? []
-        : snapshot.data()['isBookmarked'].cast<String>();
-    this.isLiked = snapshot.data()['isLiked'] == null
-        ? []
-        : snapshot.data()['isLiked'].cast<String>();
+    this.isBookmarked = snapshot.data()['isBookmarked'] == null ? [] : snapshot.data()['isBookmarked'].cast<String>();
+    this.isLiked = snapshot.data()['isLiked'] == null ? [] : snapshot.data()['isLiked'].cast<String>();
     this.isLatest = snapshot.data()['isLatest'];
+    this.isPopular = snapshot.data()['isPopular'];
     this.isRecommended = snapshot.data()['isRecommended'];
     this.posted = snapshot.data()['posted'];
     this.related = snapshot.data()['related'].cast<String>();
@@ -54,6 +53,7 @@ class StoryData {
       'estimated': estimated,
       'isBookmarked': isBookmarked,
       'isLiked': isLiked,
+      'isPopular': isPopular,
       'posted': posted,
       "related": related,
       'storyImageURL': storyImageURL,
@@ -62,6 +62,7 @@ class StoryData {
   }
 }
 
+List<StoryData> allStories = [];
 List<StoryData> popularStories = [];
 List<StoryData> recommendedStories = [];
 List<StoryData> latestStories = [];

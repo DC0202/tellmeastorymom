@@ -34,16 +34,13 @@ class _LikedStoriesState extends State<LikedStories> {
               );
             }),
         body: StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore.collection("PopularStories").snapshots(),
+            stream: firebaseFirestore.collection("Stories").snapshots(),
             builder: (context, snapshot) {
               likedStories.clear();
               if (snapshot.hasData)
                 snapshot.data.docs.forEach((result) {
-                  List<String> likedListData = result.data()["isLiked"] == null
-                      ? []
-                      : result.data()["isLiked"].cast<String>();
-                  if (likedListData.contains(UserData.getUserId()))
-                    likedStories.add(StoryData.fromSnapshot(result));
+                  List<String> likedListData = result.data()["isLiked"] == null ? [] : result.data()["isLiked"].cast<String>();
+                  if (likedListData.contains(UserData.getUserId())) likedStories.add(StoryData.fromSnapshot(result));
                 });
               return CommonCardViewScreen(
                 storyList: likedStories,

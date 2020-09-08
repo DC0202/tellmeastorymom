@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:share/share.dart';
 import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
@@ -80,16 +81,14 @@ class _InterviewReadingState extends State<InterviewReading> {
                             Text(
                               'About',
                               style: TextStyle(
-                                fontSize:
-                                    14.0 * ScreenSize.heightMultiplyingFactor,
+                                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                                 fontFamily: 'Poppins-SemiBold',
                               ),
                             ),
                             Text(
                               widget.story.content,
                               style: TextStyle(
-                                fontSize:
-                                    15.0 * ScreenSize.heightMultiplyingFactor,
+                                fontSize: 15.0 * ScreenSize.heightMultiplyingFactor,
                                 fontFamily: 'Poppins-Light',
                               ),
                             ),
@@ -112,8 +111,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                             Text(
                               'Interview',
                               style: TextStyle(
-                                fontSize:
-                                    14.0 * ScreenSize.heightMultiplyingFactor,
+                                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
                                 fontFamily: 'Poppins-SemiBold',
                               ),
                             ),
@@ -121,8 +119,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                             Text(
                               'Follow ' + widget.story.title + ' on Facebook :',
                               style: TextStyle(
-                                fontSize:
-                                    12.0 * ScreenSize.heightMultiplyingFactor,
+                                fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
                                 fontFamily: 'Poppins-Medium',
                               ),
                             ),
@@ -131,8 +128,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                               child: Text(
                                 widget.story.title,
                                 style: TextStyle(
-                                  fontSize:
-                                      12.0 * ScreenSize.heightMultiplyingFactor,
+                                  fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
                                   fontFamily: 'Poppins-Medium',
                                   color: Colors.blue,
                                 ),
@@ -155,8 +151,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                     10 * ScreenSize.widthMultiplyingFactor,
                     10 * ScreenSize.heightMultiplyingFactor,
                   ),
-                  margin: EdgeInsets.only(
-                      left: 15.0 * ScreenSize.widthMultiplyingFactor),
+                  margin: EdgeInsets.only(left: 15.0 * ScreenSize.widthMultiplyingFactor),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
                     boxShadow: <BoxShadow>[
@@ -182,50 +177,30 @@ class _InterviewReadingState extends State<InterviewReading> {
                         width: 15.0 * ScreenSize.widthMultiplyingFactor,
                       ),
                       StreamBuilder<DocumentSnapshot>(
-                          stream: firebaseFirestore
-                              .collection("PopularStories")
-                              .doc(widget.story.id)
-                              .snapshots(),
+                          stream: firebaseFirestore.collection("Stories").doc(widget.story.id).snapshots(),
                           builder: (context, snapshot) {
                             List<String> isLiked = [];
                             if (snapshot.hasData) {
-                              isLiked = snapshot.data.data()["isLiked"] == null
-                                  ? []
-                                  : snapshot.data
-                                      .data()["isLiked"]
-                                      .cast<String>();
+                              isLiked = snapshot.data.data()["isLiked"] == null ? [] : snapshot.data.data()["isLiked"].cast<String>();
                             }
                             print(isLiked.length);
                             return GestureDetector(
                               onTap: () {
-                                bool valueOfList =
-                                    isLiked.contains(UserData.getUserId());
+                                bool valueOfList = isLiked.contains(UserData.getUserId());
                                 if (valueOfList) {
-                                  firebaseFirestore
-                                      .collection("PopularStories")
-                                      .doc(widget.story.id)
-                                      .update({
-                                    "isLiked": FieldValue.arrayRemove(
-                                        [UserData.getUserId()])
+                                  firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                    "isLiked": FieldValue.arrayRemove([UserData.getUserId()])
                                   });
                                 } else {
-                                  firebaseFirestore
-                                      .collection("PopularStories")
-                                      .doc(widget.story.id)
-                                      .update({
-                                    "isLiked": FieldValue.arrayUnion(
-                                        [UserData.getUserId()])
+                                  firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                    "isLiked": FieldValue.arrayUnion([UserData.getUserId()])
                                   });
                                 }
                               },
                               child: Icon(
-                                isLiked.contains(UserData.getUserId())
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
+                                isLiked.contains(UserData.getUserId()) ? Icons.favorite : Icons.favorite_border,
                                 size: 24 * ScreenSize.heightMultiplyingFactor,
-                                color: isLiked.contains(UserData.getUserId())
-                                    ? Colors.red
-                                    : Colors.black,
+                                color: isLiked.contains(UserData.getUserId()) ? Colors.red : Colors.black,
                               ),
                             );
                           }),
@@ -319,8 +294,7 @@ class _StoryHeaderState extends State<StoryHeader> {
       await flutterTts.setLanguage("en-US");
       await flutterTts.setPitch(1.3);
       await flutterTts.setSpeechRate(0.9);
-      await flutterTts
-          .speak(widget.story.title + "          " + widget.story.content);
+      await flutterTts.speak(widget.story.title + "          " + widget.story.content);
     }
 
     return WillPopScope(
@@ -354,8 +328,13 @@ class _StoryHeaderState extends State<StoryHeader> {
                       ),
                     ],
                     image: DecorationImage(
-                      image: AssetImage(
-                        'assets/images/cardImage.jpg',
+                      // image: AssetImage(
+                      //   'assets/images/cardImage.jpg',
+                      // ),
+                      image: AdvancedNetworkImage(
+                        widget.story.storyImageURL,
+                        useDiskCache: true,
+                        cacheRule: CacheRule(maxAge: const Duration(days: 2)),
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -374,11 +353,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                             color: Colors.white.withOpacity(0.8),
                             shape: BoxShape.circle,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  3.0 * ScreenSize.widthMultiplyingFactor,
-                              vertical:
-                                  3.0 * ScreenSize.heightMultiplyingFactor),
+                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             // focusColor: Colors.white.withOpacity(0.8),
                             Icons.arrow_back,
@@ -399,11 +374,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                             color: Colors.white.withOpacity(0.8),
                             shape: BoxShape.circle,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  3.0 * ScreenSize.widthMultiplyingFactor,
-                              vertical:
-                                  3.0 * ScreenSize.heightMultiplyingFactor),
+                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             Icons.volume_up,
                             size: 24 * ScreenSize.heightMultiplyingFactor,
@@ -443,9 +414,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                       Share.share('Checkout this amazing story!');
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
-                          vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                      padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                       decoration: BoxDecoration(
                         color: Colors.grey.withOpacity(0.2),
                         shape: BoxShape.circle,
@@ -459,8 +428,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 widget.story.author,
                 style: TextStyle(
@@ -471,8 +439,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 widget.story.posted,
                 style: TextStyle(
@@ -483,8 +450,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 'Estimated time to complete: ' + widget.story.estimated,
                 style: TextStyle(

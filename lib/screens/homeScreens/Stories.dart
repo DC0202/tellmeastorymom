@@ -4,8 +4,8 @@ import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
 import 'package:tellmeastorymom/commonWidgets/StoriesScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
-import 'package:tellmeastorymom/providers/storyData.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 
 class Stories extends StatefulWidget {
   @override
@@ -31,9 +31,7 @@ class _StoriesState extends State<Stories> {
     return Container(
       width: size.width,
       color: Colors.white,
-      padding: EdgeInsets.only(
-          top: 15.0 * ScreenSize.heightMultiplyingFactor,
-          bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
+      padding: EdgeInsets.only(top: 15.0 * ScreenSize.heightMultiplyingFactor, bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
       child: ListView(
         physics: physicsForApp,
         scrollDirection: Axis.vertical,
@@ -57,8 +55,7 @@ class _StoriesState extends State<Stories> {
             },
           ),
           StreamBuilder<QuerySnapshot>(
-              stream:
-                  firebaseFirestore.collection("PopularStories").snapshots(),
+              stream: firebaseFirestore.collection("Stories").where("isPopular", isEqualTo: true).snapshots(),
               builder: (context, snapshot) {
                 popularStories.clear();
                 if (snapshot.hasData)
@@ -112,10 +109,7 @@ class _StoriesState extends State<Stories> {
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore
-                .collection("PopularStories")
-                .where("isRecommended", isEqualTo: true)
-                .snapshots(),
+            stream: firebaseFirestore.collection("Stories").where("isRecommended", isEqualTo: true).snapshots(),
             builder: (context, snapshot) {
               recommendedStories.clear();
               if (snapshot.hasData)
@@ -150,10 +144,7 @@ class _StoriesState extends State<Stories> {
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore
-                .collection("PopularStories")
-                .where("isLatest", isEqualTo: true)
-                .snapshots(),
+            stream: firebaseFirestore.collection("Stories").where("isLatest", isEqualTo: true).snapshots(),
             builder: (context, snapshot) {
               latestStories.clear();
               if (snapshot.hasData)
