@@ -7,6 +7,9 @@ import '../constants/screenSize.dart';
 import 'CommonCardViewScreen.dart';
 
 class SearchScreen extends StatefulWidget {
+  final bool isGuest;
+
+  const SearchScreen({Key key, this.isGuest = false}) : super(key: key);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -58,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     // Navigator.of(context).pop();
                   },
                 ),
-                hintText: "Search a story .......",
+                hintText: "Search a story ...",
               ),
               // keyboardType: TextInputType.name,
               onChanged: (value) {
@@ -81,13 +84,18 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: firebaseFirestore.collection("Stories").snapshots(),
+          stream: widget.isGuest
+              ? firebaseFirestore.collection("Guest-Stories").snapshots()
+              : firebaseFirestore.collection("Stories").snapshots(),
           builder: (context, snapshot) {
             allStories.clear();
             if (snapshot.hasData)
               snapshot.data.docs.forEach((result) {
                 print(result.data());
-                if (StoryData.fromSnapshot(result).title.toLowerCase().contains(textSearch.toLowerCase())) {
+                if (StoryData.fromSnapshot(result)
+                    .title
+                    .toLowerCase()
+                    .contains(textSearch.toLowerCase())) {
                   allStories.add(StoryData.fromSnapshot(result));
                 }
               });
@@ -111,7 +119,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Text(
                             "No Stories to display!!",
                             style: TextStyle(
-                              fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+                              fontSize:
+                                  18.0 * ScreenSize.heightMultiplyingFactor,
                               fontFamily: 'Poppins-SemiBold',
                               color: primaryColour,
                             ),

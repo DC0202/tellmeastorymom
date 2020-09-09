@@ -7,6 +7,7 @@ import 'package:tellmeastorymom/drawerScreens/LikedStories.dart';
 import 'package:tellmeastorymom/drawerScreens/Mompreneur.dart';
 import 'package:tellmeastorymom/drawerScreens/Profile.dart';
 import 'package:tellmeastorymom/drawerScreens/ShareWithFriends.dart';
+import 'package:tellmeastorymom/drawerScreens/guestPost.dart';
 import 'package:tellmeastorymom/providers/authService.dart';
 import 'package:tellmeastorymom/screens/LoginScreen.dart';
 
@@ -66,105 +67,163 @@ class _HomeDrawerState extends State<HomeDrawer> {
           // SizedBox(
           //   height: 20.0 * ScreenSize.heightMultiplyingFactor,
           // ),
-          ListTile(
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.of(context)
-              //     .push(MaterialPageRoute(builder: (context) => Home()));
-            },
-            leading: Icon(
-              Icons.home,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.black,
-            ),
-            title: Text(
-              "Home",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Mompreneur()));
-            },
-            leading: Icon(
-              Icons.business,
-              color: Colors.black,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-            ),
-            title: Text(
-              "Mompreneur",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LikedStories()));
-            },
-            leading: Icon(
-              Icons.favorite_border,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.black,
-            ),
-            title: Text(
-              "Liked Stories",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
-            ),
-          ),
-          ListTile(
-            onTap: () {},
-            leading: Icon(
-              Icons.star_border,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-              color: Colors.black,
-            ),
-            title: Text(
-              "Rate App",
-              style: TextStyle(
-                fontFamily: 'Poppins-Regular',
-                fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (context) => Home()));
+              },
+              leading: Icon(
+                Icons.home,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black,
+              ),
+              title: Text(
+                "Home",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
               ),
             ),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfilePage()));
-            },
-            leading: Icon(
-              Icons.person_outline,
-              color: Colors.black,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-            ),
-            title: Text(
-              "Profile",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUs()));
-            },
-            leading: Icon(
-              Icons.person_outline,
-              color: Colors.black,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
-            ),
-            title: Text(
-              "About Us",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => GuestPost()));
+              },
+              leading: Icon(
+                Icons.people_outline,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black,
+              ),
+              title: Text(
+                "Guest Posts",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
             ),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShareWithFriends()));
-            },
-            leading: Icon(
-              Icons.share,
-              color: Colors.black,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                // Navigator.of(context).push(
+                //     MaterialPageRoute(builder: (context) => Mompreneur()));
+              },
+              leading: Icon(
+                Icons.business,
+                color: Colors.black,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+              ),
+              title: Text(
+                "Mompreneur",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
             ),
-            title: Text(
-              "Share with friends",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+          ),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => LikedStories()));
+              },
+              leading: Icon(
+                Icons.favorite_border,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black,
+              ),
+              title: Text(
+                "Liked Stories",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
+            ),
+          ),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {},
+              leading: Icon(
+                Icons.star_border,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black,
+              ),
+              title: Text(
+                "Rate App",
+                style: TextStyle(
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18.0 * ScreenSize.heightMultiplyingFactor,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              },
+              leading: Icon(
+                Icons.person_outline,
+                color: Colors.black,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+              ),
+              title: Text(
+                "Profile",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
+            ),
+          ),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AboutUs()));
+              },
+              leading: Icon(
+                Icons.info_outline,
+                color: Colors.black,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+              ),
+              title: Text(
+                "About Us",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
+            ),
+          ),
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ShareWithFriends()));
+              },
+              leading: Icon(
+                Icons.share,
+                color: Colors.black,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+              ),
+              title: Text(
+                "Share with friends",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
             ),
           ),
           Spacer(),
@@ -175,34 +234,44 @@ class _HomeDrawerState extends State<HomeDrawer> {
             endIndent: 15.0 * ScreenSize.widthMultiplyingFactor,
             color: Color(0xFF707070),
           ),
-          ListTile(
-            onTap: () {
-              try {
-                FirebaseAuth.instance.signOut();
-              } catch (e) {
-                print('error in FirebaseAuth.instance.signOut() on pressing logout');
-              }
-              try {
-                AuthService().signOutGoogle();
-              } catch (e) {
-                print('error in AuthService().signOutGoogle() on pressing logout');
-              }
+          Container(
+            height: 45.0,
+            child: ListTile(
+              onTap: () {
+                try {
+                  FirebaseAuth.instance.signOut();
+                } catch (e) {
+                  print(
+                      'error in FirebaseAuth.instance.signOut() on pressing logout');
+                }
+                try {
+                  AuthService().signOutGoogle();
+                } catch (e) {
+                  print(
+                      'error in AuthService().signOutGoogle() on pressing logout');
+                }
 
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
-                ),
-              );
-            },
-            leading: Icon(
-              Icons.exit_to_app,
-              color: Colors.black,
-              size: 24 * ScreenSize.heightMultiplyingFactor,
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              },
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Colors.black,
+                size: 24 * ScreenSize.heightMultiplyingFactor,
+              ),
+              title: Text(
+                "Logout",
+                style: TextStyle(
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
+              ),
             ),
-            title: Text(
-              "Logout",
-              style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 18.0 * ScreenSize.heightMultiplyingFactor),
-            ),
+          ),
+          SizedBox(
+            height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
         ],
       ),

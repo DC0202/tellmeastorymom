@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tellmeastorymom/commonWidgets/CategoryStoryList.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/providers/categoryData.dart';
@@ -113,15 +114,17 @@ class _CategoriesState extends State<Categories> {
                               print(
                                   categories[((2 * index) % categories.length)]
                                       .categoryName);
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => StoriesScreen(
-                              //       heading: "Popular Stories",
-                              //       itemCount: popularStories.length,
-                              //       storyList: popularStories,
-                              //     ),
-                              //   ),
-                              // );
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => CategoryStoryList(
+                                    heading: categories[
+                                            ((2 * index) % categories.length)]
+                                        .categoryName,
+                                    category: categories[
+                                        ((2 * index) % categories.length)],
+                                  ),
+                                ),
+                              );
                             },
                             child: Stack(
                               alignment: Alignment.center,
@@ -166,9 +169,17 @@ class _CategoriesState extends State<Categories> {
                                   .withOpacity(0.3),
                               borderRadius: BorderRadius.circular(25.0),
                               onTap: () {
-                                print(categories[
-                                        ((2 * index) + 1) % categories.length]
-                                    .categoryName);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryStoryList(
+                                      heading: categories[((2 * index) + 1) %
+                                              categories.length]
+                                          .categoryName,
+                                      category: categories[((2 * index) + 1) %
+                                          categories.length],
+                                    ),
+                                  ),
+                                );
                               },
                               child: Center(
                                 child: Container(

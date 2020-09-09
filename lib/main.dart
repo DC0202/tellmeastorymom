@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 import 'screens/SplashScreen.dart';
 
 int initScreen3;
@@ -26,16 +27,6 @@ class MyApp extends StatelessWidget {
     precacheImage(
         AssetImage(
           'assets/images/googleIcon.png',
-        ),
-        context);
-    precacheImage(
-        AssetImage(
-          'assets/images/cardImage.jpg',
-        ),
-        context);
-    precacheImage(
-        AssetImage(
-          'assets/images/smallCardImage.jpg',
         ),
         context);
     precacheImage(
@@ -68,3 +59,40 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// List<String> data0 = [
+//   "Three little hens",
+//   "Love Yourself",
+//   "Foolish donkey and the clever fox",
+//   "Tini's long hair",
+//   "Monkey and a Crocodile",
+//   "Siddhartha and the Swan (The Saviour is more potent than the destroyer)",
+// ];
+
+// List<String> data1 = [
+//   "Three little hens",
+//   "Love Yourself",
+//   "Foolish donkey and the clever fox",
+//   "Tini's long hair",
+//   "Monkey and a Crocodile",
+//   "Siddhartha and the Swan (The Saviour is more potent than the destroyer)",
+// ];
+
+// class DataInsert extends StatefulWidget {
+//   @override
+//   _DataInsertState createState() => _DataInsertState();
+// }
+
+// class _DataInsertState extends State<DataInsert> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+
+//         },
+//         child: Icon(Icons.ac_unit),
+//       ),
+//     );
+//   }
+// }

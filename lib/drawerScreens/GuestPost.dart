@@ -4,19 +4,13 @@ import 'package:tellmeastorymom/commonWidgets/CommonCardViewScreen.dart';
 import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
-import 'package:tellmeastorymom/providers/userData.dart';
 
-class LikedStories extends StatefulWidget {
+class GuestPost extends StatefulWidget {
   @override
-  _LikedStoriesState createState() => _LikedStoriesState();
+  _GuestPostState createState() => _GuestPostState();
 }
 
-class _LikedStoriesState extends State<LikedStories> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _GuestPostState extends State<GuestPost> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
@@ -26,27 +20,28 @@ class _LikedStoriesState extends State<LikedStories> {
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         appBar: appBarOverall(
-            heading: "Liked Stories",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen()),
-              );
-            }),
+          heading: "Guest Posts",
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchScreen(
+                  isGuest: true,
+                ),
+              ),
+            );
+          },
+        ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore.collection("Stories").snapshots(),
+            stream: firebaseFirestore.collection("Guest-Stories").snapshots(),
             builder: (context, snapshot) {
               likedStories.clear();
               if (snapshot.hasData)
                 snapshot.data.docs.forEach((result) {
-                  List<String> likedListData = result.data()["isLiked"] == null
-                      ? []
-                      : result.data()["isLiked"].cast<String>();
-                  if (likedListData.contains(UserData.getUserId()))
-                    likedStories.add(StoryData.fromSnapshot(result));
+                  guestStories.add(StoryData.fromSnapshot(result));
                 });
               return CommonCardViewScreen(
-                storyList: likedStories,
+                storyList: guestStories,
               );
             }),
       ),

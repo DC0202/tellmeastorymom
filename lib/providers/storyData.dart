@@ -35,8 +35,12 @@ class StoryData {
     this.content = snapshot.data()['content'];
     this.estimated = snapshot.data()['estimated'];
     this.id = snapshot.id.toString();
-    this.isBookmarked = snapshot.data()['isBookmarked'] == null ? [] : snapshot.data()['isBookmarked'].cast<String>();
-    this.isLiked = snapshot.data()['isLiked'] == null ? [] : snapshot.data()['isLiked'].cast<String>();
+    this.isBookmarked = snapshot.data()['isBookmarked'] == null
+        ? []
+        : snapshot.data()['isBookmarked'].cast<String>();
+    this.isLiked = snapshot.data()['isLiked'] == null
+        ? []
+        : snapshot.data()['isLiked'].cast<String>();
     this.isLatest = snapshot.data()['isLatest'];
     this.isPopular = snapshot.data()['isPopular'];
     this.isRecommended = snapshot.data()['isRecommended'];
@@ -54,7 +58,7 @@ class StoryData {
       'isBookmarked': isBookmarked,
       'isLiked': isLiked,
       'isPopular': isPopular,
-      'posted': posted,
+      'posted': "By Tellmeastorymom",
       "related": related,
       'storyImageURL': storyImageURL,
       'title': title,
@@ -67,4 +71,6 @@ List<StoryData> popularStories = [];
 List<StoryData> recommendedStories = [];
 List<StoryData> latestStories = [];
 List<StoryData> likedStories = [];
+List<StoryData> guestStories = [];
+List<StoryData> recentlyViewedStories = [];
 List<StoryData> bookmarkedStories = [];

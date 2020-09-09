@@ -6,6 +6,7 @@ import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
+import 'package:tellmeastorymom/providers/userData.dart';
 
 class Stories extends StatefulWidget {
   @override
@@ -13,9 +14,8 @@ class Stories extends StatefulWidget {
 }
 
 class _StoriesState extends State<Stories> {
-//  bool isLoading = false;
-
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  List<String> recents = [];
 
   @override
   void initState() {
@@ -25,13 +25,12 @@ class _StoriesState extends State<Stories> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-//    return isLoading
-//        ? circularProgressIndicator()
-//        : Container(
     return Container(
       width: size.width,
       color: Colors.white,
-      padding: EdgeInsets.only(top: 15.0 * ScreenSize.heightMultiplyingFactor, bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
+      padding: EdgeInsets.only(
+          top: 15.0 * ScreenSize.heightMultiplyingFactor,
+          bottom: 5.0 * ScreenSize.heightMultiplyingFactor),
       child: ListView(
         physics: physicsForApp,
         scrollDirection: Axis.vertical,
@@ -51,17 +50,20 @@ class _StoriesState extends State<Stories> {
                   ),
                 ),
               );
-              print("Pressed Popular Stories View All");
+              // print("Pressed Popular Stories View All");
             },
           ),
           StreamBuilder<QuerySnapshot>(
-              stream: firebaseFirestore.collection("Stories").where("isPopular", isEqualTo: true).snapshots(),
-              builder: (context, snapshot) {
-                popularStories.clear();
-                if (snapshot.hasData)
-                  snapshot.data.docs.forEach((result) {
-                    popularStories.add(StoryData.fromSnapshot(result));
-                  });
+            stream: firebaseFirestore
+                .collection("Stories")
+                .where("isPopular", isEqualTo: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              popularStories.clear();
+              if (snapshot.hasData) {
+                snapshot.data.docs.forEach((result) {
+                  popularStories.add(StoryData.fromSnapshot(result));
+                });
                 return HomeScreenCardView(
                   boxHeight: 445 * ScreenSize.heightMultiplyingFactor,
                   insideHeight: 344 * ScreenSize.heightMultiplyingFactor,
@@ -69,27 +71,65 @@ class _StoriesState extends State<Stories> {
                   storyList: popularStories,
                   itemCard: true,
                 );
-              }),
-          // RowViewAll(
-          //   heading: "Recently Viewed Stories",
-          //   onpressed: () {
-          //     Navigator.of(context).push(
-          //       MaterialPageRoute(
-          //         builder: (context) => StoriesScreen(
-          //           heading: "Recently Viewed Stories",
-          //           itemCount: 0,
-          //         ),
-          //       ),
-          //     );
-          //     print("Pressed Recently Viewed Stories View All");
-          //   },
-          // ),
-          // HomeScreenCardView(
-          //   boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-          //   insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-          //   insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-          //   storyList: [],
-          // ),
+              }
+              return circularProgressIndicator();
+            },
+          ),
+          RowViewAll(
+            heading: "Recently Viewed Stories",
+            onpressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => StoriesScreen(
+                    heading: "Recently Viewed Stories",
+                    itemCount: recentlyViewedStories.length,
+                    storyList: recentlyViewedStories,
+                  ),
+                ),
+              );
+              // print("Pressed Recently Viewed Stories View All");
+            },
+          ),
+          StreamBuilder<DocumentSnapshot>(
+            stream: firebaseFirestore
+                .collection("Users")
+                .doc(UserData.getUserId())
+                .snapshots(),
+            builder: (context, snapshot) {
+              recents.clear();
+              if (snapshot.hasData) {
+                recents = snapshot.data.data()["recents"] == null
+                    ? []
+                    : snapshot.data.data()["recents"].cast<String>();
+                return StreamBuilder<QuerySnapshot>(
+                  stream: firebaseFirestore.collection("Stories").snapshots(),
+                  builder: (context, snapshot) {
+                    recentlyViewedStories.clear();
+                    if (snapshot.hasData) {
+                      for (var i = 0; i < recents.length; i++) {
+                        snapshot.data.docs.forEach((result) {
+                          if (recents[i] == result.id) {
+                            recentlyViewedStories
+                                .add(StoryData.fromSnapshot(result));
+                          }
+                        });
+                      }
+
+                      return HomeScreenCardView(
+                        boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
+                        insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
+                        insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
+                        storyList: recentlyViewedStories,
+                        itemCard: true,
+                      );
+                    }
+                    return circularProgressIndicator();
+                  },
+                );
+              }
+              return circularProgressIndicator();
+            },
+          ),
           SizedBox(
             height: 20.0 * ScreenSize.heightMultiplyingFactor,
           ),
@@ -105,24 +145,29 @@ class _StoriesState extends State<Stories> {
                   ),
                 ),
               );
-              print("Pressed Recommended Stories View All");
+              // print("Pressed Recommended Stories View All");
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore.collection("Stories").where("isRecommended", isEqualTo: true).snapshots(),
+            stream: firebaseFirestore
+                .collection("Stories")
+                .where("isRecommended", isEqualTo: true)
+                .snapshots(),
             builder: (context, snapshot) {
               recommendedStories.clear();
-              if (snapshot.hasData)
+              if (snapshot.hasData) {
                 snapshot.data.docs.forEach((result) {
                   recommendedStories.add(StoryData.fromSnapshot(result));
                 });
-              return HomeScreenCardView(
-                boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
-                insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
-                insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
-                storyList: recommendedStories,
-                itemCard: true,
-              );
+                return HomeScreenCardView(
+                  boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
+                  insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
+                  insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
+                  storyList: recommendedStories,
+                  itemCard: true,
+                );
+              }
+              return circularProgressIndicator();
             },
           ),
           SizedBox(
@@ -140,24 +185,29 @@ class _StoriesState extends State<Stories> {
                   ),
                 ),
               );
-              print("Pressed Latest Stories View All");
+              // print("Pressed Latest Stories View All");
             },
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: firebaseFirestore.collection("Stories").where("isLatest", isEqualTo: true).snapshots(),
+            stream: firebaseFirestore
+                .collection("Stories")
+                .where("isLatest", isEqualTo: true)
+                .snapshots(),
             builder: (context, snapshot) {
               latestStories.clear();
-              if (snapshot.hasData)
+              if (snapshot.hasData) {
                 snapshot.data.docs.forEach((result) {
                   latestStories.add(StoryData.fromSnapshot(result));
                 });
-              return HomeScreenCardView(
-                boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
-                insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
-                insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
-                storyList: latestStories,
-                itemCard: true,
-              );
+                return HomeScreenCardView(
+                  boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
+                  insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
+                  insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
+                  storyList: latestStories,
+                  itemCard: true,
+                );
+              }
+              return circularProgressIndicator();
             },
           ),
         ],
