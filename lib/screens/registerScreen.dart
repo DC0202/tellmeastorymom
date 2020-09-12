@@ -235,7 +235,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              List<dynamic> check = await Authentication.createUser(email, password, userName, phoneNumber);
+                              List<dynamic> check = await Authentication.createUser(
+                                email.trim(),
+                                password.trim(),
+                                userName.trim(),
+                                phoneNumber.trim(),
+                              );
                               if (!check[0]) {
                                 scaffoldKey.currentState.showSnackBar(SnackBar(
                                   content: Text(check[1]),

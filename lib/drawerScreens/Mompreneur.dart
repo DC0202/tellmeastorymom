@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:tellmeastorymom/commonWidgets/SearchScreen.dart';
 import 'package:tellmeastorymom/constants/constant.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
-import 'package:tellmeastorymom/drawerScreens/mompreneurScreens/Diary.dart';
-import 'package:tellmeastorymom/drawerScreens/mompreneurScreens/interview.dart';
+import 'package:tellmeastorymom/drawerScreens/mompreneurScreens/ListBuilder.dart';
+import 'package:tellmeastorymom/providers/storyData.dart';
 
 class Mompreneur extends StatefulWidget {
   @override
   _MompreneurState createState() => _MompreneurState();
 }
 
-class _MompreneurState extends State<Mompreneur>
-    with SingleTickerProviderStateMixin {
+class _MompreneurState extends State<Mompreneur> with SingleTickerProviderStateMixin {
   TabController tabController;
   bool isLoading = false;
 
@@ -54,9 +53,7 @@ class _MompreneurState extends State<Mompreneur>
             fontFamily: 'Poppins-Light',
             fontSize: 15.0 * ScreenSize.heightMultiplyingFactor,
           ),
-          indicatorPadding: EdgeInsets.only(
-              bottom: 10.0 * ScreenSize.heightMultiplyingFactor,
-              right: 15.0 * ScreenSize.widthMultiplyingFactor),
+          indicatorPadding: EdgeInsets.only(bottom: 10.0 * ScreenSize.heightMultiplyingFactor, right: 15.0 * ScreenSize.widthMultiplyingFactor),
           tabs: [
             Tab(text: "Interviews"),
             Tab(text: "Diary"),
@@ -83,8 +80,15 @@ class _MompreneurState extends State<Mompreneur>
           : TabBarView(
               controller: tabController,
               children: [
-                Interview(),
-                Diary(),
+                // Interview(),
+                ListBuilder(
+                  storyList: popularStories,
+                ),
+                // Diary(),
+                ListBuilder(
+                  storyList: popularStories,
+                  isDiary: true,
+                ),
               ],
             ),
     );

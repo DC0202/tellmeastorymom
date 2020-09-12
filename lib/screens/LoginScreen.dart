@@ -54,21 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       // SizedBox(height: 35 * ScreenSize.heightMultiplyingFactor),
                       Text(
                         "Log In",
-                        style: TextStyle(
-                            fontFamily: 'Poppins-Bold',
-                            fontSize: 26.0 * ScreenSize.heightMultiplyingFactor,
-                            fontWeight: FontWeight.bold,
-                            color: primaryColour),
+                        style: TextStyle(fontFamily: 'Poppins-Bold', fontSize: 26.0 * ScreenSize.heightMultiplyingFactor, fontWeight: FontWeight.bold, color: primaryColour),
                       ),
                       Text(
                         "Access Account",
-                        style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
-                            color: primaryColour),
+                        style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 14.0 * ScreenSize.heightMultiplyingFactor, color: primaryColour),
                       ),
-                      SizedBox(
-                          height: 50.0 * ScreenSize.heightMultiplyingFactor),
+                      SizedBox(height: 50.0 * ScreenSize.heightMultiplyingFactor),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -88,13 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              final FirebaseFirestore firebaseFirestore =
-                                  FirebaseFirestore.instance;
-                              final FirebaseAuth firebaseAuth =
-                                  FirebaseAuth.instance;
-                              await AuthService()
-                                  .signInWithGoogle()
-                                  .then((value) async {
+                              final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                              final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+                              await AuthService().signInWithGoogle().then((value) async {
                                 if (value[3]) {
                                   setState(() {
                                     isLoading = false;
@@ -109,46 +97,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       );
                                     } else {
-                                      print(
-                                          firebaseAuth.currentUser.phoneNumber);
-                                      await firebaseFirestore
-                                          .collection('Users')
-                                          .doc(firebaseAuth.currentUser.uid)
-                                          .set({
+                                      print(firebaseAuth.currentUser.phoneNumber);
+                                      await firebaseFirestore.collection('Users').doc(firebaseAuth.currentUser.uid).set({
                                         'email': firebaseAuth.currentUser.email,
-                                        'displayName': firebaseAuth
-                                            .currentUser.displayName,
-                                        'phoneNumber': firebaseAuth
-                                                    .currentUser.phoneNumber ==
-                                                null
-                                            ? "+91-9876543210"
-                                            : firebaseAuth
-                                                .currentUser.phoneNumber,
+                                        'displayName': firebaseAuth.currentUser.displayName,
+                                        'phoneNumber': firebaseAuth.currentUser.phoneNumber == null ? "+91-9876543210" : firebaseAuth.currentUser.phoneNumber,
                                       });
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => firebaseAuth
-                                                      .currentUser
-                                                      .phoneNumber ==
-                                                  null
-                                              ? PhoneNumberScreen()
-                                              : OnBoardingScreen(),
+                                          builder: (context) => firebaseAuth.currentUser.phoneNumber == null ? PhoneNumberScreen() : OnBoardingScreen(),
                                         ),
                                       );
                                     }
                                   } else {
                                     setState(() {
                                       isLoading = false;
-                                      scaffoldKey.currentState
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            "Something Went Wrong! Please Try Again Later"),
+                                      scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text("Something Went Wrong! Please Try Again Later"),
                                         duration: Duration(seconds: 3),
                                       ));
                                     });
-                                    scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
+                                    scaffoldKey.currentState.showSnackBar(SnackBar(
                                       content: Text(value[2]),
                                       duration: Duration(seconds: 3),
                                     ));
@@ -167,18 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Image(
                                   image: googleIcon,
                                   width: 28 * ScreenSize.widthMultiplyingFactor,
-                                  height:
-                                      28 * ScreenSize.heightMultiplyingFactor,
+                                  height: 28 * ScreenSize.heightMultiplyingFactor,
                                 ),
-                                SizedBox(
-                                    width: 10.0 *
-                                        ScreenSize.widthMultiplyingFactor),
+                                SizedBox(width: 10.0 * ScreenSize.widthMultiplyingFactor),
                                 Text(
                                   'Sign-In With Google',
                                   style: TextStyle(
                                     fontFamily: 'Poppins-Regular',
-                                    fontSize: 16.0 *
-                                        ScreenSize.heightMultiplyingFactor,
+                                    fontSize: 16.0 * ScreenSize.heightMultiplyingFactor,
                                   ),
                                 ),
                               ],
@@ -191,10 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Text(
                         "Or log in with Email",
-                        style: TextStyle(
-                            fontFamily: 'Poppins-SemiBold',
-                            fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
-                            color: primaryColour),
+                        style: TextStyle(fontFamily: 'Poppins-SemiBold', fontSize: 12.0 * ScreenSize.heightMultiplyingFactor, color: primaryColour),
                       ),
                       SizedBox(
                         height: 120 * ScreenSize.heightMultiplyingFactor,
@@ -205,30 +168,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      20 * ScreenSize.heightMultiplyingFactor,
-                                  vertical:
-                                      7.5 * ScreenSize.widthMultiplyingFactor),
+                              padding: EdgeInsets.symmetric(horizontal: 20 * ScreenSize.heightMultiplyingFactor, vertical: 7.5 * ScreenSize.widthMultiplyingFactor),
                               child: TextFormField(
                                 key: _textInputKey,
                                 controller: phonenumberController,
                                 keyboardType: TextInputType.emailAddress,
                                 onChanged: (value) {
-                                  if (value.contains("@") &&
-                                      value.contains("."))
+                                  if (value.contains("@") && value.contains("."))
                                     setState(() {
-                                      test =
-                                          _textInputKey.currentState.validate();
+                                      test = _textInputKey.currentState.validate();
                                     });
                                   print(test);
                                 },
-                                onSaved: (val) => email = val,
+                                onSaved: (val) => email = val.trim(),
                                 validator: (val) {
                                   if (val == "") {
                                     return 'Enter Email Address';
-                                  } else if (!RegExp(
-                                          r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                  } else if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                                       .hasMatch(val)) {
                                     return 'Please enter a valid email Address';
                                   }
@@ -240,45 +196,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                         : !test
                                             ? Container(
                                                 margin: EdgeInsets.all(3.0),
-                                                height: 25.0 *
-                                                    ScreenSize
-                                                        .widthMultiplyingFactor,
-                                                width: 25.0 *
-                                                    ScreenSize
-                                                        .widthMultiplyingFactor,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(primaryColour),
+                                                height: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                                width: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                                child: CircularProgressIndicator(
+                                                  valueColor: AlwaysStoppedAnimation<Color>(primaryColour),
                                                 ),
                                               )
                                             : Icon(
                                                 Icons.check,
-                                                size: 20 *
-                                                    ScreenSize
-                                                        .heightMultiplyingFactor,
+                                                size: 20 * ScreenSize.heightMultiplyingFactor,
                                                 color: Colors.green,
                                               ),
                                     labelText: "Email Address",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'Poppins-Medium',
-                                        color: Colors.black54)),
+                                    labelStyle: TextStyle(fontFamily: 'Poppins-Medium', color: Colors.black54)),
                               ),
                             ),
                             SizedBox(
                               height: 10 * ScreenSize.heightMultiplyingFactor,
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      20 * ScreenSize.heightMultiplyingFactor,
-                                  vertical:
-                                      7.5 * ScreenSize.widthMultiplyingFactor),
+                              padding: EdgeInsets.symmetric(horizontal: 20 * ScreenSize.heightMultiplyingFactor, vertical: 7.5 * ScreenSize.widthMultiplyingFactor),
                               child: TextFormField(
                                 onChanged: (val) {
                                   setState(() {
-                                    password = val;
+                                    password = val.trim();
                                   });
                                 },
                                 validator: (val) {
@@ -291,19 +232,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: InputDecoration(
                                     suffixIcon: IconButton(
                                         icon: Icon(
-                                          _isHidden
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                          size: 20 *
-                                              ScreenSize
-                                                  .heightMultiplyingFactor,
+                                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                                          size: 20 * ScreenSize.heightMultiplyingFactor,
                                           color: Colors.black,
                                         ),
                                         onPressed: _toggleVisibility),
                                     labelText: "Password",
-                                    labelStyle: TextStyle(
-                                        fontFamily: 'Poppins-Medium',
-                                        color: Colors.black54)),
+                                    labelStyle: TextStyle(fontFamily: 'Poppins-Medium', color: Colors.black54)),
                               ),
                             ),
                             Row(
@@ -313,11 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onPressed: () {},
                                     child: Text(
                                       "Forget Password?",
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          fontSize: 15 *
-                                              ScreenSize
-                                                  .heightMultiplyingFactor),
+                                      style: TextStyle(fontFamily: 'Poppins-Medium', fontSize: 15 * ScreenSize.heightMultiplyingFactor),
                                     )),
                               ],
                             ),
@@ -327,8 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               width: 234 * ScreenSize.widthMultiplyingFactor,
                               child: MaterialButton(
-                                minWidth:
-                                    234 * ScreenSize.widthMultiplyingFactor,
+                                minWidth: 234 * ScreenSize.widthMultiplyingFactor,
                                 height: 45 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.purple,
                                 onPressed: () async {
@@ -338,12 +268,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       isLoadingButton = true;
                                     });
                                     //A network error (such as timeout, interrupted connection or unreachable host) has occurred.
-                                    List<dynamic> check =
-                                        await Authentication.checkUser(
-                                            email, password);
+                                    List<dynamic> check = await Authentication.checkUser(email, password);
                                     if (check[0] == false) {
-                                      scaffoldKey.currentState
-                                          .showSnackBar(SnackBar(
+                                      scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(check[1]),
                                         duration: Duration(seconds: 3),
                                       ));
@@ -366,20 +293,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: isLoadingButton
                                     ? Container(
                                         margin: EdgeInsets.all(3.0),
-                                        height: 25.0 *
-                                            ScreenSize.widthMultiplyingFactor,
-                                        width: 25.0 *
-                                            ScreenSize.widthMultiplyingFactor,
-                                        child: circularProgressIndicator(
-                                            col: Colors.white))
+                                        height: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                        width: 25.0 * ScreenSize.widthMultiplyingFactor,
+                                        child: circularProgressIndicator(col: Colors.white))
                                     : Text(
                                         "Login",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: "Poppins-Bold",
-                                          fontSize: 19 *
-                                              ScreenSize
-                                                  .heightMultiplyingFactor,
+                                          fontSize: 19 * ScreenSize.heightMultiplyingFactor,
                                         ),
                                       ),
                                 shape: RoundedRectangleBorder(
@@ -397,12 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Dont have an account?  ",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-Regular',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      15 * ScreenSize.heightMultiplyingFactor,
-                                  color: primaryColour)),
+                              style: TextStyle(fontFamily: 'Poppins-Regular', fontWeight: FontWeight.bold, fontSize: 15 * ScreenSize.heightMultiplyingFactor, color: primaryColour)),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -418,8 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontFamily: 'Poppins-Medium',
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
-                                  fontSize:
-                                      15 * ScreenSize.heightMultiplyingFactor,
+                                  fontSize: 15 * ScreenSize.heightMultiplyingFactor,
                                   color: primaryColour),
                             ),
                           )

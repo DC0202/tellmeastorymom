@@ -55,7 +55,7 @@ class _ReadingsState extends State<Readings> {
                 right: 15 * ScreenSize.widthMultiplyingFactor,
               ),
               child: Text(
-                "${widget.story.content}",
+                widget.story.content.replaceAll(RegExp(r'\\n'), "\n"),
                 style: TextStyle(
                   fontFamily: 'Poppins-Light',
                   fontSize: 15 * ScreenSize.heightMultiplyingFactor,
@@ -77,8 +77,7 @@ class _ReadingsState extends State<Readings> {
                     10 * ScreenSize.widthMultiplyingFactor,
                     10 * ScreenSize.heightMultiplyingFactor,
                   ),
-                  margin: EdgeInsets.only(
-                      left: 15.0 * ScreenSize.widthMultiplyingFactor),
+                  margin: EdgeInsets.only(left: 15.0 * ScreenSize.widthMultiplyingFactor),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
                     boxShadow: <BoxShadow>[
@@ -104,50 +103,30 @@ class _ReadingsState extends State<Readings> {
                         width: 15.0 * ScreenSize.widthMultiplyingFactor,
                       ),
                       StreamBuilder<DocumentSnapshot>(
-                        stream: firebaseFirestore
-                            .collection("Stories")
-                            .doc(widget.story.id)
-                            .snapshots(),
+                        stream: firebaseFirestore.collection("Stories").doc(widget.story.id).snapshots(),
                         builder: (context, snapshot) {
                           List<String> isLiked = [];
                           if (snapshot.hasData) {
-                            isLiked = snapshot.data.data()["isLiked"] == null
-                                ? []
-                                : snapshot.data
-                                    .data()["isLiked"]
-                                    .cast<String>();
+                            isLiked = snapshot.data.data()["isLiked"] == null ? [] : snapshot.data.data()["isLiked"].cast<String>();
                           }
                           print(isLiked.length);
                           return GestureDetector(
                             onTap: () {
-                              bool valueOfList =
-                                  isLiked.contains(UserData.getUserId());
+                              bool valueOfList = isLiked.contains(UserData.getUserId());
                               if (valueOfList) {
-                                firebaseFirestore
-                                    .collection("Stories")
-                                    .doc(widget.story.id)
-                                    .update({
-                                  "isLiked": FieldValue.arrayRemove(
-                                      [UserData.getUserId()])
+                                firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                  "isLiked": FieldValue.arrayRemove([UserData.getUserId()])
                                 });
                               } else {
-                                firebaseFirestore
-                                    .collection("Stories")
-                                    .doc(widget.story.id)
-                                    .update({
-                                  "isLiked": FieldValue.arrayUnion(
-                                      [UserData.getUserId()])
+                                firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                  "isLiked": FieldValue.arrayUnion([UserData.getUserId()])
                                 });
                               }
                             },
                             child: Icon(
-                              isLiked.contains(UserData.getUserId())
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
+                              isLiked.contains(UserData.getUserId()) ? Icons.favorite : Icons.favorite_border,
                               size: 24 * ScreenSize.heightMultiplyingFactor,
-                              color: isLiked.contains(UserData.getUserId())
-                                  ? Colors.red
-                                  : Colors.black,
+                              color: isLiked.contains(UserData.getUserId()) ? Colors.red : Colors.black,
                             ),
                           );
                         },
@@ -178,16 +157,11 @@ class _ReadingsState extends State<Readings> {
               },
             ),
             StreamBuilder<DocumentSnapshot>(
-              stream: firebaseFirestore
-                  .collection("Users")
-                  .doc(UserData.getUserId())
-                  .snapshots(),
+              stream: firebaseFirestore.collection("Users").doc(UserData.getUserId()).snapshots(),
               builder: (context, snapshot) {
                 recents.clear();
                 if (snapshot.hasData) {
-                  recents = snapshot.data.data()["recents"] == null
-                      ? []
-                      : snapshot.data.data()["recents"].cast<String>();
+                  recents = snapshot.data.data()["recents"] == null ? [] : snapshot.data.data()["recents"].cast<String>();
                   return StreamBuilder<QuerySnapshot>(
                     stream: firebaseFirestore.collection("Stories").snapshots(),
                     builder: (context, snapshot) {
@@ -196,16 +170,14 @@ class _ReadingsState extends State<Readings> {
                         for (var i = 0; i < recents.length; i++) {
                           snapshot.data.docs.forEach((result) {
                             if (recents[i] == result.id) {
-                              recentlyViewedStories
-                                  .add(StoryData.fromSnapshot(result));
+                              recentlyViewedStories.add(StoryData.fromSnapshot(result));
                             }
                           });
                         }
 
                         return HomeScreenCardView(
                           boxHeight: 210 * ScreenSize.heightMultiplyingFactor,
-                          insideHeight:
-                              141 * ScreenSize.heightMultiplyingFactor,
+                          insideHeight: 141 * ScreenSize.heightMultiplyingFactor,
                           insideWidth: 220 * ScreenSize.widthMultiplyingFactor,
                           storyList: recentlyViewedStories,
                           itemCard: true,
@@ -244,11 +216,7 @@ class _ReadingsState extends State<Readings> {
               ),
             ),
             StreamBuilder<QuerySnapshot>(
-              stream: firebaseFirestore
-                  .collection('Stories')
-                  .doc(widget.story.id)
-                  .collection('Comments')
-                  .snapshots(),
+              stream: firebaseFirestore.collection('Stories').doc(widget.story.id).collection('Comments').snapshots(),
               builder: (context, snapshot) {
                 commentList.clear();
                 if (snapshot.hasData) {
@@ -287,12 +255,7 @@ class StoryHeader extends StatefulWidget {
 class _StoryHeaderState extends State<StoryHeader> {
   final FlutterTts flutterTts = FlutterTts();
 
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-    Color(0xFF6D60F8)
-  ];
+  List<Color> colorList = [Color(0xFF5A8FD8), Color(0xFFFF5954), Color(0xFFFF9870), Color(0xFF6D60F8)];
   String userID = "";
 
   @override
@@ -310,9 +273,11 @@ class _StoryHeaderState extends State<StoryHeader> {
       await flutterTts.setLanguage("en-US");
       await flutterTts.setPitch(1.0);
       await flutterTts.setSpeechRate(0.85);
-      await flutterTts.speak(widget.story.title + "." + widget.story.content);
+      await flutterTts.speak(widget.story.title.replaceAll(RegExp(r'\\n'), "\n") + "\n\n\n\n" + widget.story.content.replaceAll(RegExp(r'\\n'), "\n"));
     }
 
+    double overallRating = 0;
+    int commentCount = 0;
     return WillPopScope(
       onWillPop: () async {
         await flutterTts.stop();
@@ -370,11 +335,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                             color: Colors.white.withOpacity(0.8),
                             shape: BoxShape.circle,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  3.0 * ScreenSize.widthMultiplyingFactor,
-                              vertical:
-                                  3.0 * ScreenSize.heightMultiplyingFactor),
+                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             // focusColor: Colors.white.withOpacity(0.8),
                             Icons.arrow_back,
@@ -398,11 +359,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                             color: Colors.white.withOpacity(0.8),
                             shape: BoxShape.circle,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  3.0 * ScreenSize.widthMultiplyingFactor,
-                              vertical:
-                                  3.0 * ScreenSize.heightMultiplyingFactor),
+                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                           child: Icon(
                             Icons.volume_up,
                             size: 35 * ScreenSize.heightMultiplyingFactor,
@@ -414,39 +371,23 @@ class _StoryHeaderState extends State<StoryHeader> {
                         width: 20.0 * ScreenSize.widthMultiplyingFactor,
                       ),
                       StreamBuilder<DocumentSnapshot>(
-                        stream: firebaseFirestore
-                            .collection("Stories")
-                            .doc(widget.story.id)
-                            .snapshots(),
+                        stream: firebaseFirestore.collection("Stories").doc(widget.story.id).snapshots(),
                         builder: (context, snapshot) {
                           List<String> isBookmarked = [];
                           if (snapshot.hasData) {
-                            isBookmarked =
-                                snapshot.data.data()["isBookmarked"] == null
-                                    ? []
-                                    : snapshot.data
-                                        .data()["isBookmarked"]
-                                        .cast<String>();
+                            isBookmarked = snapshot.data.data()["isBookmarked"] == null ? [] : snapshot.data.data()["isBookmarked"].cast<String>();
                           }
 
                           return GestureDetector(
                             onTap: () {
                               bool valueOfList = isBookmarked.contains(userID);
                               if (valueOfList) {
-                                firebaseFirestore
-                                    .collection("Stories")
-                                    .doc(widget.story.id)
-                                    .update({
-                                  "isBookmarked":
-                                      FieldValue.arrayRemove([userID])
+                                firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                  "isBookmarked": FieldValue.arrayRemove([userID])
                                 });
                               } else {
-                                firebaseFirestore
-                                    .collection("Stories")
-                                    .doc(widget.story.id)
-                                    .update({
-                                  "isBookmarked":
-                                      FieldValue.arrayUnion([userID])
+                                firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+                                  "isBookmarked": FieldValue.arrayUnion([userID])
                                 });
                               }
                             },
@@ -455,18 +396,10 @@ class _StoryHeaderState extends State<StoryHeader> {
                                 color: Colors.white.withOpacity(0.8),
                                 shape: BoxShape.circle,
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      3.0 * ScreenSize.widthMultiplyingFactor,
-                                  vertical:
-                                      3.0 * ScreenSize.heightMultiplyingFactor),
+                              padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
                               child: Icon(
-                                isBookmarked.contains(userID)
-                                    ? Icons.bookmark
-                                    : Icons.bookmark_border,
-                                color: isBookmarked.contains(userID)
-                                    ? primaryColour
-                                    : Colors.black,
+                                isBookmarked.contains(userID) ? Icons.bookmark : Icons.bookmark_border,
+                                color: isBookmarked.contains(userID) ? primaryColour : Colors.black,
                                 size: 35 * ScreenSize.heightMultiplyingFactor,
                               ),
                             ),
@@ -505,9 +438,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                       Share.share('Checkout this amazing story!');
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
-                          vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                      padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                       decoration: BoxDecoration(
                         color: Colors.grey.withOpacity(0.2),
                         shape: BoxShape.circle,
@@ -522,8 +453,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 widget.story.author,
                 style: TextStyle(
@@ -534,8 +464,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 widget.story.posted,
                 style: TextStyle(
@@ -546,8 +475,7 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Text(
                 'Estimated time to complete: ' + widget.story.estimated,
                 style: TextStyle(
@@ -558,17 +486,64 @@ class _StoryHeaderState extends State<StoryHeader> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: 15.0 * ScreenSize.widthMultiplyingFactor,
-                right: 15.0 * ScreenSize.widthMultiplyingFactor,
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.0 * ScreenSize.widthMultiplyingFactor,
+              ),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: firebaseFirestore.collection('Stories').doc(widget.story.id).collection('Comments').snapshots(),
+                builder: (context, snapshot) {
+                  overallRating = 0;
+                  commentCount = 0;
+                  if (snapshot.hasData) {
+                    snapshot.data.docs.forEach((result) {
+                      commentCount++;
+                      overallRating += double.parse(result.data()['ratingStars'].toString());
+                      print(result);
+                    });
+                    overallRating /= commentCount;
+                  }
+                  // print(commentList[0]);
+                  return commentCount == 0
+                      ? SizedBox()
+                      : Row(
+                          children: [
+                            RatingBarIndicator(
+                              rating: overallRating,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 25.0 * ScreenSize.heightMultiplyingFactor,
+                            ),
+                            Text(
+                              "   " + overallRating.toStringAsFixed(1),
+                              style: TextStyle(
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              "   (" + commentCount.toString() + " ratings)",
+                              style: TextStyle(
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        );
+                  // }
+                  // return circularProgressIndicator();
+                },
               ),
             ),
             SizedBox(
               height: 8.0 * ScreenSize.heightMultiplyingFactor,
             ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: 15 * ScreenSize.heightMultiplyingFactor),
+              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
               child: Wrap(
                 spacing: 5.0 * ScreenSize.widthMultiplyingFactor,
                 runSpacing: 5.0,
@@ -594,8 +569,7 @@ class _StoryHeaderState extends State<StoryHeader> {
                             widget.story.related[i],
                             style: TextStyle(
                               fontFamily: 'Poppins-Regular',
-                              fontSize:
-                                  12.0 * ScreenSize.heightMultiplyingFactor,
+                              fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
                               color: Colors.white,
                             ),
                           ),
@@ -674,8 +648,7 @@ class _UserReviewState extends State<UserReview> {
                     allowHalfRating: true,
                     itemCount: 5,
                     itemSize: 30.0 * ScreenSize.heightMultiplyingFactor,
-                    itemPadding:
-                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 2.0),
+                    itemPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 2.0),
                     itemBuilder: (context, _) => Icon(
                       Icons.star,
                       color: Colors.amber,
@@ -725,8 +698,7 @@ class _UserReviewState extends State<UserReview> {
                   });
                 },
                 validator: (value) {
-                  if (value.length < 80)
-                    return "Minimum 80 characters required";
+                  if (value.length < 80) return "Minimum 80 characters required";
                   return null;
                 },
                 controller: textEditingController,
@@ -756,17 +728,9 @@ class _UserReviewState extends State<UserReview> {
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
-                  CommentData commentData = CommentData(
-                      commentBy: UserData.getUserName(),
-                      content: comment.trim(),
-                      ratingStars: ratingStar,
-                      postedOn: DateFormat("dd-MM-yy").format(DateTime.now()));
+                  CommentData commentData = CommentData(commentBy: UserData.getUserName(), content: comment.trim(), ratingStars: ratingStar, postedOn: DateFormat("dd-MM-yy").format(DateTime.now()));
                   //good story aa to gaya neeche
-                  firebaseFirestore
-                      .collection('Stories')
-                      .doc(widget.storyId)
-                      .collection('Comments')
-                      .add(commentData.toJson());
+                  firebaseFirestore.collection('Stories').doc(widget.storyId).collection('Comments').add(commentData.toJson());
 
                   setState(() {
                     textEditingController.clear();
