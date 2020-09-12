@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:share/share.dart';
-import 'package:tellmeastorymom/commonWidgets/HomeScreenCardView.dart';
 import 'package:tellmeastorymom/commonWidgets/commentList.dart';
-import 'package:tellmeastorymom/commonWidgets/rowForViewAll.dart';
 import 'package:tellmeastorymom/constants/screenSize.dart';
 import 'package:tellmeastorymom/providers/storyData.dart';
-import 'package:tellmeastorymom/providers/userData.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -27,12 +24,6 @@ class InterviewReading extends StatefulWidget {
 }
 
 class _InterviewReadingState extends State<InterviewReading> {
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-  ];
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,19 +33,20 @@ class _InterviewReadingState extends State<InterviewReading> {
         body: ListView(
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            StoryHeader(widget.story),
+            InterviewStoryHeader(widget.story),
             Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              height: 30.0 * ScreenSize.heightMultiplyingFactor,
               thickness: 1.0,
               color: Color(0xFF707070),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 15 * ScreenSize.widthMultiplyingFactor,
-                vertical: 15 * ScreenSize.heightMultiplyingFactor,
+              padding: EdgeInsets.only(
+                left: 15 * ScreenSize.widthMultiplyingFactor,
+                right: 15 * ScreenSize.widthMultiplyingFactor,
+                bottom: 15 * ScreenSize.heightMultiplyingFactor,
               ),
               child: Text(
-                "${widget.story.content}",
+                widget.story.content.replaceAll(RegExp(r'\\n'), "\n"),
                 style: TextStyle(
                   fontFamily: 'Poppins-Light',
                   fontSize: 15 * ScreenSize.heightMultiplyingFactor,
@@ -63,7 +55,7 @@ class _InterviewReadingState extends State<InterviewReading> {
               ),
             ),
             Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              height: 30.0 * ScreenSize.heightMultiplyingFactor,
               thickness: 1.0,
               color: Color(0xFF707070),
             ),
@@ -86,7 +78,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                               ),
                             ),
                             Text(
-                              widget.story.content,
+                              widget.story.content.replaceAll(RegExp(r'\\n'), "\n"),
                               style: TextStyle(
                                 fontSize: 15.0 * ScreenSize.heightMultiplyingFactor,
                                 fontFamily: 'Poppins-Light',
@@ -96,7 +88,7 @@ class _InterviewReadingState extends State<InterviewReading> {
                         ),
                       ),
                       Divider(
-                        height: 50.0 * ScreenSize.heightMultiplyingFactor,
+                        height: 30.0 * ScreenSize.heightMultiplyingFactor,
                         thickness: 1.0,
                         color: Color(0xFF707070),
                       ),
@@ -116,124 +108,106 @@ class _InterviewReadingState extends State<InterviewReading> {
                               ),
                             ),
                             QnAList(),
-                            Text(
-                              'Follow ' + widget.story.title + ' on Facebook :',
-                              style: TextStyle(
-                                fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
-                                fontFamily: 'Poppins-Medium',
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                widget.story.title,
-                                style: TextStyle(
-                                  fontSize: 12.0 * ScreenSize.heightMultiplyingFactor,
-                                  fontFamily: 'Poppins-Medium',
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
                     ],
                   )
                 : SizedBox(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: 145.0 * ScreenSize.widthMultiplyingFactor,
-                  padding: EdgeInsets.fromLTRB(
-                    10 * ScreenSize.widthMultiplyingFactor,
-                    10 * ScreenSize.heightMultiplyingFactor,
-                    10 * ScreenSize.widthMultiplyingFactor,
-                    10 * ScreenSize.heightMultiplyingFactor,
-                  ),
-                  margin: EdgeInsets.only(left: 15.0 * ScreenSize.widthMultiplyingFactor),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        blurRadius: 6.0,
-                        color: Colors.black.withOpacity(0.16),
-                        offset: Offset(0, 3),
-                      )
-                    ],
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        !widget.isDiary ? "Like Interview: " : "Like Diary: ",
-                        style: TextStyle(
-                          fontFamily: 'Poppins-Regular',
-                          fontSize: 12 * ScreenSize.heightMultiplyingFactor,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15.0 * ScreenSize.widthMultiplyingFactor,
-                      ),
-                      StreamBuilder<DocumentSnapshot>(
-                          stream: firebaseFirestore.collection("Stories").doc(widget.story.id).snapshots(),
-                          builder: (context, snapshot) {
-                            List<String> isLiked = [];
-                            if (snapshot.hasData) {
-                              isLiked = snapshot.data.data()["isLiked"] == null ? [] : snapshot.data.data()["isLiked"].cast<String>();
-                            }
-                            print(isLiked.length);
-                            return GestureDetector(
-                              onTap: () {
-                                bool valueOfList = isLiked.contains(UserData.getUserId());
-                                if (valueOfList) {
-                                  firebaseFirestore.collection("Stories").doc(widget.story.id).update({
-                                    "isLiked": FieldValue.arrayRemove([UserData.getUserId()])
-                                  });
-                                } else {
-                                  firebaseFirestore.collection("Stories").doc(widget.story.id).update({
-                                    "isLiked": FieldValue.arrayUnion([UserData.getUserId()])
-                                  });
-                                }
-                              },
-                              child: Icon(
-                                isLiked.contains(UserData.getUserId()) ? Icons.favorite : Icons.favorite_border,
-                                size: 24 * ScreenSize.heightMultiplyingFactor,
-                                color: isLiked.contains(UserData.getUserId()) ? Colors.red : Colors.black,
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
-              thickness: 1.0,
-              color: Color(0xFF707070),
-            ),
-            RowViewAll(
-              heading: "Recently Viewed",
-              onpressed: () {},
-            ),
-            HomeScreenCardView(
-              boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
-              insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
-              insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
-              storyList: popularStories,
-              isInterview: true,
-              //TODO:CHANGE THE STORY LIST
-            ),
-            Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
-              thickness: 1.0,
-              color: Color(0xFF707070),
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     Container(
+            //       width: 145.0 * ScreenSize.widthMultiplyingFactor,
+            //       padding: EdgeInsets.fromLTRB(
+            //         10 * ScreenSize.widthMultiplyingFactor,
+            //         10 * ScreenSize.heightMultiplyingFactor,
+            //         10 * ScreenSize.widthMultiplyingFactor,
+            //         10 * ScreenSize.heightMultiplyingFactor,
+            //       ),
+            //       margin: EdgeInsets.only(left: 15.0 * ScreenSize.widthMultiplyingFactor),
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         boxShadow: <BoxShadow>[
+            //           BoxShadow(
+            //             blurRadius: 6.0,
+            //             color: Colors.black.withOpacity(0.16),
+            //             offset: Offset(0, 3),
+            //           )
+            //         ],
+            //         color: Colors.white,
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Text(
+            //             !widget.isDiary ? "Like Interview: " : "Like Diary: ",
+            //             style: TextStyle(
+            //               fontFamily: 'Poppins-Regular',
+            //               fontSize: 12 * ScreenSize.heightMultiplyingFactor,
+            //             ),
+            //           ),
+            //           SizedBox(
+            //             width: 15.0 * ScreenSize.widthMultiplyingFactor,
+            //           ),
+            //           StreamBuilder<DocumentSnapshot>(
+            //               stream: firebaseFirestore.collection("Stories").doc(widget.story.id).snapshots(),
+            //               builder: (context, snapshot) {
+            //                 List<String> isLiked = [];
+            //                 if (snapshot.hasData) {
+            //                   isLiked = snapshot.data.data()["isLiked"] == null ? [] : snapshot.data.data()["isLiked"].cast<String>();
+            //                 }
+            //                 print(isLiked.length);
+            //                 return GestureDetector(
+            //                   onTap: () {
+            //                     bool valueOfList = isLiked.contains(UserData.getUserId());
+            //                     if (valueOfList) {
+            //                       firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+            //                         "isLiked": FieldValue.arrayRemove([UserData.getUserId()])
+            //                       });
+            //                     } else {
+            //                       firebaseFirestore.collection("Stories").doc(widget.story.id).update({
+            //                         "isLiked": FieldValue.arrayUnion([UserData.getUserId()])
+            //                       });
+            //                     }
+            //                   },
+            //                   child: Icon(
+            //                     isLiked.contains(UserData.getUserId()) ? Icons.favorite : Icons.favorite_border,
+            //                     size: 24 * ScreenSize.heightMultiplyingFactor,
+            //                     color: isLiked.contains(UserData.getUserId()) ? Colors.red : Colors.black,
+            //                   ),
+            //                 );
+            //               }),
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // Divider(
+            //   height: 50.0 * ScreenSize.heightMultiplyingFactor,
+            //   thickness: 1.0,
+            //   color: Color(0xFF707070),
+            // ),
+            // RowViewAll(
+            //   heading: "Recently Viewed",
+            //   onpressed: () {},
+            // ),
+            // HomeScreenCardView(
+            //   boxHeight: 210.0 * ScreenSize.heightMultiplyingFactor,
+            //   insideWidth: 220.0 * ScreenSize.widthMultiplyingFactor,
+            //   insideHeight: 141.0 * ScreenSize.heightMultiplyingFactor,
+            //   storyList: popularStories,
+            //   isInterview: true,
+            //   //TODO:CHANGE THE STORY LIST
+            // ),
+            // Divider(
+            //   height: 50.0 * ScreenSize.heightMultiplyingFactor,
+            //   thickness: 1.0,
+            //   color: Color(0xFF707070),
+            // ),
             UserReview(),
             Divider(
-              height: 50.0 * ScreenSize.heightMultiplyingFactor,
+              height: 30.0 * ScreenSize.heightMultiplyingFactor,
               thickness: 1.0,
               color: Color(0xFF707070),
             ),
@@ -253,7 +227,7 @@ class _InterviewReadingState extends State<InterviewReading> {
               hasRating: false,
             ),
             SizedBox(
-              height: 34.0 * ScreenSize.heightMultiplyingFactor,
+              height: 15.0 * ScreenSize.heightMultiplyingFactor,
             ),
           ],
         ),
@@ -262,145 +236,95 @@ class _InterviewReadingState extends State<InterviewReading> {
   }
 }
 
-class StoryHeader extends StatefulWidget {
+class InterviewStoryHeader extends StatefulWidget {
   final StoryData story;
-  StoryHeader(this.story);
+  InterviewStoryHeader(this.story);
   @override
-  _StoryHeaderState createState() => _StoryHeaderState();
+  _InterviewStoryHeaderState createState() => _InterviewStoryHeaderState();
 }
 
-class _StoryHeaderState extends State<StoryHeader> {
+class _InterviewStoryHeaderState extends State<InterviewStoryHeader> {
   final FlutterTts flutterTts = FlutterTts();
-
-  List<Color> colorList = [
-    Color(0xFF5A8FD8),
-    Color(0xFFFF5954),
-    Color(0xFFFF9870),
-  ];
-  String userID = "";
-
-  @override
-  void initState() {
-    super.initState();
-    userID = UserData.getUserId();
-    // flutterTts.setCancelHandler(() {
-    //   flutterTts.stop();
-    // });
-  }
 
   @override
   Widget build(BuildContext context) {
-    speak() async {
-      await flutterTts.setLanguage("en-US");
-      await flutterTts.setPitch(1.3);
-      await flutterTts.setSpeechRate(0.9);
-      await flutterTts.speak(widget.story.title + "          " + widget.story.content);
-    }
-
-    return WillPopScope(
-      onWillPop: () async {
-        await flutterTts.stop();
-        Navigator.of(context).pop();
-      },
-      child: Container(
+    return Container(
 //      margin: EdgeInsets.only(right: 0.0, left: 0.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Container(
-                  height: 250.0 * ScreenSize.heightMultiplyingFactor,
-                  width: 450.0 * ScreenSize.widthMultiplyingFactor,
-                  decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(35),
-                      bottomRight: Radius.circular(35),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Container(
+                height: 250.0 * ScreenSize.heightMultiplyingFactor,
+                width: 450.0 * ScreenSize.widthMultiplyingFactor,
+                decoration: BoxDecoration(
+                  color: Colors.deepOrange,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(35),
+                    bottomRight: Radius.circular(35),
+                  ),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      blurRadius: 6.0,
+                      offset: Offset(0, 3),
+                      color: Colors.black.withOpacity(0.16),
                     ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        blurRadius: 6.0,
-                        offset: Offset(0, 3),
-                        color: Colors.black.withOpacity(0.16),
-                      ),
-                    ],
-                    image: DecorationImage(
-                      // image: AssetImage(
-                      //   'assets/images/cardImage.jpg',
-                      // ),
-                      image: AdvancedNetworkImage(
-                        widget.story.storyImageURL,
-                        useDiskCache: true,
-                        cacheRule: CacheRule(maxAge: const Duration(days: 2)),
-                      ),
-                      fit: BoxFit.cover,
+                  ],
+                  image: DecorationImage(
+                    // image: AssetImage(
+                    //   'assets/images/cardImage.jpg',
+                    // ),
+                    image: AdvancedNetworkImage(
+                      widget.story.storyImageURL,
+                      useDiskCache: true,
+                      cacheRule: CacheRule(maxAge: const Duration(days: 2)),
                     ),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
-                          child: Icon(
-                            // focusColor: Colors.white.withOpacity(0.8),
-                            Icons.arrow_back,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          speak();
-                        },
-                        onDoubleTap: () async {
-                          await flutterTts.stop();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            shape: BoxShape.circle,
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
-                          child: Icon(
-                            Icons.volume_up,
-                            size: 24 * ScreenSize.heightMultiplyingFactor,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.0 * ScreenSize.widthMultiplyingFactor,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 15.0 * ScreenSize.heightMultiplyingFactor,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 15 * ScreenSize.heightMultiplyingFactor,
-                right: 15 * ScreenSize.heightMultiplyingFactor,
               ),
-              child: Row(
-                children: [
-                  Text(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          shape: BoxShape.circle,
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 3.0 * ScreenSize.widthMultiplyingFactor, vertical: 3.0 * ScreenSize.heightMultiplyingFactor),
+                        child: Icon(
+                          // focusColor: Colors.white.withOpacity(0.8),
+                          Icons.arrow_back,
+                          size: 24 * ScreenSize.heightMultiplyingFactor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 15.0 * ScreenSize.heightMultiplyingFactor,
+          ),
+          Container(
+            padding: EdgeInsets.only(
+              left: 15 * ScreenSize.heightMultiplyingFactor,
+              right: 15 * ScreenSize.heightMultiplyingFactor,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 300 * ScreenSize.widthMultiplyingFactor,
+                  child: Text(
                     widget.story.title,
                     style: TextStyle(
                       fontFamily: 'Poppins-Regular',
@@ -408,60 +332,60 @@ class _StoryHeaderState extends State<StoryHeader> {
                       color: Colors.black,
                     ),
                   ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Share.share('Checkout this amazing story!');
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.share,
-                      ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    Share.share('Checkout this amazing story!');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.share,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
-              child: Text(
-                widget.story.author,
-                style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
-                  color: Colors.black.withOpacity(0.5),
                 ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
+            child: Text(
+              widget.story.author,
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black.withOpacity(0.5),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
-              child: Text(
-                widget.story.posted,
-                style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
-                  color: Colors.black.withOpacity(0.5),
-                ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
+            child: Text(
+              widget.story.posted,
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black.withOpacity(0.5),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
-              child: Text(
-                'Estimated time to complete: ' + widget.story.estimated,
-                style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
-                  color: Colors.black.withOpacity(0.5),
-                ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 15 * ScreenSize.heightMultiplyingFactor),
+            child: Text(
+              'Estimated time to complete: ' + widget.story.estimated,
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 14.0 * ScreenSize.heightMultiplyingFactor,
+                color: Colors.black.withOpacity(0.5),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -477,7 +401,7 @@ class UserReview extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 33.0 * ScreenSize.heightMultiplyingFactor,
+            height: 10.0 * ScreenSize.heightMultiplyingFactor,
           ),
           Align(
             alignment: Alignment.centerLeft,
@@ -604,7 +528,7 @@ Widget qnA({
         ),
       ),
       Divider(
-        height: 50.0 * ScreenSize.heightMultiplyingFactor,
+        height: 20.0 * ScreenSize.heightMultiplyingFactor,
         indent: 0,
         endIndent: 0,
         thickness: 0.5,
@@ -613,22 +537,3 @@ Widget qnA({
     ],
   );
 }
-// RichText(
-// text: TextSpan(
-// children: <TextSpan>[
-// TextSpan(
-// text: userName,
-// style: TextStyle(
-// fontWeight: FontWeight.w900,
-// fontSize: 20,
-// ),
-// ),
-// TextSpan(
-// text: ' ' + userComment + '\n',
-// style: TextStyle(
-// fontSize: 15,
-// ),
-// ),
-// ],
-// ),
-// ),

@@ -24,8 +24,7 @@ class AuthService {
       print(googleUser);
       if (googleUser != null) {
         // Obtain the auth details from the request
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
         print(googleAuth);
 
@@ -40,8 +39,8 @@ class AuthService {
         await firebaseFirestore.collection('Users').get().then((value) {
           value.docs.forEach((element) {
             element.data().forEach((key, value) {
-              print("Key: " + key);
-              print("Value: " + value);
+              print("Key: " + key.toString());
+              print("Value: " + value.toString());
               if (key.toString() == "email" && value.toString() == user.email) {
                 print("HELLO USER MATCHED");
                 returnData = true;
@@ -56,6 +55,7 @@ class AuthService {
       }
     } catch (e) {
       foundError = true;
+      print(e);
       errorMessage = e.message;
     }
     // Once signed in, return the UserCredential

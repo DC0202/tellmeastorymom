@@ -11,10 +11,6 @@ class Diary extends StatefulWidget {
 class _DiaryState extends State<Diary> {
   @override
   Widget build(BuildContext context) {
-    // Divider contentDivider = Divider(
-    //   color: primaryColour,
-    //   height: 30,
-    // );
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width,
@@ -24,9 +20,6 @@ class _DiaryState extends State<Diary> {
       ),
       child: ListView(
         children: [
-          // ItemImageCard(
-          //   assetname: "assets/images/momdemo.png",
-          // ),
           HomeScreenCardView(
             boxHeight: 230 * ScreenSize.heightMultiplyingFactor,
             insideHeight: 180 * ScreenSize.heightMultiplyingFactor,
@@ -73,24 +66,6 @@ class _DiaryState extends State<Diary> {
             isDiary: true,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildTextPart() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        20.0,
-        10.0,
-        20.0,
-        10.0,
-      ),
-      child: Text(
-        "In this section Mompreneurs , we are sharing interviews with inspiring mompreneurs who are following their passion. Today, we’re talking with Shweta Pratap Singh, A Zumba Education Specialist (ZES). We are grateful for her valuable time as she shared her successes to inspire other mompreneurs & women entrepreneurs around the world.",
-        style: TextStyle(
-          fontFamily: "Poppins-Light",
-          fontSize: 16,
-        ),
       ),
     );
   }
