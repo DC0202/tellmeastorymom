@@ -99,7 +99,8 @@ class _CategoriesState extends State<Categories> {
                               fit: BoxFit.contain,
                               alignment: Alignment.center),
                         ),
-                        width: value.toDouble(),
+                        width: value.toDouble() *
+                            ScreenSize.widthMultiplyingFactor,
                         height: 141.0 * ScreenSize.heightMultiplyingFactor,
                         child: Material(
                           type: MaterialType.transparency,

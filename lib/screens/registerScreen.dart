@@ -45,7 +45,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Text(
                       "Create Account",
-                      style: TextStyle(color: primaryColour, fontSize: 26 * ScreenSize.heightMultiplyingFactor, fontFamily: "Poppins-Bold"),
+                      style: TextStyle(
+                          color: primaryColour,
+                          fontSize: 26 * ScreenSize.heightMultiplyingFactor,
+                          fontFamily: "Poppins-Bold"),
                     ),
                     Text(
                       "Let's Create account First",
@@ -66,7 +69,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) {
                             userName = val;
@@ -74,7 +79,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           validator: (val) {
                             if (val.length < 3) {
                               return " Username is too short";
-                            } else if (!val.contains(' ')) {
+                            } else if (val.contains(' ') == false &&
+                                val.contains(
+                                    RegExp('r[A-Z]'), val.indexOf(' ') + 1)) {
                               return " Please Enter Full Name";
                             } else
                               return null;
@@ -94,14 +101,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(10),
                           ],
                           validator: (val) {
                             if (val.length < 10) {
-                              return "Invalid Contact";
+                              return "10 Digits Mobile Number Required";
                             } else
                               return null;
                           },
@@ -123,11 +132,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onSaved: (val) => email = val,
                           validator: (val) {
-                            bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(val);
+                            bool emailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val);
                             if (emailValid) {
                               return null;
                             } else
@@ -149,7 +162,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           onChanged: (val) {
                             setState(() {
@@ -175,7 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                showNormalPassword ? Icons.visibility : Icons.visibility_off,
+                                showNormalPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 size: 20 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.black,
                               ),
@@ -190,7 +207,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0 * ScreenSize.widthMultiplyingFactor, vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.0 * ScreenSize.widthMultiplyingFactor,
+                            vertical: 5.0 * ScreenSize.heightMultiplyingFactor),
                         child: TextFormField(
                           validator: (val) {
                             if (val == password) {
@@ -206,7 +225,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                                showConfirmPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 size: 20 * ScreenSize.heightMultiplyingFactor,
                                 color: Colors.black,
                               ),
@@ -235,7 +256,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              List<dynamic> check = await Authentication.createUser(
+                              List<dynamic> check =
+                                  await Authentication.createUser(
                                 email.trim(),
                                 password.trim(),
                                 userName.trim(),
@@ -249,7 +271,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               } else {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+                                  MaterialPageRoute(
+                                      builder: (context) => OnBoardingScreen()),
                                 );
                               }
                               setState(() {
@@ -264,14 +287,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: isLoading
                               ? Container(
                                   margin: EdgeInsets.all(3.0),
-                                  height: 25.0 * ScreenSize.widthMultiplyingFactor,
-                                  width: 25.0 * ScreenSize.widthMultiplyingFactor,
-                                  child: circularProgressIndicator(col: Colors.white))
+                                  height:
+                                      25.0 * ScreenSize.widthMultiplyingFactor,
+                                  width:
+                                      25.0 * ScreenSize.widthMultiplyingFactor,
+                                  child: circularProgressIndicator(
+                                      col: Colors.white))
                               : Text(
                                   "Register",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18 * ScreenSize.heightMultiplyingFactor,
+                                    fontSize:
+                                        18 * ScreenSize.heightMultiplyingFactor,
                                   ),
                                 ),
                           shape: RoundedRectangleBorder(
